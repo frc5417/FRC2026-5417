@@ -24,9 +24,22 @@ public final class Constants {
 
   public static class TurretConstants {
     public static final int kHeadingMotorId = 50;
-    public static final double kHeadingGearRatio = 1;
+    public static final double kHeadingGearRatio = 1.0 / 16.0;
+    public static final double kHeadingTxMultiplier = 0.2;
+    public static final double kHeadingTolerance = 1;
     public static final double kHeadingP = 0.05;
     public static final double kHeadingI = 0;
     public static final double kHeadingD = 0;
+  }
+
+  public static class AllianceConstants {
+    /* April Tags */
+    public static final int[] kValidTagsBlue = { 26, 24, 20, 18 }; // TODO: ensure these are the center ones
+    public static final int[] kValidTagsRed = { 2, 10, 8, 4 }; // TODO: ensure these are the center ones
+    public static final int[] kValidTagsError = { 1, 2, 3, 4 };
+
+    /* Position Data */
+    public static final int[] kTargetBlue = {};
+    public static final int[] kTargetRed = {};
   }
 }

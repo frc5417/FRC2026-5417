@@ -24,6 +24,8 @@ public class Turret extends SubsystemBase {
   private final SparkClosedLoopController headingPID; // necessary to do pos based
   private SparkMaxConfig headingConfig = new SparkMaxConfig();
 
+  private static int[] targetPoint = { 0, 0 };
+
   /** Creates a new Turret. */
   public Turret() {
     // TODO: absolute encoder config
@@ -50,7 +52,12 @@ public class Turret extends SubsystemBase {
     // Math.cos(getHeading())));
     // runToPos(thetaFinal);
 
-    double tx = -LimelightHelpers.getTX(""); // - b/c CCW+
+    double tx = LimelightHelpers.getTX(""); // - b/c CCW+
+    if (Math.abs(tx) > Constants.TurretConstants.kHeadingTolerance) {
+      runPower(tx * Constants.TurretConstants.kHeadingTxMultiplier);
+    } else {
+      runPower(0);
+    }
     // runToHeading(getHeading() + tx);
 
     // have a feeling that the robot moving + correction will overlap somehow
@@ -99,5 +106,13 @@ public class Turret extends SubsystemBase {
 
   public void runPower(double pow) {
     headingMotor.set(pow);
+  }
+
+  /**
+   * 
+   * @param point A two-row point. (x, y)
+   */
+  public static void setTargetPoint(int[] point) {
+    targetPoint = point;
   }
 }
