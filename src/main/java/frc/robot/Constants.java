@@ -23,9 +23,10 @@ public final class Constants {
   }
 
   public static class TurretConstants {
-    public static final int kYawMotorId = 50;
-    public static final double kYawP = 0;
-    public static final double kYawI = 0;
-    public static final double kYawD = 0;
+    public static final int kHeadingMotorId = 50;
+    public static final double kHeadingGearRatio = 1;
+    public static final double kHeadingP = 0.05;
+    public static final double kHeadingI = 0;
+    public static final double kHeadingD = 0;
   }
 }
