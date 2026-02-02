@@ -19,6 +19,7 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -48,7 +49,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
-    private final CommandXboxController m_manipulatorController = new CommandXboxController(
+  private final CommandXboxController m_manipulatorController = new CommandXboxController(
       OperatorConstants.kManipulatorControllerPort);
 
   /**
@@ -71,6 +72,8 @@ public class RobotContainer {
                 true),
             m_robotDrive)
         );
+        
+    SmartDashboard.putString("aaa", "aaa");
   }
 
   /**
