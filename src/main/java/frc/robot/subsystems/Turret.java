@@ -16,7 +16,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.helpers.LimelightHelpers;
+import frc.robot.helpers.LimelightHelpers.PoseEstimate;
 
 public class Turret extends SubsystemBase {
   /* Variables */
@@ -33,7 +35,7 @@ public class Turret extends SubsystemBase {
 
     /* Yaw Motor Configuration */
     // gear ratio * 360 degrees / 1 rot
-    headingConfig.absoluteEncoder.positionConversionFactor(Constants.TurretConstants.kHeadingGearRatio * 360);
+    headingConfig.absoluteEncoder.positionConversionFactor(Constants.TurretConstants.kHeadingGearRatio * 2 * Math.PI);
     headingConfig.closedLoop.pid(Constants.TurretConstants.kHeadingP, Constants.TurretConstants.kHeadingI,
         Constants.TurretConstants.kHeadingD, ClosedLoopSlot.kSlot0);
     headingMotor.configure(headingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -51,6 +53,29 @@ public class Turret extends SubsystemBase {
     // have a feeling that the robot moving + correction will overlap somehow
 
     // get distance to cam
+    double d_TagCam = 0; // distance of april tag to cam
+    double tx = LimelightHelpers.getTX("");
+    double ty = LimelightHelpers.getTY("");
+    LimelightHelpers.RawFiducial[] fiducials = LimelightHelpers.getRawFiducials("");
+    for (LimelightHelpers.RawFiducial data : fiducials) {
+      d_TagCam = data.distToCamera;
+      break;
+    }
+
+    /** Credit to Shourya for figuring out the trig for this */
+    double x = d_TagCam * Math.cos(tx * Math.PI / 180) + Constants.TurretConstants.dZ;
+    double y = d_TagCam * Math.sin(ty * Math.PI / 180);
+    double theta = Math.atan(y / x);
+    PoseEstimate pose = LimelightHelpers.getBotPoseEstimate_wpiBlue(getName());
+
+    if ("red".equals(Robot.alliance) && pose.pose.getY() > 4) {
+      runToHeading(-theta);
+    } else if ("blue".equals(Robot.alliance) && pose.pose.getY() < 4) {
+      runToHeading(-theta);
+    } else {
+      runToHeading(theta);
+    }
+
   }
 
   /**
