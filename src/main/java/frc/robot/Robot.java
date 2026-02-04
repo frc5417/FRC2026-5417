@@ -27,6 +27,8 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
+  public static String alliance = "none lol";
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -103,10 +105,12 @@ public class Robot extends TimedRobot {
       if (alliance.get() == Alliance.Red) {
         valid = Constants.AllianceConstants.kValidTagsRed;
         Turret.setTargetPoint(Constants.AllianceConstants.kTargetRed);
+        Robot.alliance = "red";
 
       } else if (alliance.get() == Alliance.Blue) {
         valid = Constants.AllianceConstants.kValidTagsBlue;
         Turret.setTargetPoint(Constants.AllianceConstants.kTargetBlue);
+        Robot.alliance = "blue";
 
       } else {
         valid = Constants.AllianceConstants.kValidTagsError;
