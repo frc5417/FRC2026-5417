@@ -68,9 +68,9 @@ public class Turret extends SubsystemBase {
     double theta = Math.atan(y / x);
     PoseEstimate pose = LimelightHelpers.getBotPoseEstimate_wpiBlue(getName());
 
-    if ("red".equals(Robot.alliance) && pose.pose.getY() > 4) {
+    if ("red".equals(Robot.alliance) && pose.pose.getY() < 4) {
       runToHeading(-theta);
-    } else if ("blue".equals(Robot.alliance) && pose.pose.getY() < 4) {
+    } else if ("blue".equals(Robot.alliance) && pose.pose.getY() > 4) {
       runToHeading(-theta);
     } else {
       runToHeading(theta);
