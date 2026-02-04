@@ -24,7 +24,7 @@ public class Turret extends SubsystemBase {
   private final SparkClosedLoopController headingPID; // necessary to do pos based
   private SparkMaxConfig headingConfig = new SparkMaxConfig();
 
-  private static int[] targetPoint = { 0, 0 };
+  private static double[] targetPoint = { 0, 0, 0 };
 
   /** Creates a new Turret. */
   public Turret() {
@@ -44,48 +44,14 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    /* Robot moving -> proactively correct the change */
-    // double dt = 0.1; // TODO: change the dt val or make it dynamic somehow
-    // double[] robotVel = { 0, 0 }; // TODO: method to get data from odom // {x, y}
-    // double thetaFinal = Math
-    // .atan((robotVel[1] * dt + Math.sin(getHeading())) / (robotVel[0] * dt +
-    // Math.cos(getHeading())));
-    // runToPos(thetaFinal);
+    /* Calculate how much to change theta */
 
-    double tx = LimelightHelpers.getTX(""); // - b/c CCW+
-    if (Math.abs(tx) > Constants.TurretConstants.kHeadingTolerance) {
-      runPower(tx * Constants.TurretConstants.kHeadingTxMultiplier);
-    } else {
-      runPower(0);
-    }
     // runToHeading(getHeading() + tx);
 
     // have a feeling that the robot moving + correction will overlap somehow
 
+    // get distance to cam
   }
-
-  // /**
-  // * Calculate the new theta with a moving robot.
-  // *
-  // * @return
-  // */
-  // public double correctMoving() {
-  // double dt = 0.1; // TODO: change the dt val or make it dynamic somehow
-  // double[] robotVel = { 0, 0 }; // TODO: method to get data from odom // {x, y}
-  // double cos = Math.cos(getHeading());
-  // double sin = Math.sin(getHeading());
-  // if (cos == 0) {
-
-  // }
-
-  // double thetaFinal = Math.atan((robotVel[1] * dt + sin) / (robotVel[0] * dt +
-  // cos));
-
-  // if (cos < 0) {
-
-  // }
-  // runToPos(thetaFinal);
-  // }
 
   /**
    * 
@@ -112,7 +78,7 @@ public class Turret extends SubsystemBase {
    * 
    * @param point A two-row point. (x, y)
    */
-  public static void setTargetPoint(int[] point) {
+  public static void setTargetPoint(double[] point) {
     targetPoint = point;
   }
 }

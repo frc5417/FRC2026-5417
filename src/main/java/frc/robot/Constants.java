@@ -30,6 +30,9 @@ public final class Constants {
     public static final double kHeadingP = 0.05;
     public static final double kHeadingI = 0;
     public static final double kHeadingD = 0;
+
+    public static final double dZ = 0.595; // how much distance into the april tag
+    public static final double dZ2 = 0.354025;
   }
 
   public static class AllianceConstants {
@@ -39,7 +42,7 @@ public final class Constants {
     public static final int[] kValidTagsError = { 1, 2, 3, 4 };
 
     /* Position Data */
-    public static final int[] kTargetBlue = {};
-    public static final int[] kTargetRed = {};
+    public static final double[] kTargetBlue = { 4.62534, 4, 1.124 }; // field x, y, z in meters
+    public static final double[] kTargetRed = { 11.91006, 4, 1.124 };
   }
 }
