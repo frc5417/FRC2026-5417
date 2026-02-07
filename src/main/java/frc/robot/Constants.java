@@ -23,11 +23,11 @@ public final class Constants {
   }
 
   public static class TurretConstants {
-    public static final int kHeadingMotorId = 50;
+    public static final int kHeadingMotorId = 51;
     public static final double kHeadingGearRatio = 1.0 / 16.0;
     public static final double kHeadingTxMultiplier = 0.2;
     public static final double kHeadingTolerance = 1;
-    public static final double kHeadingP = 0.05;
+    public static final double kHeadingP = 0.002;
     public static final double kHeadingI = 0;
     public static final double kHeadingD = 0;
 

@@ -7,13 +7,13 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.Vector;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.helpers.LimelightHelpers;
@@ -51,6 +51,15 @@ public class Turret extends SubsystemBase {
     // have a feeling that the robot moving + correction will overlap somehow
 
     // get distance to cam
+    double targetingAngularVelocity =  LimelightHelpers.getTX("limelight-turret") * Constants.TurretConstants.kHeadingP;
+
+
+    headingMotor.set( targetingAngularVelocity);
+
+    SmartDashboard.putNumber("Velocity", targetingAngularVelocity);
+    
+    
+
   }
 
   /**
@@ -81,4 +90,6 @@ public class Turret extends SubsystemBase {
   public static void setTargetPoint(double[] point) {
     targetPoint = point;
   }
+
+  
 }

@@ -66,8 +66,8 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.runPower(
-        ControllerHelper.Manipulator.rightTrigger() - ControllerHelper.Manipulator.leftTrigger()), m_turret));
+    // m_turret.setDefaultCommand(new RunCommand(() -> m_turret.runPower(
+    //     ControllerHelper.Manipulator.rightTrigger() - ControllerHelper.Manipulator.leftTrigger()), m_turret));
 
   }
 
