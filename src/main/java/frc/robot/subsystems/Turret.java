@@ -16,7 +16,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.helpers.LimelightHelpers;
+import frc.robot.helpers.LimelightHelpers.PoseEstimate;
 
 public class Turret extends SubsystemBase {
   /* Variables */
@@ -33,7 +35,7 @@ public class Turret extends SubsystemBase {
 
     /* Yaw Motor Configuration */
     // gear ratio * 360 degrees / 1 rot
-    headingConfig.absoluteEncoder.positionConversionFactor(Constants.TurretConstants.kHeadingGearRatio * 360);
+    headingConfig.absoluteEncoder.positionConversionFactor(Constants.TurretConstants.kHeadingGearRatio * 2 * Math.PI);
     headingConfig.closedLoop.pid(Constants.TurretConstants.kHeadingP, Constants.TurretConstants.kHeadingI,
         Constants.TurretConstants.kHeadingD, ClosedLoopSlot.kSlot0);
     headingMotor.configure(headingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
