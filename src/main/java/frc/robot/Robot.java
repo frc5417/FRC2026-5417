@@ -122,6 +122,8 @@ public class Robot extends TimedRobot {
       SmartDashboard.putBoolean("Valid Tags Loaded", validTagsPresent);
     }
 
+    CameraServer.startAutomaticCapture();
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
