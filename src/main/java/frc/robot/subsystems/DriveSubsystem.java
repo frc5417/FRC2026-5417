@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -14,7 +15,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.helpers.LimelightHelpers;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
@@ -54,6 +57,13 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
+  /* Pose Estimator to fuse odom + vision */
+  private final SwerveDrivePoseEstimator m_PoseEstimator = new SwerveDrivePoseEstimator(
+      null,
+      m_pigeon.getRotation2d(),
+      getModulePositions(),
+      getPose()); // TODO: allow initial pose to be from selector with Elastic selector
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     // Usage reporting for MAXSwerve template
@@ -63,7 +73,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(
+    m_PoseEstimator.update(
         Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
@@ -71,6 +81,16 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+
+    LimelightHelpers.SetRobotOrientation(Constants.LimelightConstants.kRobotCamName,
+        m_pigeon.getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimelightConstants.kRobotCamName);
+
+    if (mt2.tagCount != 0) { // if there is any number of tags, add measurement.
+      m_PoseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+    }
+
   }
 
   /**
@@ -97,6 +117,14 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+  }
+
+  public SwerveModulePosition[] getModulePositions() {
+    return new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition() };
   }
 
   /**
@@ -170,8 +198,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   // public double getHeading() {
-  //   //return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
-  //   return Rotation2d.fromDegrees(m_pigeon.getYaw().getValue());
+  // //return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
+  // return Rotation2d.fromDegrees(m_pigeon.getYaw().getValue());
   // }
 
   /**
@@ -180,6 +208,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   // public double getTurnRate() {
-  //   return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  // return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 :
+  // 1.0);
   // }
 }
