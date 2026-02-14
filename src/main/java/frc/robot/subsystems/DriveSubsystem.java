@@ -48,7 +48,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /* Pose Estimator to fuse odom + vision */
   private final SwerveDrivePoseEstimator m_PoseEstimator = new SwerveDrivePoseEstimator(
-      null,
+      Constants.DriveConstants.kDriveKinematics,
       m_pigeon.getRotation2d(),
       getModulePositions(),
       getPose()); // TODO: allow initial pose to be from selector with Elastic selector
