@@ -13,7 +13,6 @@ import frc.robot.subsystems.Turret;
 public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
   private final Turret m_turret;
-  
 
   /** Creates a new TeleOp. */
   public TeleOp(Turret turret) {
@@ -31,7 +30,6 @@ public class TeleOp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_field.setRobotPose(m_odometry.getPoseMeters());
   }
 
   // Called once the command ends or is interrupted.

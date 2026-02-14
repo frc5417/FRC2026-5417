@@ -41,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
-  private final Pigeon2 m_pigeon = new Pigeon2(59, "canivore");
+  private final Pigeon2 m_pigeon = new Pigeon2(59);
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -170,8 +170,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   // public double getHeading() {
-  //   //return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
-  //   return Rotation2d.fromDegrees(m_pigeon.getYaw().getValue());
+  // //return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
+  // return Rotation2d.fromDegrees(m_pigeon.getYaw().getValue());
   // }
 
   /**
@@ -180,6 +180,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   // public double getTurnRate() {
-  //   return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  // return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 :
+  // 1.0);
   // }
 }

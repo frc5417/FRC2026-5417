@@ -40,22 +40,23 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     // Angular offsets of the modules relative to the chassis in radians
-    // All of these values are 0 because we zeroed all of the values in REV Hardware Client -SJ
-    public static final double kFrontLeftChassisAngularOffset = 0;//-Math.PI / 2;
+    // All of these values are 0 because we zeroed all of the values in REV Hardware
+    // Client -SJ
+    public static final double kFrontLeftChassisAngularOffset = 0;// -Math.PI / 2;
     public static final double kFrontRightChassisAngularOffset = 0;
-    public static final double kBackLeftChassisAngularOffset = 0; //Math.PI;
-    public static final double kBackRightChassisAngularOffset = 0; //Math.PI / 2;
+    public static final double kBackLeftChassisAngularOffset = 0; // Math.PI;
+    public static final double kBackRightChassisAngularOffset = 0; // Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 11;
-    public static final int kRearLeftDrivingCanId = 21;
-    public static final int kFrontRightDrivingCanId = 41;
-    public static final int kRearRightDrivingCanId = 31;
+    public static final int kFrontLeftDrivingCanId = 21;
+    public static final int kRearLeftDrivingCanId = 31;
+    public static final int kFrontRightDrivingCanId = 11;
+    public static final int kRearRightDrivingCanId = 41;
 
-    public static final int kFrontLeftTurningCanId = 12;
-    public static final int kRearLeftTurningCanId = 22;
-    public static final int kFrontRightTurningCanId = 42;
-    public static final int kRearRightTurningCanId = 32;
+    public static final int kFrontLeftTurningCanId = 22;
+    public static final int kRearLeftTurningCanId = 32;
+    public static final int kFrontRightTurningCanId = 12;
+    public static final int kRearRightTurningCanId = 42;
 
     public static final boolean kGyroReversed = false;
   }
@@ -76,12 +77,12 @@ public final class Constants {
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
 
-    //PID values
+    // PID values
     public static final double driveKP = 0;
     public static final double driveKI = 0;
     public static final double driveKD = 0;
     public static final double driveKF = 0;
-        
+
     public static final double angleKP = 0;
     public static final double angleKI = 0;
     public static final double angleKD = 0;
