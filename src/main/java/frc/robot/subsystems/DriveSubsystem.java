@@ -46,17 +46,6 @@ public class DriveSubsystem extends SubsystemBase {
   // The gyro sensor
   private final Pigeon2 m_pigeon = new Pigeon2(59, "canivore");
 
-  // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-      DriveConstants.kDriveKinematics,
-      Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()),
-      new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
-      });
-
   /* Pose Estimator to fuse odom + vision */
   private final SwerveDrivePoseEstimator m_PoseEstimator = new SwerveDrivePoseEstimator(
       null,
@@ -99,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_PoseEstimator.getEstimatedPosition();
   }
 
   /**
@@ -108,7 +97,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(
+    m_PoseEstimator.resetPosition(
         Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
