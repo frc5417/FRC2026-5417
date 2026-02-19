@@ -7,18 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
-  private final Turret m_turret;
 
   /** Creates a new TeleOp. */
-  public TeleOp(Turret turret) {
+  public TeleOp() {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    this.m_turret = turret;
   }
 
   // Called when the command is initially scheduled.
