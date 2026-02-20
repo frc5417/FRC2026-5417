@@ -40,7 +40,8 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     // Angular offsets of the modules relative to the chassis in radians
-    // All of these values are 0 b/c we zeroed all of the values in REV Hardware Client
+    // All of these values are 0 b/c we zeroed all of the values in REV Hardware
+    // Client
     public static final double kFrontLeftChassisAngularOffset = 0;// -Math.PI / 2;
     public static final double kFrontRightChassisAngularOffset = 0;
     public static final double kBackLeftChassisAngularOffset = 0; // Math.PI;
@@ -65,7 +66,7 @@ public final class Constants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T,
     // 13T, or 14T. This changes the drive speed of the module (a pinion gear with
     // more teeth will result in a robot that drives faster).
-    public static final int kDrivingMotorPinionTeeth = 15; 
+    public static final int kDrivingMotorPinionTeeth = 15;
 
     // Calculations required for driving motor conversion factors and feed forward
     public static final double kDrivingMotorFreeSpeedRps = VortexMotorConstants.kFreeSpeedRpm / 60;
@@ -82,7 +83,7 @@ public final class Constants {
     public static final double driveKI = 0;
     public static final double driveKD = 0;
 
-    public static final double angleKP = 0;
+    public static final double angleKP = 0.2;
     public static final double angleKI = 0;
     public static final double angleKD = 0;
   }
