@@ -40,8 +40,7 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     // Angular offsets of the modules relative to the chassis in radians
-    // All of these values are 0 b/c we zeroed all of the values in REV Hardware
-    // Client
+    // All of these values are 0 b/c we zeroed all of the values in RHC
     public static final double kFrontLeftChassisAngularOffset = 0;// -Math.PI / 2;
     public static final double kFrontRightChassisAngularOffset = 0;
     public static final double kBackLeftChassisAngularOffset = 0; // Math.PI;
