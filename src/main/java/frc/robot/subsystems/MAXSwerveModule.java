@@ -4,12 +4,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
@@ -25,7 +25,7 @@ import com.revrobotics.ResetMode;
 import frc.robot.Configs;
 import frc.robot.Constants;
 
-public class MAXSwerveModule {
+public class MAXSwerveModule extends SubsystemBase {
   private final SparkFlex m_drivingSpark;
   private final SparkMax m_turningSpark;
 
@@ -71,6 +71,13 @@ public class MAXSwerveModule {
     m_chassisAngularOffset = chassisAngularOffset;
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
     m_drivingEncoder.setPosition(0);
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.addDoubleArrayProperty("Desired State",
+        () -> new double[] { m_desiredState.speedMetersPerSecond, m_desiredState.angle.getRadians() }, null);
+    builder.addDoubleArrayProperty("Actual State", () -> new double[] { getSpeed(), getAnglePos() }, null);
   }
 
   /**
@@ -138,9 +145,14 @@ public class MAXSwerveModule {
    * Changes the kP, kI, and KD for the angle PID. This should only be run in test
    * mode.
    * 
-   * @param kP
+   * @param pid in the array of { kP, kI, kD }
    */
   public void setAnglePID(double[] pid) {
+    if (pid.length != 3) {
+      // TODO: add logging
+      return;
+    }
+
     turningPID.setP(pid[0]);
     turningPID.setI(pid[1]);
     turningPID.setD(pid[2]);
@@ -150,10 +162,21 @@ public class MAXSwerveModule {
     return new double[] { turningPID.getP(), turningPID.getI(), turningPID.getD() };
   }
 
+  /**
+   * Changes the kP, kI, and KD for the drive PID. This should only be run in test
+   * mode.
+   * 
+   * @param pid in the array of { kP, kI, kD }
+   */
   public void setDrivePID(double[] pid) {
+    if (pid.length != 3) {
+      // TODO: add logging
+      return;
+    }
+
     SparkFlexConfig flexConfig = new SparkFlexConfig();
 
-    flexConfig.closedLoop.pid(pid[0], pid[1], pid[2]);
+    flexConfig.apply(Configs.MAXSwerveModule.drivingConfig).closedLoop.pid(pid[0], pid[1], pid[2]);
     m_drivingSpark.configure(flexConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();

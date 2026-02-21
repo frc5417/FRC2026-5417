@@ -62,12 +62,16 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
+
+    /* Telemetry */
+    addChild("Front Left Module", m_frontLeft);
+    addChild("Front Right Module", m_frontRight);
+    addChild("Rear Left Module", m_rearLeft);
+    addChild("Rear Right Module", m_rearRight);
   }
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    // super.initSendable(builder);
-
     builder.setSmartDashboardType("SwerveDrive");
 
     builder.addDoubleProperty("Front Left Angle", m_frontLeft::getAnglePos, null);
