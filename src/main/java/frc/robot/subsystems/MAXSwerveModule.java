@@ -16,6 +16,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.PersistMode;
@@ -31,13 +32,14 @@ public class MAXSwerveModule {
   private final RelativeEncoder m_drivingEncoder;
   private final AbsoluteEncoder m_turningEncoder;
 
-  private final SparkClosedLoopController m_drivingClosedLoopController;
+  private SparkClosedLoopController m_drivingClosedLoopController;
   private final SparkClosedLoopController m_turningClosedLoopController;
 
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
   private PIDController turningPID;
+  private double[] drivePID = { 0, 0, 0 };
 
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
@@ -149,6 +151,16 @@ public class MAXSwerveModule {
   }
 
   public void setDrivePID(double[] pid) {
-    // m_drivingClosedLoopController.
+    SparkFlexConfig flexConfig = new SparkFlexConfig();
+
+    flexConfig.closedLoop.pid(pid[0], pid[1], pid[2]);
+    m_drivingSpark.configure(flexConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
+    m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();
+    drivePID = pid;
+  }
+
+  public double[] getDrivePID() {
+    return drivePID;
   }
 }
