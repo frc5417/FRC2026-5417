@@ -10,7 +10,6 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Turret;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,7 +28,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Turret m_turret = new Turret();
   private final Intake m_intake = new Intake();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -70,15 +68,18 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.runPower(
-        ControllerHelper.Manipulator.rightTrigger() - ControllerHelper.Manipulator.leftTrigger()), m_turret));
     /* Intake Controls */
-    m_intake.setDefaultCommand(new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.x().getAsBoolean() ? 3 : -0.5), m_intake));
+    m_intake.setDefaultCommand(
+        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.x().getAsBoolean() ? -0.25 : 0), m_intake));
     // For debugging and manually figuring out the intake angle encoder values
     // intakeAnglePos += m_manipulatorController.getRightY();
     // m_intake.setIntakeAnglePos(intakeAnglePos);
-    // To be used once we figure out what set positions the intake angle motor needs to be:
-    // m_intake.setDefaultCommand(new RunCommand(() -> m_intake.setIntakeAnglePos(m_driverController.y().getAsBoolean() ? Constants.IntakeConstants.intakeUp : Constants.IntakeConstants.intakeFloor), m_intake));
+    // To be used once we figure out what set positions the intake angle motor needs
+    // to be:
+    // m_intake.setDefaultCommand(new RunCommand(() ->
+    // m_intake.setIntakeAnglePos(m_driverController.y().getAsBoolean() ?
+    // Constants.IntakeConstants.intakeUp : Constants.IntakeConstants.intakeFloor),
+    // m_intake));
   }
 
   /**

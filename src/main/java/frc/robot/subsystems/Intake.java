@@ -59,7 +59,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setIntakeVoltage(double voltage) {
-    intake.setVoltage(voltage);
+    intake.set(voltage);
   }
 
   public void setIntakeAnglePos(double pos) {
