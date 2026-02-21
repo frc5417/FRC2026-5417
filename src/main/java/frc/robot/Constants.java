@@ -17,9 +17,20 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class HardwareConstants {
+    public static final int kNeo550CL = 20; // current limit for NEO 550s
+    public static final int kNeoCL = 50; // current limit for NEOs
+    public static final int kVortexCL = 60; // current limit for Vortexes
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDeadband = 0.25;
+  }
+
+  public static class Identification {
+    public static final int intakeId = 53;
+    public static final int intakeAngleId = 54;
   }
 
   public static class TurretConstants {
@@ -27,5 +38,14 @@ public final class Constants {
     public static final double kYawP = 0;
     public static final double kYawI = 0;
     public static final double kYawD = 0;
+  }
+  public static class IntakeConstants {
+    // TODO: Find out encoder values for the intake angle motor to be up and down
+    public static final double intakeUp = 0.0;
+    public static final double intakeFloor = 0.0;
+
+    public static final double intakekP = 0.0;
+    public static final double intakekI = 0.0;
+    public static final double intakekD = 0.0;
   }
 }

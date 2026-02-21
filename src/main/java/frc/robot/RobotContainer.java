@@ -9,6 +9,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -29,10 +30,13 @@ public class RobotContainer {
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Turret m_turret = new Turret();
+  private final Intake m_intake = new Intake();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
+
+  double intakeAnglePos = 0.0;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -68,7 +72,13 @@ public class RobotContainer {
 
     m_turret.setDefaultCommand(new RunCommand(() -> m_turret.runPower(
         ControllerHelper.Manipulator.rightTrigger() - ControllerHelper.Manipulator.leftTrigger()), m_turret));
-
+    /* Intake Controls */
+    m_intake.setDefaultCommand(new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.x().getAsBoolean() ? 3 : -0.5), m_intake));
+    // For debugging and manually figuring out the intake angle encoder values
+    // intakeAnglePos += m_manipulatorController.getRightY();
+    // m_intake.setIntakeAnglePos(intakeAnglePos);
+    // To be used once we figure out what set positions the intake angle motor needs to be:
+    // m_intake.setDefaultCommand(new RunCommand(() -> m_intake.setIntakeAnglePos(m_driverController.y().getAsBoolean() ? Constants.IntakeConstants.intakeUp : Constants.IntakeConstants.intakeFloor), m_intake));
   }
 
   /**
