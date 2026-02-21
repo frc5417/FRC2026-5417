@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -27,7 +28,7 @@ public class Intake extends SubsystemBase {
   private SparkMaxConfig intakeConfig = new SparkMaxConfig();
   private SparkMaxConfig intakeAngleConfig = new SparkMaxConfig();
   private SparkClosedLoopController intakeAnglePID;
-  
+
   /** Creates a new Shooter. */
   public Intake() {
     intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -35,34 +36,42 @@ public class Intake extends SubsystemBase {
 
     intakeConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL);
 
-    intakeAngleConfig.smartCurrentLimit(Constants.HardwareConstants.kNeoCL)
-                     .closedLoop.pid(Constants.IntakeConstants.intakekP, 
-                                     Constants.IntakeConstants.intakekI, 
-                                     Constants.IntakeConstants.intakekD);
+    intakeAngleConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL).closedLoop.pid(
+        Constants.IntakeConstants.intakekP,
+        Constants.IntakeConstants.intakekI,
+        Constants.IntakeConstants.intakekD);
 
     intakeAnglePID = intakeAngle.getClosedLoopController();
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    double velocity = Math.round(intakeEncoder.getVelocity());
-    double position = Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0; // Value is rounded two places after the decimal
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("Encoder");
 
-    SmartDashboard.putNumber("Intake RPM", velocity); // RPM
-    SmartDashboard.putNumber("Intake Angle Pos", position);
+    builder.addDoubleProperty("Position", this::getPos, null); // "position" might have to be replaced with "distance"
+    builder.addDoubleProperty("Speed", intakeEncoder::getVelocity, null);
   }
 
-  public void setIntakeVoltage (double voltage) {
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    SmartDashboard.putData("Intake", this);
+  }
+
+  public void setIntakeVoltage(double voltage) {
     intake.setVoltage(voltage);
   }
 
-  public void setIntakeAnglePos (double pos) {
+  public void setIntakeAnglePos(double pos) {
     intakeAnglePID.setSetpoint(pos, ControlType.kPosition);
   }
 
   public void stopIntake() {
     intake.setVoltage(0);
     intakeAngle.setVoltage(0);
+  }
+
+  public double getPos() {
+    return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;
   }
 }
