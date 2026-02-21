@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
+
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -17,9 +19,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.hardware.Pigeon2;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -83,13 +84,20 @@ public class DriveSubsystem extends SubsystemBase {
 
     builder.addDoubleProperty("Robot Angle", () -> m_pigeon.getRotation2d().getRadians(), null);
 
-    /* PID Testing */
     if (DriverStation.isTest()) {
-      builder.addDoubleArrayProperty("PID", m_frontLeft::getAnglePID, (double[] pid) -> {
+      /* PID Testing */
+      builder.addDoubleArrayProperty("Angle PID", m_frontLeft::getAnglePID, (double[] pid) -> {
         m_frontLeft.setAnglePID(pid);
         m_frontRight.setAnglePID(pid);
         m_rearLeft.setAnglePID(pid);
         m_rearRight.setAnglePID(pid);
+      });
+
+      builder.addDoubleArrayProperty("Drive PID", m_frontLeft::getDrivePID, (double[] pid) -> {
+        m_frontLeft.setDrivePID(pid);
+        m_frontRight.setDrivePID(pid);
+        m_rearLeft.setDrivePID(pid);
+        m_rearRight.setDrivePID(pid);
       });
     }
   }
