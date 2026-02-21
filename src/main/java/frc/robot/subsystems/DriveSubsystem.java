@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -68,42 +69,29 @@ public class DriveSubsystem extends SubsystemBase {
 
     builder.setSmartDashboardType("SwerveDrive");
 
-    builder.addDoubleProperty("Front Left Angle", m_frontLeft::getRotation, null);
+    builder.addDoubleProperty("Front Left Angle", m_frontLeft::getAnglePos, null);
     builder.addDoubleProperty("Front Left Velocity", m_frontLeft::getSpeed, null);
 
-    builder.addDoubleProperty("Front Right Angle", m_frontRight::getRotation, null);
+    builder.addDoubleProperty("Front Right Angle", m_frontRight::getAnglePos, null);
     builder.addDoubleProperty("Front Right Velocity", m_frontRight::getSpeed, null);
 
-    builder.addDoubleProperty("Back Left Angle", m_rearLeft::getRotation, null);
+    builder.addDoubleProperty("Back Left Angle", m_rearLeft::getAnglePos, null);
     builder.addDoubleProperty("Back Left Velocity", m_rearLeft::getSpeed, null);
 
-    builder.addDoubleProperty("Back Right Angle", m_rearRight::getRotation, null);
+    builder.addDoubleProperty("Back Right Angle", m_rearRight::getAnglePos, null);
     builder.addDoubleProperty("Back Right Velocity", m_rearRight::getSpeed, null);
 
     builder.addDoubleProperty("Robot Angle", () -> m_pigeon.getRotation2d().getDegrees(), null);
 
     /* PID Testing */
-    builder.addDoubleProperty("P", m_frontLeft::getP,
-        (double kP) -> {
-          m_frontLeft.setP(kP);
-          m_frontRight.setP(kP);
-          m_rearLeft.setP(kP);
-          m_rearRight.setP(kP);
-        });
-    builder.addDoubleProperty("I", m_frontLeft::getI,
-        (double kI) -> {
-          m_frontLeft.setI(kI);
-          m_frontRight.setI(kI);
-          m_rearLeft.setI(kI);
-          m_rearRight.setI(kI);
-        });
-    builder.addDoubleProperty("D", m_frontLeft::getD,
-        (double kD) -> {
-          m_frontLeft.setD(kD);
-          m_frontRight.setD(kD);
-          m_rearLeft.setD(kD);
-          m_rearRight.setD(kD);
-        });
+    if (DriverStation.isTest()) {
+      builder.addDoubleArrayProperty("PID", m_frontLeft::getAnglePID, (double[] pid) -> {
+        m_frontLeft.setAnglePID(pid);
+        m_frontRight.setAnglePID(pid);
+        m_rearLeft.setAnglePID(pid);
+        m_rearRight.setAnglePID(pid);
+      });
+    }
   }
 
   @Override

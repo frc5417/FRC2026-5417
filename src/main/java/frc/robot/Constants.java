@@ -82,7 +82,7 @@ public final class Constants {
     public static final double driveKI = 0;
     public static final double driveKD = 0;
 
-    public static final double angleKP = 0.2;
+    public static final double angleKP = 0.18;
     public static final double angleKI = 0;
     public static final double angleKD = 0;
   }
