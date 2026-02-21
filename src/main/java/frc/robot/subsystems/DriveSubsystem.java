@@ -14,6 +14,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -61,6 +63,28 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   @Override
+  public void initSendable(SendableBuilder builder) {
+    // super.initSendable(builder);
+
+    builder.setSmartDashboardType("SwerveDrive");
+
+    builder.addDoubleProperty("Front Left Angle", m_frontLeft::getRotation, null);
+    builder.addDoubleProperty("Front Left Velocity", m_frontLeft::getSpeed, null);
+
+    builder.addDoubleProperty("Front Right Angle", m_frontRight::getRotation, null);
+    builder.addDoubleProperty("Front Right Velocity", m_frontRight::getSpeed, null);
+
+    builder.addDoubleProperty("Back Left Angle", m_rearLeft::getRotation, null);
+    builder.addDoubleProperty("Back Left Velocity", m_rearLeft::getSpeed, null);
+
+    builder.addDoubleProperty("Back Right Angle", m_rearRight::getRotation, null);
+    builder.addDoubleProperty("Back Right Velocity", m_rearRight::getSpeed, null);
+
+    builder.addDoubleProperty("Robot Angle", m_pigeon.getRotation2d()::getDegrees, null);
+
+  }
+
+  @Override
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
@@ -71,6 +95,8 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+
+    SmartDashboard.putData(this);
   }
 
   /**
