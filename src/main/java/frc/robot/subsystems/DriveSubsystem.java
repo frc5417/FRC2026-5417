@@ -80,8 +80,30 @@ public class DriveSubsystem extends SubsystemBase {
     builder.addDoubleProperty("Back Right Angle", m_rearRight::getRotation, null);
     builder.addDoubleProperty("Back Right Velocity", m_rearRight::getSpeed, null);
 
-    builder.addDoubleProperty("Robot Angle", m_pigeon.getRotation2d()::getDegrees, null);
+    builder.addDoubleProperty("Robot Angle", () -> m_pigeon.getRotation2d().getDegrees(), null);
 
+    /* PID Testing */
+    builder.addDoubleProperty("P", m_frontLeft::getP,
+        (double kP) -> {
+          m_frontLeft.setP(kP);
+          m_frontRight.setP(kP);
+          m_rearLeft.setP(kP);
+          m_rearRight.setP(kP);
+        });
+    builder.addDoubleProperty("I", m_frontLeft::getI,
+        (double kI) -> {
+          m_frontLeft.setI(kI);
+          m_frontRight.setI(kI);
+          m_rearLeft.setI(kI);
+          m_rearRight.setI(kI);
+        });
+    builder.addDoubleProperty("D", m_frontLeft::getD,
+        (double kD) -> {
+          m_frontLeft.setD(kD);
+          m_frontRight.setD(kD);
+          m_rearLeft.setD(kD);
+          m_rearRight.setD(kD);
+        });
   }
 
   @Override
@@ -151,6 +173,35 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  /**
+   * Method to drive the robot using joystick info.
+   *
+   * @param xSpeed        Speed of the robot in the x direction (forward).
+   * @param ySpeed        Speed of the robot in the y direction (sideways).
+   * @param rot           Angular rate of the robot.
+   * @param fieldRelative Whether the provided x and y speeds are relative to the
+   *                      field.
+   */
+  public void drive_PID_Tuning(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    // Convert the commanded speeds into the correct units for the drivetrain
+    double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
+    double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
+    double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
+
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+        fieldRelative
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+                Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()))
+            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+
+    m_frontLeft.setDesiredState_PID_Tuning(swerveModuleStates[0]);
+    m_frontRight.setDesiredState_PID_Tuning(swerveModuleStates[1]);
+    m_rearLeft.setDesiredState_PID_Tuning(swerveModuleStates[2]);
+    m_rearRight.setDesiredState_PID_Tuning(swerveModuleStates[3]);
   }
 
   /**

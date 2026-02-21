@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -33,6 +34,8 @@ public class MAXSwerveModule {
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
+  private PIDController turningPID;
+
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
    * encoder, and PID controller. This configuration is specific to the REV
@@ -45,6 +48,8 @@ public class MAXSwerveModule {
 
     m_drivingEncoder = m_drivingSpark.getEncoder();
     m_turningEncoder = m_turningSpark.getAbsoluteEncoder();
+
+    turningPID = new PIDController(0, 0, 0);
 
     // Apply the respective configurations to the SPARKS. Reset parameters before
     // applying the configuration to bring the SPARK to a known good state. Persist
@@ -108,6 +113,23 @@ public class MAXSwerveModule {
     m_desiredState = desiredState;
   }
 
+  public void setDesiredState_PID_Tuning(SwerveModuleState desiredState) {
+    // Apply chassis angular offset to the desired state.
+    SwerveModuleState correctedDesiredState = new SwerveModuleState();
+    correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
+    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
+
+    // Optimize the reference state to avoid spinning further than 90 degrees.
+    correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
+
+    // Command driving and turning SPARKS towards their respective setpoints.
+    m_drivingClosedLoopController.setSetpoint(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+
+    m_turningSpark.set(turningPID.calculate(m_turningEncoder.getPosition(), correctedDesiredState.angle.getRadians()));
+
+    m_desiredState = desiredState;
+  }
+
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
     m_drivingEncoder.setPosition(0);
@@ -119,5 +141,29 @@ public class MAXSwerveModule {
 
   public double getSpeed() {
     return m_drivingEncoder.getVelocity();
+  }
+
+  public void setP(double kP) {
+    turningPID.setP(kP);
+  }
+
+  public double getP() {
+    return turningPID.getP();
+  }
+
+  public void setI(double kI) {
+    turningPID.setI(kI);
+  }
+
+  public double getI() {
+    return turningPID.getI();
+  }
+
+  public void setD(double kD) {
+    turningPID.setD(kD);
+  }
+
+  public double getD() {
+    return turningPID.getD();
   }
 }
