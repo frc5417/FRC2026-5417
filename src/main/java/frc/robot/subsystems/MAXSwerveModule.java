@@ -147,4 +147,8 @@ public class MAXSwerveModule {
   public double[] getAnglePID() {
     return new double[] { turningPID.getP(), turningPID.getI(), turningPID.getD() };
   }
+
+  public void setDrivePID(double[] pid) {
+    // m_drivingClosedLoopController.
+  }
 }
