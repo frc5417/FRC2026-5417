@@ -59,11 +59,23 @@ public class Intake extends SubsystemBase {
   }
 
   public void setIntakeVoltage(double voltage) {
-    intake.set(voltage);
+    intake.setVoltage(voltage);
   }
 
   public void setIntakeAnglePos(double pos) {
     intakeAnglePID.setSetpoint(pos, ControlType.kPosition);
+  }
+
+  public void setIntakePower(double power) {
+    intake.set(power);
+  }
+
+  public void setIntakeAnglePower(double power) {
+    intakeAngle.set(power);
+  }
+
+  public double getPos() {
+    return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;
   }
 
   public void stopIntake() {
@@ -71,7 +83,4 @@ public class Intake extends SubsystemBase {
     intakeAngle.setVoltage(0);
   }
 
-  public double getPos() {
-    return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;
-  }
 }

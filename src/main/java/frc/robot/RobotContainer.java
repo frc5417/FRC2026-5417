@@ -70,7 +70,18 @@ public class RobotContainer {
 
     /* Intake Controls */
     m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.x().getAsBoolean() ? -0.25 : 0), m_intake));
+        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.x().getAsBoolean() ? -4 : 0), m_intake));
+    // m_driverController.a().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(0.1)));
+    // m_driverController.b().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(-0.1)));
+    m_intake.setDefaultCommand(
+        new RunCommand(() -> m_intake.setIntakeAnglePower(m_driverController.b().getAsBoolean() ? -0.2 : 0), m_intake));
+    // if (m_driverController.a().getAsBoolean() == true) {
+    //   m_intake.setIntakeAnglePower(0.1);
+    // }
+    // if (m_driverController.b().getAsBoolean() == true) {
+    //   m_intake.setIntakeAnglePower(-0.1);
+    // }
+
     // For debugging and manually figuring out the intake angle encoder values
     // intakeAnglePos += m_manipulatorController.getRightY();
     // m_intake.setIntakeAnglePos(intakeAnglePos);
