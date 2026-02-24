@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -35,8 +36,7 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Shooter. */
   public Intake() {
-    intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    intakeAngle.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
 
     intakeConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL);
 
@@ -44,6 +44,11 @@ public class Intake extends SubsystemBase {
         Constants.IntakeConstants.intakekP,
         Constants.IntakeConstants.intakekI,
         Constants.IntakeConstants.intakekD);
+        intakeAngleConfig.idleMode(IdleMode.kBrake);
+        intakeConfig.idleMode(IdleMode.kBrake);
+
+    intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    intakeAngle.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     intakeAnglePID = intakeAngle.getClosedLoopController();
   }
@@ -67,6 +72,7 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake RPM", velocity); // RPM
     SmartDashboard.putNumber("Intake Voltage", voltage); // Voltage
     SmartDashboard.putNumber("Intake Increment Value", value);
+    SmartDashboard.putNumber("Intake Angle Encoder", getPos());
 
   }
 
@@ -108,5 +114,7 @@ public class Intake extends SubsystemBase {
     intake.setVoltage(0);
     intakeAngle.setVoltage(0);
   }
+
+ 
 
 }
