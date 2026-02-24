@@ -48,18 +48,26 @@ public class Intake extends SubsystemBase {
     intakeAnglePID = intakeAngle.getClosedLoopController();
   }
 
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("Encoder");
+  // @Override
+  // public void initSendable(SendableBuilder builder) {
+  //   builder.setSmartDashboardType("Encoder");
 
-    builder.addDoubleProperty("Position", this::getPos, null); // "position" might have to be replaced with "distance"
-    builder.addDoubleProperty("Speed", intakeEncoder::getVelocity, null);
-  }
+  //   builder.addDoubleProperty("Position", this::getPos, null); // "position" might have to be replaced with "distance"
+  //   builder.addDoubleProperty("Speed", intakeEncoder::getVelocity, null);
+  // }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putData("Intake", this);
+    // SmartDashboard.putData("Intake", this);
+
+    double velocity = Math.round(intakeEncoder.getVelocity());
+    double value = Math.round(increment * 100) / 100.0; // Value is rounded two places after the decimal
+
+    SmartDashboard.putNumber("Intake RPM", velocity); // RPM
+    SmartDashboard.putNumber("Intake Voltage", voltage); // Voltage
+    SmartDashboard.putNumber("Intake Increment Value", value);
+
   }
 
   public void setIntakeVoltage(double voltage) {
@@ -84,7 +92,7 @@ public class Intake extends SubsystemBase {
 
   public void incrementIntakeAngleRPM(double sign) {
     voltage += this.increment * sign;
-    voltage = MathUtil.clamp(voltage, 0, 1);
+    // voltage = MathUtil.clamp(voltage, 0, 1);
     intakeAngle.setVoltage(voltage);
   }
 
