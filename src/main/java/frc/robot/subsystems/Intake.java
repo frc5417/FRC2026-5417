@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +29,9 @@ public class Intake extends SubsystemBase {
   private SparkMaxConfig intakeConfig = new SparkMaxConfig();
   private SparkMaxConfig intakeAngleConfig = new SparkMaxConfig();
   private SparkClosedLoopController intakeAnglePID;
+
+  double voltage = 0.0;
+  double increment = 0.0;
 
   /** Creates a new Shooter. */
   public Intake() {
@@ -76,6 +80,20 @@ public class Intake extends SubsystemBase {
 
   public double getPos() {
     return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;
+  }
+
+  public void incrementIntakeAngleRPM(double sign) {
+    voltage += this.increment * sign;
+    voltage = MathUtil.clamp(voltage, 0, 1);
+    intakeAngle.setVoltage(voltage);
+  }
+
+  public void incrementIntakeAngleValue() {
+    this.increment += 0.01;
+  }
+
+  public void decrementIntakeAngleValue() {
+    this.increment -= 0.01;
   }
 
   public void stopIntake() {

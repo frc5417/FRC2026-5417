@@ -66,15 +66,20 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     /* Intake Controls */
     m_intake.setDefaultCommand(
         new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.x().getAsBoolean() ? -4 : 0), m_intake));
     // m_driverController.a().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(0.1)));
     // m_driverController.b().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(-0.1)));
-    m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakeAnglePower(m_driverController.b().getAsBoolean() ? -0.2 : 0), m_intake));
+    // m_intake.setDefaultCommand(
+    //     new RunCommand(() -> m_intake.setIntakeAnglePower(m_driverController.b().getAsBoolean() ? -0.2 : 0), m_intake));
+    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
+    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
+    m_driverController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
+    m_driverController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
+
+
     // if (m_driverController.a().getAsBoolean() == true) {
     //   m_intake.setIntakeAnglePower(0.1);
     // }
