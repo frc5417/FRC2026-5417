@@ -73,7 +73,7 @@ public class RobotContainer {
     // m_driverController.a().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(0.1)));
     // m_driverController.b().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(-0.1)));
     // m_intake.setDefaultCommand(
-    //     new RunCommand(() -> m_intake.setIntakeAnglePower(m_driverController.b().getAsBoolean() ? -0.2 : 0), m_intake));
+    //     new RunCommand(() -> m_intake.setIntakeAnglePower(m_driverController.b().getAAPdeplsBoolean() ? -0.2 : 0), m_intake));
     m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
     m_driverController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));

@@ -72,8 +72,7 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake RPM", velocity); // RPM
     SmartDashboard.putNumber("Intake Voltage", voltage); // Voltage
     SmartDashboard.putNumber("Intake Increment Value", value);
-    SmartDashboard.putNumber("Intake Angle Encoder", getPos());
-
+    SmartDashboard.putNumber("Intake Angle Motor Rotation", getPos());
   }
 
   public void setIntakeAnglePos(double pos) {
@@ -110,7 +109,4 @@ public class Intake extends SubsystemBase {
     intake.setVoltage(0);
     intakeAngle.setVoltage(0);
   }
-
- 
-
 }
