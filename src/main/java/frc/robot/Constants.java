@@ -44,7 +44,7 @@ public final class Constants {
     public static final double intakeUp = 0.0;
     public static final double intakeFloor = 0.0;
 
-    public static final double intakekP = 0.0;
+    public static final double intakekP = 0.2;
     public static final double intakekI = 0.0;
     public static final double intakekD = 0.0;
   }

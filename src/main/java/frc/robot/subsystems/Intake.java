@@ -36,19 +36,17 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Shooter. */
   public Intake() {
-    
+    intakeConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL)
+                .idleMode(IdleMode.kBrake);
 
-    intakeConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL);
-
-    intakeAngleConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL).closedLoop.pid(
-        Constants.IntakeConstants.intakekP,
-        Constants.IntakeConstants.intakekI,
-        Constants.IntakeConstants.intakekD);
-        intakeAngleConfig.idleMode(IdleMode.kBrake);
-        intakeConfig.idleMode(IdleMode.kBrake);
+    intakeAngleConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL)
+                     .idleMode(IdleMode.kBrake)
+                     .closedLoop.pid(Constants.IntakeConstants.intakekP,
+                                     Constants.IntakeConstants.intakekI,
+                                     Constants.IntakeConstants.intakekD);
 
     intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    intakeAngle.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    intakeAngle.configure(intakeAngleConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     intakeAnglePID = intakeAngle.getClosedLoopController();
   }
@@ -72,11 +70,7 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake RPM", velocity); // RPM
     SmartDashboard.putNumber("Intake Voltage", voltage); // Voltage
     SmartDashboard.putNumber("Intake Increment Value", value);
-    SmartDashboard.putNumber("Intake Angle Motor Rotation", getPos());
-  }
-
-  public void setIntakeAnglePos(double pos) {
-    intakeAnglePID.setSetpoint(pos, ControlType.kPosition);
+    SmartDashboard.putNumber("Intake Angle Revs", getIntakeAnglePos());
   }
 
   public void setIntakePower(double power) {
@@ -87,7 +81,11 @@ public class Intake extends SubsystemBase {
     intakeAngle.set(power);
   }
 
-  public double getPos() {
+  public void setIntakeAnglePos(double pos) {
+    intakeAnglePID.setSetpoint(pos, ControlType.kPosition);
+  }
+
+  public double getIntakeAnglePos() {
     return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;
   }
 
