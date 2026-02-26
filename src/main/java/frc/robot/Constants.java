@@ -40,11 +40,11 @@ public final class Constants {
     public static final double kYawD = 0;
   }
   public static class IntakeConstants {
-    // TODO: Find out encoder values for the intake angle motor to be up and down
-    public static final double intakeUp = 0.0;
+    // TODO: change the intakeFloor and intakeUp values because the intake starts stowed
     public static final double intakeFloor = 0.0;
+    public static final double intakeUp = -1.3;
 
-    public static final double intakekP = 0.2;
+    public static final double intakekP = 0.50;
     public static final double intakekI = 0.0;
     public static final double intakekD = 0.0;
   }
