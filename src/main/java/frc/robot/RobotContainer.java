@@ -4,12 +4,9 @@
 
 package frc.robot;
 
-import frc.robot.helpers.ControllerHelper;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -28,7 +25,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Turret m_turret = new Turret();
+  private final Shooter m_shooter = new Shooter();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(
@@ -57,18 +54,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
-    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.runPower(
-        ControllerHelper.Manipulator.rightTrigger() - ControllerHelper.Manipulator.leftTrigger()), m_turret));
-
+    /* Shooter Controls */
+    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_shooter.setShooterPower(0.5), m_shooter));
+    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.setShooterPower(0), m_shooter));
   }
 
   /**

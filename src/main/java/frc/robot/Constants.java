@@ -22,10 +22,12 @@ public final class Constants {
     public static final double kDeadband = 0.25;
   }
 
-  public static class TurretConstants {
-    public static final int kYawMotorId = 50;
-    public static final double kYawP = 0;
-    public static final double kYawI = 0;
-    public static final double kYawD = 0;
+  public static class Identification {
+    public static final int shooterParentId = 55;
+    public static final int shooterChildId = 56;
+  }
+
+  public static class ShooterConstants {
+    public static final boolean shooterChildInvert = true;
   }
 }
