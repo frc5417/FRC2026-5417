@@ -76,10 +76,6 @@ public class Intake extends SubsystemBase {
 
   }
 
-  public void setIntakeVoltage(double voltage) {
-    intake.setVoltage(voltage);
-  }
-
   public void setIntakeAnglePos(double pos) {
     intakeAnglePID.setSetpoint(pos, ControlType.kPosition);
   }

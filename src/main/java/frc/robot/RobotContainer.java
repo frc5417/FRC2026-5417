@@ -69,7 +69,7 @@ public class RobotContainer {
 
     /* Intake Controls */
     m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.x().getAsBoolean() ? -4 : 0), m_intake));
+        new RunCommand(() -> m_intake.setIntakePower(m_driverController.x().getAsBoolean() ? -0.25 : 0), m_intake));
     // m_driverController.a().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(0.1)));
     // m_driverController.b().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(-0.1)));
     // m_intake.setDefaultCommand(
@@ -78,6 +78,10 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
     m_driverController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
     m_driverController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
+    m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(1), m_intake));
+    m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(0), m_intake));
+
+
 
 
 
