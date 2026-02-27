@@ -9,7 +9,7 @@ import frc.robot.Constants;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
   /* Variables */
-  private final SparkMax shooterParent = new SparkMax(Constants.Identification.shooterParentId, MotorType.kBrushless);
-  private final SparkMax shooterChild = new SparkMax(Constants.Identification.shooterChildId, MotorType.kBrushless);
+  private final SparkFlex shooterParent = new SparkFlex(Constants.Identification.shooterParentId, MotorType.kBrushless);
+  private final SparkFlex shooterChild = new SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
   private final RelativeEncoder shooterEncoder = shooterParent.getEncoder();
   private SparkMaxConfig shooterParentConfig = new SparkMaxConfig();
   private SparkMaxConfig shooterChildConfig = new SparkMaxConfig();
@@ -27,10 +27,10 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   public Shooter() {
     shooterParent.configure(shooterParentConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    shooterChild.configure(shooterChildConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+    
     shooterChildConfig.apply(shooterParentConfig);
     shooterChildConfig.follow(shooterParent, Constants.ShooterConstants.shooterChildInvert);
+    shooterChild.configure(shooterChildConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
@@ -42,6 +42,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterPower(double power) {
+    // shooterParent.setVoltage(12 * power);
     shooterParent.set(power);
   }
 
