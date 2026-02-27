@@ -28,4 +28,13 @@ public final class Constants {
     public static final double kYawI = 0;
     public static final double kYawD = 0;
   }
+   public static class Identification {
+    public static final int beltIndexerParentId = 57;
+    public static final int beltIndexerChildId = 58;
+  }
+
+  public static class BeltIndexerConstants {
+    public static final boolean beltIndexerChildInvert = true;
+  }
+
 }
