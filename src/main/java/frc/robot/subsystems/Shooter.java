@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,8 +22,8 @@ public class Shooter extends SubsystemBase {
   private final SparkFlex shooterParent = new SparkFlex(Constants.Identification.shooterParentId, MotorType.kBrushless);
   private final SparkFlex shooterChild = new SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
   private final RelativeEncoder shooterEncoder = shooterParent.getEncoder();
-  private SparkMaxConfig shooterParentConfig = new SparkMaxConfig();
-  private SparkMaxConfig shooterChildConfig = new SparkMaxConfig();
+  private SparkFlexConfig shooterParentConfig = new SparkFlexConfig();
+  private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
 
   /** Creates a new Shooter. */
   public Shooter() {
