@@ -23,9 +23,14 @@ public final class Constants {
   }
 
   public static class TurretConstants {
-    public static final int kYawMotorId = 50;
-    public static final double kYawP = 0;
-    public static final double kYawI = 0;
-    public static final double kYawD = 0;
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    public static final double kPosFactor = 40; // pos will be in degrees
+  }
+
+  public static class Identification {
+    public static final int kTurretId = 50;
   }
 }

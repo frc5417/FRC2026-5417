@@ -4,15 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,22 +22,28 @@ public class Turret extends SubsystemBase {
   private final SparkMax yawMotor = new SparkMax(Constants.TurretConstants.kYawMotorId, MotorType.kBrushless);
   private final SparkClosedLoopController yawPID; // necessary to do pos based
   private SparkMaxConfig yawMotorConfig = new SparkMaxConfig();
+  private final AbsoluteEncoder encoder;
 
   /** Creates a new Turret. */
   public Turret() {
-    // TODO: absolute encoder config
-
     /* Yaw Motor Configuration */
-    yawMotorConfig.closedLoop.pid(Constants.TurretConstants.kYawP, Constants.TurretConstants.kYawI,
-        Constants.TurretConstants.kYawD, null);
+    yawMotorConfig.absoluteEncoder.positionConversionFactor(Constants.TurretConstants.kPosFactor);
+
+    yawMotorConfig.closedLoop.pid(
+        Constants.TurretConstants.kP,
+        Constants.TurretConstants.kI,
+        Constants.TurretConstants.kD);
+
     yawMotor.configure(yawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     yawPID = yawMotor.getClosedLoopController();
+    encoder = yawMotor.getAbsoluteEncoder();
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Turret Angular Position", getPos());
   }
 
   /**
@@ -49,5 +56,14 @@ public class Turret extends SubsystemBase {
 
   public void runPower(double pow) {
     yawMotor.set(pow);
+  }
+
+  /**
+   * Gets the rotational position of the turret in degrees.
+   * 
+   * @return
+   */
+  public double getPos() {
+    return encoder.getPosition();
   }
 }
