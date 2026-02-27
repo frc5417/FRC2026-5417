@@ -19,34 +19,30 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BeltIndexer extends SubsystemBase {
   /* Variables */
-  private final SparkMax beltIndexerParent = new SparkMax(Constants.Identification.beltIndexerParentId, MotorType.kBrushless);
-  private final SparkMax beltIndexerChild = new SparkMax(Constants.Identification.beltIndexerChildId, MotorType.kBrushless);
-  private final RelativeEncoder beltIndexerParentEncoder = beltIndexerParent.getEncoder();
-  private SparkMaxConfig beltIndexerParentConfig = new SparkMaxConfig();
-  private SparkMaxConfig beltIndexerChildConfig = new SparkMaxConfig();
+  private final SparkMax beltIndexer = new SparkMax(Constants.Identification.beltIndexerId, MotorType.kBrushless);
+  private final RelativeEncoder beltIndexerEncoder = beltIndexer.getEncoder();
+  private SparkMaxConfig beltIndexerConfig = new SparkMaxConfig();
 
   /** Creates a new Belt Indexer. */
   public BeltIndexer() {
-    beltIndexerParent.configure(beltIndexerParentConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    beltIndexerChild.configure(beltIndexerChildConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    beltIndexer.configure(beltIndexerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    beltIndexerChildConfig.apply(beltIndexerParentConfig);
-    beltIndexerChildConfig.follow(beltIndexerParent, Constants.BeltIndexerConstants.beltIndexerChildInvert);
+    
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double RPM = Math.round(beltIndexerParentEncoder.getVelocity());
+    double RPM = Math.round(beltIndexerEncoder.getVelocity());
 
     SmartDashboard.putNumber("Belt Indexer RPM", RPM); // RPM
   }
 
   public void setBeltIndexerVoltage(double voltage) {
-    beltIndexerParent.setVoltage(voltage);
+    beltIndexer.setVoltage(voltage);
   }
 
   public void stopBeltIndexer() {
-    beltIndexerParent.setVoltage(0);
+    beltIndexer.setVoltage(0);
   }
 }
