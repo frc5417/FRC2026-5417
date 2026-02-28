@@ -21,7 +21,8 @@ public class Shooter extends SubsystemBase {
   /* Variables */
   private final SparkFlex shooterParent = new SparkFlex(Constants.Identification.shooterParentId, MotorType.kBrushless);
   private final SparkFlex shooterChild = new SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
-  private final RelativeEncoder shooterEncoder = shooterParent.getEncoder();
+  private final RelativeEncoder shooterParentEncoder = shooterParent.getEncoder();
+  private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
   private SparkFlexConfig shooterParentConfig = new SparkFlexConfig();
   private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
 
@@ -37,14 +38,21 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double RPM = Math.round(shooterEncoder.getVelocity());
+    double parentRPM = Math.round(shooterParentEncoder.getVelocity());
+    double childRPM = Math.round(shooterChildEncoder.getVelocity());
 
-    SmartDashboard.putNumber("Shooter RPM", RPM);
+    SmartDashboard.putNumber("Shooter Parent RPM (55)", parentRPM);
+    SmartDashboard.putNumber("Shooter Child RPM (56)", childRPM);
   }
 
   public void setShooterPower(double power) {
     // shooterParent.setVoltage(12 * power);
     shooterParent.set(power);
+  }
+
+   public void setShooterVoltage(double voltage) {
+    // shooterParent.setVoltage(12 * power);
+    shooterParent.setVoltage(voltage);
   }
 
   public void stopShooter() {
