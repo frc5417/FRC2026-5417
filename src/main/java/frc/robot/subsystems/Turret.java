@@ -19,7 +19,7 @@ import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
   /* Variables */
-  private final SparkMax yawMotor = new SparkMax(Constants.TurretConstants.kYawMotorId, MotorType.kBrushless);
+  private final SparkMax yawMotor = new SparkMax(Constants.Identification.kTurretId, MotorType.kBrushless);
   private final SparkClosedLoopController yawPID; // necessary to do pos based
   private SparkMaxConfig yawMotorConfig = new SparkMaxConfig();
   private final AbsoluteEncoder encoder;
