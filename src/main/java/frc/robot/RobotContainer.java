@@ -55,8 +55,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     /* Shooter Controls */
-    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_shooter.setShooterVoltage(12), m_shooter));
-    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.setShooterVoltage(0), m_shooter));
+    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
+    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
+    // m_driverController.rightTrigger().onTrue(new RunCommand(() ->
+    // m_shooter.setVelocity(0), m_shooter));
   }
 
   /**

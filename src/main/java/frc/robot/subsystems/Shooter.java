@@ -9,10 +9,11 @@ import frc.robot.Constants;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,16 +24,25 @@ public class Shooter extends SubsystemBase {
   private final SparkFlex shooterChild = new SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
   private final RelativeEncoder shooterParentEncoder = shooterParent.getEncoder();
   private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
-  private SparkFlexConfig shooterParentConfig = new SparkFlexConfig();
+  private SparkFlexConfig parentConfig = new SparkFlexConfig();
   private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
+
+  private SparkClosedLoopController parentPID;
 
   /** Creates a new Shooter. */
   public Shooter() {
-    shooterParent.configure(shooterParentConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    
-    shooterChildConfig.apply(shooterParentConfig);
+    parentConfig.closedLoop.pid(
+        Constants.ShooterConstants.kP,
+        Constants.ShooterConstants.kI,
+        Constants.ShooterConstants.kD);
+
+    shooterParent.configure(parentConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    shooterChildConfig.apply(parentConfig);
     shooterChildConfig.follow(shooterParent, Constants.ShooterConstants.shooterChildInvert);
     shooterChild.configure(shooterChildConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    parentPID = shooterParent.getClosedLoopController();
   }
 
   @Override
@@ -50,7 +60,12 @@ public class Shooter extends SubsystemBase {
     shooterParent.set(power);
   }
 
-   public void setShooterVoltage(double voltage) {
+  public void setVelocity(double velocity) {
+    parentPID.setSetpoint(velocity, ControlType.kVelocity);
+
+  }
+
+  public void setShooterVoltage(double voltage) {
     // shooterParent.setVoltage(12 * power);
     shooterParent.setVoltage(voltage);
   }
