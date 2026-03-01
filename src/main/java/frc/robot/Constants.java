@@ -115,4 +115,11 @@ public final class Constants {
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
+  
+   public static class Identification {
+    public static final int beltIndexerId = 57;
+  }
+
+
+
 }

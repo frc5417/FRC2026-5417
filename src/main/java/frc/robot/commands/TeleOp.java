@@ -10,12 +10,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+  /** Creates a new TeleOp. */
+
+/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
+  private final BeltIndexer m_beltIndexer;
 
   /** Creates a new TeleOp. */
-  public TeleOp() {
+  public TeleOp(BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
+
+    this.m_beltIndexer = beltIndexer;
   }
 
   // Called when the command is initially scheduled.
@@ -27,6 +33,7 @@ public class TeleOp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_beltIndexer.stopBeltIndexer();
   }
 
   // Called once the command ends or is interrupted.
