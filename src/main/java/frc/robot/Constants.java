@@ -119,11 +119,16 @@ public final class Constants {
     public static final int intakeAngleId = 54;
   }
 
-  public static class TurretConstants {
-    public static final int kYawMotorId = 50;
-    public static final double kYawP = 0;
-    public static final double kYawI = 0;
-    public static final double kYawD = 0;
+  public static class Identification {
+    public static final int shooterParentId = 55;
+    public static final int shooterChildId = 56;
+  }
+
+  public static class ShooterConstants {
+    public static final boolean shooterChildInvert = true;
+    public static final double kP = 0.0002;
+    public static final double kI = 0;
+    public static final double kD = 0;
   }
   public static class IntakeConstants {
     // TODO: change the intakeFloor and intakeUp values because the intake starts stowed

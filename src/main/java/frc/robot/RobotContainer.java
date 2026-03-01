@@ -37,6 +37,7 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Shooter m_shooter = new Shooter();
   private final Intake m_intake = new Intake();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final BeltIndexer m_beltIndexer = new BeltIndexer();
@@ -94,7 +95,9 @@ public class RobotContainer {
     m_driverController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
     m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
-
+    /* Shooter Keybinds */
+    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
+    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
     /* Controller Binding Key */
 
     // For debugging and manually figuring out the intake angle encoder values

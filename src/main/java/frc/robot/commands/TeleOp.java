@@ -17,12 +17,14 @@ public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
   private final BeltIndexer m_beltIndexer;
   private final Intake m_intake;
+  private final Shooter m_shooter;
 
   /** Creates a new TeleOp. */
   public TeleOp(BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_beltIndexer = beltIndexer;
     this.m_intake = intake;
+    this.m_shooter = shooter;
   }
 
   // Called when the command is initially scheduled.
@@ -36,11 +38,13 @@ public class TeleOp extends Command {
   public void execute() {
     m_intake.stopIntake();
     m_beltIndexer.stopBeltIndexer();
+    m_shooter.stopShooter();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shooter.stopShooter();
   }
 
   // Returns true when the command should end.
