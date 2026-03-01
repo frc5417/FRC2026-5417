@@ -85,7 +85,7 @@ public class RobotContainer {
     m_driverController.x().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
     m_driverController.a().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     /* Belt Indexer Keybinds */
-    m_beltIndexer.setDefaultCommand(new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.y().getAsBoolean() ? 5 : 0), m_beltIndexer));
+    m_beltIndexer.setDefaultCommand(new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.y().getAsBoolean() ? -5 : 0), m_beltIndexer));
     /* Intake Keybinds */
     m_intake.setDefaultCommand(
         new RunCommand(() -> m_intake.setIntakePower(m_manipulatorController.rightTrigger().getAsBoolean() ? -0.25 : 0), m_intake));
