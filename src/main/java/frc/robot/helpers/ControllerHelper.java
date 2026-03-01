@@ -25,14 +25,14 @@ public final class ControllerHelper {
         }
 
         public static final double leftTrigger() {
-            if (Math.abs(kManipulator.getLeftTriggerAxis()) < Constants.OperatorConstants.kDeadband) {
+            if (Math.abs(kManipulator.getLeftTriggerAxis()) < Constants.OperatorConstants.kDriveDeadband) {
                 return 0;
             }
             return kManipulator.getLeftTriggerAxis();
         }
 
         public static final double rightTrigger() {
-            if (Math.abs(kManipulator.getRightTriggerAxis()) < Constants.OperatorConstants.kDeadband) {
+            if (Math.abs(kManipulator.getRightTriggerAxis()) < Constants.OperatorConstants.kDriveDeadband) {
                 return 0;
             }
             return kManipulator.getRightTriggerAxis();
