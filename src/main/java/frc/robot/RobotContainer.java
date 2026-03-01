@@ -4,33 +4,44 @@
 
 package frc.robot;
 
-import frc.robot.helpers.ControllerHelper;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Intake;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
 
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
+import frc.robot.helpers.ControllerHelper;
+import frc.robot.Constants.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+
+import java.util.List;
+
+/*
+ * This class is where the bulk of the robot should be declared.  Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
+ * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  // The robot's subsystems
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Intake m_intake = new Intake();
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final BeltIndexer m_beltIndexer = new BeltIndexer();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // The driver's controller
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
 
@@ -40,54 +51,51 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
+    // Configure the button bindings
+    configureButtonBindings();
+
+    // Configure default commands
+    m_robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
+                false),
+            m_robotDrive));
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
+   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
+   * subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
+   * passing it to a
+   * {@link JoystickButton}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-
-    /* Intake Controls */
+    /* Drivetrain Keybinds */
+    m_driverController.x().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    m_driverController.a().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+    /* Belt Indexer Keybinds */
+    m_beltIndexer.setDefaultCommand(new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.x().getAsBoolean() ? 5 : 0), m_beltIndexer));
+    /* Intake Keybinds */
     m_intake.setDefaultCommand(
         new RunCommand(() -> m_intake.setIntakePower(m_driverController.rightBumper().getAsBoolean() ? -0.25 : 0), m_intake));
-    // m_driverController.a().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(0.1)));
-    // m_driverController.b().onTrue(new RunCommand(() -> m_intake.setIntakeAnglePower(-0.1)));
-    // m_intake.setDefaultCommand(
-    //     new RunCommand(() -> m_intake.setIntakeAnglePower(m_driverController.b().getAAPdeplsBoolean() ? -0.2 : 0), m_intake));
     m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
     m_driverController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
     m_driverController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
     m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
-  
-    // if (m_driverController.a().getAsBoolean() == true) {
-    //   m_intake.setIntakeAnglePower(0.1);
-    // }
-    
-    // if (m_driverController.b().getAsBoolean() == true) {
-    //   m_intake.setIntakeAnglePower(-0.1);
-    // }
+
+    /* Controller Binding Key */
 
     // For debugging and manually figuring out the intake angle encoder values
     // intakeAnglePos += m_manipulatorController.getRightY();
@@ -106,7 +114,43 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    // Create config for trajectory
+    TrajectoryConfig config = new TrajectoryConfig(
+        AutoConstants.kMaxSpeedMetersPerSecond,
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(DriveConstants.kDriveKinematics);
+
+    // An example trajectory to follow. All units in meters.
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing the +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(3, 0, new Rotation2d(0)),
+        config);
+
+    var thetaController = new ProfiledPIDController(
+        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+        exampleTrajectory,
+        m_robotDrive::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        m_robotDrive::setModuleStates,
+        m_robotDrive);
+
+    // Reset odometry to the starting pose of the trajectory.
+    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+
+    // Run path following command, then stop at the end.
+    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
   }
 }
