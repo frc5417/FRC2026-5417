@@ -21,11 +21,11 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double kDeadband = 0.25;
   }
-
-  public static class TurretConstants {
-    public static final int kYawMotorId = 50;
-    public static final double kYawP = 0;
-    public static final double kYawI = 0;
-    public static final double kYawD = 0;
+  
+   public static class Identification {
+    public static final int beltIndexerId = 57;
   }
+
+
+
 }

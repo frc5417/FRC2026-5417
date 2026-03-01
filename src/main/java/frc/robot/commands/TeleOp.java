@@ -5,17 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.BeltIndexer;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
-  private final Turret m_turret;
+  private final BeltIndexer m_beltIndexer;
 
   /** Creates a new TeleOp. */
-  public TeleOp(Turret turret) {
+  public TeleOp(BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.m_turret = turret;
+    this.m_beltIndexer = beltIndexer;
   }
 
   // Called when the command is initially scheduled.
@@ -26,6 +26,8 @@ public class TeleOp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+      m_beltIndexer.stopBeltIndexer();
+
 
   }
 
