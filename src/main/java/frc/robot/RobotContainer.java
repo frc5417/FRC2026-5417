@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.List;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -28,6 +26,8 @@ import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
+import java.util.List;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -37,12 +37,15 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   // The robot's subsystems
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Intake m_intake = new Intake();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final BeltIndexer m_beltIndexer = new BeltIndexer();
 
   // The driver's controller
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
+
+  double intakeAnglePos = 0.0;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -82,8 +85,27 @@ public class RobotContainer {
     m_driverController.a().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     /* Belt Indexer Keybinds */
     m_beltIndexer.setDefaultCommand(new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.x().getAsBoolean() ? 5 : 0), m_beltIndexer));
+    /* Intake Keybinds */
+    m_intake.setDefaultCommand(
+        new RunCommand(() -> m_intake.setIntakePower(m_driverController.rightBumper().getAsBoolean() ? -0.25 : 0), m_intake));
+    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
+    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
+    m_driverController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
+    m_driverController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
+    m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
+    m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
+
     /* Controller Binding Key */
 
+    // For debugging and manually figuring out the intake angle encoder values
+    // intakeAnglePos += m_manipulatorController.getRightY();
+    // m_intake.setIntakeAnglePos(intakeAnglePos);
+    // To be used once we figure out what set positions the intake angle motor needs
+    // to be:
+    // m_intake.setDefaultCommand(new RunCommand(() ->
+    // m_intake.setIntakeAnglePos(m_driverController.y().getAsBoolean() ?
+    // Constants.IntakeConstants.intakeUp : Constants.IntakeConstants.intakeFloor),
+    // m_intake));
   }
 
   /**

@@ -16,12 +16,13 @@ import frc.robot.subsystems.*;
 public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
   private final BeltIndexer m_beltIndexer;
+  private final Intake m_intake;
 
   /** Creates a new TeleOp. */
   public TeleOp(BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
-
     this.m_beltIndexer = beltIndexer;
+    this.m_intake = intake;
   }
 
   // Called when the command is initially scheduled.
@@ -33,6 +34,7 @@ public class TeleOp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intake.stopIntake();
     m_beltIndexer.stopBeltIndexer();
   }
 

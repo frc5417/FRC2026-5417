@@ -22,6 +22,12 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class HardwareConstants {
+    public static final int kNeo550CL = 20; // current limit for NEO 550s
+    public static final int kNeoCL = 50; // current limit for NEOs
+    public static final int kVortexCL = 60; // current limit for Vortexes
+  }
+
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
@@ -108,6 +114,27 @@ public final class Constants {
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
 
+  public static class Identification {
+    public static final int intakeId = 53;
+    public static final int intakeAngleId = 54;
+  }
+
+  public static class TurretConstants {
+    public static final int kYawMotorId = 50;
+    public static final double kYawP = 0;
+    public static final double kYawI = 0;
+    public static final double kYawD = 0;
+  }
+  public static class IntakeConstants {
+    // TODO: change the intakeFloor and intakeUp values because the intake starts stowed
+    public static final double intakeFloor = 0.0;
+    public static final double intakeUp = -1.3;
+
+    public static final double intakekP = 0.50;
+    public static final double intakekI = 0.0;
+    public static final double intakekD = 0.0;
+  }
+  
   public static final class VortexMotorConstants {
     public static final double kFreeSpeedRpm = 6784;
   }
@@ -119,7 +146,4 @@ public final class Constants {
    public static class Identification {
     public static final int beltIndexerId = 57;
   }
-
-
-
 }
