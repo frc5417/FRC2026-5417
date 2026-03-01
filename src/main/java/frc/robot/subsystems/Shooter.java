@@ -21,11 +21,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
   /* Variables */
   private final SparkFlex shooterParent = new SparkFlex(Constants.Identification.shooterParentId, MotorType.kBrushless);
-  private final SparkFlex shooterChild = new SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
+  // private final SparkFlex shooterChild = new SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
   private final RelativeEncoder shooterParentEncoder = shooterParent.getEncoder();
-  private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
+  // private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
   private SparkFlexConfig parentConfig = new SparkFlexConfig();
-  private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
+  // private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
 
   private SparkClosedLoopController parentPID;
 
@@ -38,9 +38,9 @@ public class Shooter extends SubsystemBase {
 
     shooterParent.configure(parentConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    shooterChildConfig.apply(parentConfig);
-    shooterChildConfig.follow(shooterParent, Constants.ShooterConstants.shooterChildInvert);
-    shooterChild.configure(shooterChildConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // shooterChildConfig.apply(parentConfig);
+    // shooterChildConfig.follow(shooterParent, Constants.ShooterConstants.shooterChildInvert);
+    // shooterChild.configure(shooterChildConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     parentPID = shooterParent.getClosedLoopController();
   }
@@ -49,10 +49,10 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     double parentRPM = Math.round(shooterParentEncoder.getVelocity());
-    double childRPM = Math.round(shooterChildEncoder.getVelocity());
+    // double childRPM = Math.round(shooterChildEncoder.getVelocity());
 
     SmartDashboard.putNumber("Shooter Parent RPM (55)", parentRPM);
-    SmartDashboard.putNumber("Shooter Child RPM (56)", childRPM);
+    // SmartDashboard.putNumber("Shooter Child RPM (56)", childRPM);
   }
 
   public void setShooterPower(double power) {

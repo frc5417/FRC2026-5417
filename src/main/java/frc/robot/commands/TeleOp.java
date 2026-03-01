@@ -20,7 +20,7 @@ public class TeleOp extends Command {
   private final Shooter m_shooter;
 
   /** Creates a new TeleOp. */
-  public TeleOp(BeltIndexer beltIndexer) {
+  public TeleOp(BeltIndexer beltIndexer, Intake intake, Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_beltIndexer = beltIndexer;
     this.m_intake = intake;

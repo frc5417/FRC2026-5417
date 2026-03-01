@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.helpers.ControllerHelper;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
@@ -37,14 +37,17 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Shooter m_shooter = new Shooter();
+  private final Turret m_turret = new Turret();
   private final Intake m_intake = new Intake();
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final Shooter m_shooter = new Shooter();
   private final BeltIndexer m_beltIndexer = new BeltIndexer();
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The driver's controller
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_manipulatorController = new CommandXboxController(
+      OperatorConstants.kManipulatorControllerPort);
 
   double intakeAnglePos = 0.0;
 
@@ -53,7 +56,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
+    configureBindings();
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -78,27 +81,32 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureBindings() {
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
     /* Drivetrain Keybinds */
     m_driverController.x().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
     m_driverController.a().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     /* Belt Indexer Keybinds */
-    m_beltIndexer.setDefaultCommand(new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.x().getAsBoolean() ? 5 : 0), m_beltIndexer));
+    m_beltIndexer.setDefaultCommand(new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.y().getAsBoolean() ? 5 : 0), m_beltIndexer));
     /* Intake Keybinds */
     m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakePower(m_driverController.rightBumper().getAsBoolean() ? -0.25 : 0), m_intake));
-    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
-    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
-    m_driverController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
-    m_driverController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
-    m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
-    m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
+        new RunCommand(() -> m_intake.setIntakePower(m_manipulatorController.rightTrigger().getAsBoolean() ? -0.25 : 0), m_intake));
+    // m_manipulatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
+    // m_manipulatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
+    // m_manipulatorController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
+    // m_manipulatorController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
+    m_manipulatorController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
+    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
+    /* Turret Keybinds */
+    m_manipulatorController.leftBumper().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.2), m_turret));
+    m_manipulatorController.rightBumper().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.2), m_turret));
     /* Shooter Keybinds */
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
     m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
     /* Controller Binding Key */
+    SmartDashboard.putString("Drivetrain", "X = Set X \n A = Zero Heading");
+    SmartDashboard.putString("Belt Indexer", "Y = Turn On");
+    SmartDashboard.putString("Intake (M)", "R Trigger = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+    SmartDashboard.putString("Turret (M)", "L Bumper = Turn One Way \n R Bumper = Turn Other Way");
+    SmartDashboard.putString("Shooter", "L Trigger = Turn On \n R Trigger = Turn Off");
 
     // For debugging and manually figuring out the intake angle encoder values
     // intakeAnglePos += m_manipulatorController.getRightY();

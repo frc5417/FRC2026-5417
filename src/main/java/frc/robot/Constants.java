@@ -22,6 +22,7 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  
   public static class HardwareConstants {
     public static final int kNeo550CL = 20; // current limit for NEO 550s
     public static final int kNeoCL = 50; // current limit for NEOs
@@ -115,13 +116,12 @@ public final class Constants {
   }
 
   public static class Identification {
+    public static final int turretId = 51;
+    public static final int beltIndexerId = 52;
     public static final int intakeId = 53;
     public static final int intakeAngleId = 54;
-  }
-
-  public static class Identification {
-    public static final int shooterParentId = 55;
-    public static final int shooterChildId = 56;
+    public static final int shooterParentId = 56;
+    // public static final int shooterChildId = 55;
   }
 
   public static class ShooterConstants {
@@ -131,7 +131,6 @@ public final class Constants {
     public static final double kD = 0;
   }
   public static class IntakeConstants {
-    // TODO: change the intakeFloor and intakeUp values because the intake starts stowed
     public static final double intakeFloor = 0.0;
     public static final double intakeUp = -1.3;
 
@@ -146,9 +145,5 @@ public final class Constants {
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
-  }
-  
-   public static class Identification {
-    public static final int beltIndexerId = 57;
   }
 }
