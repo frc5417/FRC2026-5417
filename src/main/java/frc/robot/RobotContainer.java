@@ -21,9 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.helpers.ControllerHelper;
 import frc.robot.Constants.*;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import java.util.List;
@@ -36,7 +34,6 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Turret m_turret = new Turret();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
