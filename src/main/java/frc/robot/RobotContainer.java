@@ -86,11 +86,7 @@ public class RobotContainer {
         new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.leftTrigger().getAsBoolean() ? -5 : 0), m_beltIndexer));
     /* Intake Keybinds */
     m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakePower(m_driverController.rightTrigger().getAsBoolean() ? -0.25 : 0), m_intake));
-    // m_manipulatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
-    // m_manipulatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
-    // m_manipulatorController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
-    // m_manipulatorController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
+        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.rightTrigger().getAsBoolean() ? -3 : 0), m_intake));
     m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
     /* Turret Keybinds */

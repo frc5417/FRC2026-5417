@@ -71,12 +71,8 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake Angle Revs", getIntakeAnglePos());
   }
 
-  public void setIntakePower(double power) {
-    intake.set(power);
-  }
-
-  public void setIntakeAnglePower(double power) {
-    intakeAngle.set(power);
+  public void setIntakeVoltage(double voltage) {
+    intake.setVoltage(voltage);
   }
 
   public void setIntakeAnglePos(double pos) {
@@ -85,20 +81,6 @@ public class Intake extends SubsystemBase {
 
   public double getIntakeAnglePos() {
     return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;
-  }
-
-  public void incrementIntakeAngleRPM(double sign) {
-    voltage += this.increment * sign;
-    // voltage = MathUtil.clamp(voltage, 0, 1);
-    intakeAngle.setVoltage(voltage);
-  }
-
-  public void incrementIntakeAngleValue() {
-    this.increment += 0.01;
-  }
-
-  public void decrementIntakeAngleValue() {
-    this.increment -= 0.01;
   }
 
   public void stopIntake() {
