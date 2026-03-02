@@ -83,40 +83,31 @@ public class RobotContainer {
   private void configureBindings() {
     /* Drivetrain Keybinds */
     m_driverController.x().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-    m_driverController.a().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+    m_driverController.start().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     /* Belt Indexer Keybinds */
-    m_beltIndexer.setDefaultCommand(new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.y().getAsBoolean() ? -5 : 0), m_beltIndexer));
+    m_beltIndexer.setDefaultCommand(
+        new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.y().getAsBoolean() ? -5 : 0), m_beltIndexer));
     /* Intake Keybinds */
     m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakePower(m_manipulatorController.rightTrigger().getAsBoolean() ? -0.25 : 0), m_intake));
+        new RunCommand(() -> m_intake.setIntakePower(m_driverController.rightTrigger().getAsBoolean() ? -0.25 : 0), m_intake));
     // m_manipulatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(0.2), m_intake));
     // m_manipulatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleRPM(-0.2), m_intake));
     // m_manipulatorController.a().whileTrue(new RunCommand(() -> m_intake.incrementIntakeAngleValue(), m_intake));
     // m_manipulatorController.b().whileTrue(new RunCommand(() -> m_intake.decrementIntakeAngleValue(), m_intake));
-    m_manipulatorController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
-    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
+    m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
+    m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
     /* Turret Keybinds */
-    m_manipulatorController.leftBumper().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.2), m_turret));
-    m_manipulatorController.rightBumper().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.2), m_turret));
+    m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.2), m_turret));
+    m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.2), m_turret));
     /* Shooter Keybinds */
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
     m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
     /* Controller Binding Key */
-    SmartDashboard.putString("Drivetrain", "X = Set X \n A = Zero Heading");
+    SmartDashboard.putString("Drivetrain", "X = Set X \n Start = Zero Heading");
     SmartDashboard.putString("Belt Indexer", "Y = Turn On");
-    SmartDashboard.putString("Intake (M)", "R Trigger = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
-    SmartDashboard.putString("Turret (M)", "L Bumper = Turn One Way \n R Bumper = Turn Other Way");
+    SmartDashboard.putString("Intake", "R Trigger = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+    SmartDashboard.putString("Turret", "L Bumper = Turn One Way \n R Bumper = Turn Other Way");
     SmartDashboard.putString("Shooter", "L Trigger = Turn On \n R Trigger = Turn Off");
-
-    // For debugging and manually figuring out the intake angle encoder values
-    // intakeAnglePos += m_manipulatorController.getRightY();
-    // m_intake.setIntakeAnglePos(intakeAnglePos);
-    // To be used once we figure out what set positions the intake angle motor needs
-    // to be:
-    // m_intake.setDefaultCommand(new RunCommand(() ->
-    // m_intake.setIntakeAnglePos(m_driverController.y().getAsBoolean() ?
-    // Constants.IntakeConstants.intakeUp : Constants.IntakeConstants.intakeFloor),
-    // m_intake));
   }
 
   /**

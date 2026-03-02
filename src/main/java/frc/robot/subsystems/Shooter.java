@@ -51,8 +51,8 @@ public class Shooter extends SubsystemBase {
     double parentRPM = Math.round(shooterParentEncoder.getVelocity());
     // double childRPM = Math.round(shooterChildEncoder.getVelocity());
 
-    SmartDashboard.putNumber("Shooter Parent RPM (55)", parentRPM);
-    // SmartDashboard.putNumber("Shooter Child RPM (56)", childRPM);
+    SmartDashboard.putNumber("Shooter Parent RPM (56)", parentRPM);
+    // SmartDashboard.putNumber("Shooter Child RPM (55)", childRPM);
   }
 
   public void setShooterPower(double power) {
@@ -62,7 +62,6 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocity(double velocity) {
     parentPID.setSetpoint(velocity, ControlType.kVelocity);
-
   }
 
   public void setShooterVoltage(double voltage) {

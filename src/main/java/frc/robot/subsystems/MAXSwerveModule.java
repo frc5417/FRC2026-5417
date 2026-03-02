@@ -149,7 +149,7 @@ public class MAXSwerveModule extends SubsystemBase {
    */
   public void setAnglePID(double[] pid) {
     if (pid.length != 3) {
-      // TODO: add logging
+      // TODO: add swerve angle logging
       return;
     }
 
@@ -170,7 +170,7 @@ public class MAXSwerveModule extends SubsystemBase {
    */
   public void setDrivePID(double[] pid) {
     if (pid.length != 3) {
-      // TODO: add logging
+      // TODO: add swerve drive logging
       return;
     }
 
