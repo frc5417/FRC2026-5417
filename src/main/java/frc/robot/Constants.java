@@ -122,6 +122,7 @@ public final class Constants {
     public static final int intakeAngleId = 54;
     public static final int shooterParentId = 56;
     // public static final int shooterChildId = 55;
+    public static final int pigeonId = 59;
   }
 
   public static class ShooterConstants {
@@ -130,6 +131,7 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
   }
+
   public static class IntakeConstants {
     public static final double intakeFloor = 0.0;
     public static final double intakeUp = -1.3;
