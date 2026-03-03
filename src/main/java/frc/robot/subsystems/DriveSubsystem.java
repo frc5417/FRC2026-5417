@@ -62,15 +62,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_PoseEstimator.update(
-        Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        });
-
     LimelightHelpers.SetRobotOrientation(Constants.LimelightConstants.kRobotCamName,
         m_pigeon.getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
     LimelightHelpers.PoseEstimate mt2 = LimelightHelpers
@@ -79,6 +70,15 @@ public class DriveSubsystem extends SubsystemBase {
     if (mt2.tagCount != 0) { // if there is any number of tags, add measurement.
       m_PoseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
     }
+
+    m_PoseEstimator.update(
+        Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()),
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+        });
 
   }
 
