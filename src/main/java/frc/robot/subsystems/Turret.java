@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -48,9 +49,12 @@ public class Turret extends SubsystemBase {
 
   /**
    * 
-   * @param pos rotations of motor
+   * @param pos degrees
    */
   public void runToPos(double pos) {
+    pos = MathUtil.inputModulus(pos, -180, 180); // smallest possible angle
+    // limit angle range
+    pos = MathUtil.clamp(pos, Constants.TurretConstants.kLowBound, Constants.TurretConstants.kUpBound);
     yawPID.setSetpoint(pos, ControlType.kPosition);
   }
 

@@ -29,6 +29,7 @@ public class TurretTracking extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /* Geometric stuffs */
     double yaw = 0; // TODO: replace w/ method that gets robot yaw
     // TODO: get current position
     double deltaX = 1;

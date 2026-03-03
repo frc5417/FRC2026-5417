@@ -28,6 +28,8 @@ public final class Constants {
     public static final double kD = 0;
 
     public static final double kPosFactor = 40; // pos will be in degrees
+    public static final double kLowBound = 0;
+    public static final double kUpBound = 0;
   }
 
   public static class Identification {
