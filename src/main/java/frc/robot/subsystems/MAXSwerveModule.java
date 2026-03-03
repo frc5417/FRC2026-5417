@@ -168,20 +168,22 @@ public class MAXSwerveModule extends SubsystemBase {
    * 
    * @param pid in the array of { kP, kI, kD }
    */
-  public void setDrivePID(double[] pid) {
-    if (pid.length != 3) {
-      // TODO: add swerve drive logging
-      return;
-    }
+  // public void setDrivePID(double[] pid) {
+  // if (pid.length != 3) {
+  // // TODO: add swerve drive logging
+  // return;
+  // }
 
-    SparkFlexConfig flexConfig = new SparkFlexConfig();
+  // SparkFlexConfig flexConfig = new SparkFlexConfig();
 
-    flexConfig.apply(Configs.MAXSwerveModule.drivingConfig).closedLoop.pid(pid[0], pid[1], pid[2]);
-    m_drivingSpark.configure(flexConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+  // flexConfig.apply(Configs.MAXSwerveModule.drivingConfig).closedLoop.pid(pid[0],
+  // pid[1], pid[2]);
+  // m_drivingSpark.configure(flexConfig, ResetMode.kResetSafeParameters,
+  // PersistMode.kNoPersistParameters);
 
-    m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();
-    drivePID = pid;
-  }
+  // m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();
+  // drivePID = pid;
+  // }
 
   public double[] getDrivePID() {
     return drivePID;
