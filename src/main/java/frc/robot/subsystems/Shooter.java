@@ -18,6 +18,7 @@ import com.revrobotics.servohub.ServoHub;
 import com.revrobotics.servohub.ServoChannel.ChannelId;
 import com.revrobotics.servohub.ServoChannel;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,7 +30,7 @@ public class Shooter extends SubsystemBase {
   // private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
   private SparkFlexConfig parentConfig = new SparkFlexConfig();
   // private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
-  private ServoHub servoHub = new ServoHub(60);
+  private ServoHub servoHub = new ServoHub(Constants.Identification.servoHubID);
   private ServoChannel servoLeft = servoHub.getServoChannel(ChannelId.kChannelId0);
   private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
 
@@ -81,14 +82,16 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setServoLeftPosition(int position) {
+    position = MathUtil.clamp(position, 500, 2500);
     servoLeft.setPowered(true);
     servoLeft.setEnabled(true);
     servoLeft.setPulseWidth(position);
   }
 
   public void setServoRightPosition(int position) { //1500 microseconds = move to center
+    position = MathUtil.clamp(position, 500, 2500);
     servoRight.setPowered(true);
     servoRight.setEnabled(true);
-    servoRight.setPulseWidth(position);
+    servoRight.setPulseWidth(position);// position set between 500-2500 microseconds
   }
 }
