@@ -135,7 +135,7 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static final double intakeFloor = 0.0;
-    public static final double intakeUp = -1.3;
+    public static final double intakeUp = -1.5;
 
     public static final double intakekP = 0.50;
     public static final double intakekI = 0.0;

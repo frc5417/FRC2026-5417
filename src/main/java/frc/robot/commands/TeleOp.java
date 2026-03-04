@@ -15,16 +15,16 @@ import frc.robot.subsystems.*;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
-  private final BeltIndexer m_beltIndexer;
   private final Intake m_intake;
   private final Shooter m_shooter;
+  private final BeltIndexer m_beltIndexer;
 
   /** Creates a new TeleOp. */
-  public TeleOp(BeltIndexer beltIndexer, Intake intake, Shooter shooter) {
+  public TeleOp(Intake intake, Shooter shooter, BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_beltIndexer = beltIndexer;
     this.m_intake = intake;
     this.m_shooter = shooter;
+    this.m_beltIndexer = beltIndexer;
   }
 
   // Called when the command is initially scheduled.
@@ -36,15 +36,14 @@ public class TeleOp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.stopIntake();
-    m_beltIndexer.stopBeltIndexer();
-    m_shooter.stopShooter();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_intake.stopIntake();
     m_shooter.stopShooter();
+    m_beltIndexer.stopBeltIndexer();
   }
 
   // Returns true when the command should end.
