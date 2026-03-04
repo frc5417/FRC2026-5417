@@ -123,6 +123,8 @@ public final class Constants {
     public static final int shooterParentId = 56;
     // public static final int shooterChildId = 55;
     public static final int pigeonId = 59;
+    private static final int servoLeftID = 60;
+    private static final int servoRightID = 61;
   }
 
   public static class ShooterConstants {

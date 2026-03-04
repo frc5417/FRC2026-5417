@@ -14,6 +14,9 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.servohub.ServoHub;
+import com.revrobotics.servohub.ServoChannel.ChannelId;
+import com.revrobotics.servohub.ServoChannel;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +29,10 @@ public class Shooter extends SubsystemBase {
   // private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
   private SparkFlexConfig parentConfig = new SparkFlexConfig();
   // private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
+  private ServoHub servoHub = new ServoHub(60);
+  private ServoChannel servoLeft = servoHub.getServoChannel(ChannelId.kChannelId0);
+  private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
+
 
   private SparkClosedLoopController parentPID;
 
@@ -71,5 +78,11 @@ public class Shooter extends SubsystemBase {
 
   public void stopShooter() {
     shooterParent.setVoltage(0);
+  }
+
+  public void setServoLeftPosition(int position) {
+    servoLeft.setPowered(true);
+    servoLeft.setEnabled(true);
+    servoLeft.setPulseWidth(position);
   }
 }
