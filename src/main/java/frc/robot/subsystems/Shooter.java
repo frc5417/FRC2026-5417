@@ -85,4 +85,10 @@ public class Shooter extends SubsystemBase {
     servoLeft.setEnabled(true);
     servoLeft.setPulseWidth(position);
   }
+
+  public void setServoRightPosition(int position) { //1500 microseconds = move to center
+    servoRight.setPowered(true);
+    servoRight.setEnabled(true);
+    servoRight.setPulseWidth(position);
+  }
 }
