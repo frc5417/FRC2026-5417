@@ -64,7 +64,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
-                false),
+                true),
             m_robotDrive));
   }
 
@@ -90,8 +90,8 @@ public class RobotContainer {
     m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
     /* Turret Keybinds */
-    m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.2), m_turret));
-    m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.2), m_turret));
+    // m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.2), m_turret));
+    // m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.2), m_turret));
     /* Shooter Keybinds */
     m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
@@ -99,8 +99,8 @@ public class RobotContainer {
     SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");
     SmartDashboard.putString("Belt Indexer", "L Trigger = Turn On");
     SmartDashboard.putString("Intake", "R Trigger = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
-    SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
-    // SmartDashboard.putString("Turret", "stop touching it.");
+    // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
+    SmartDashboard.putString("Turret", "stop touching it.");
     SmartDashboard.putString("Shooter", "L Bumper = Turn On \n R Bumper = Turn Off");
   }
 
