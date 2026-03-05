@@ -80,7 +80,7 @@ public class RobotContainer {
   private void configureBindings() {
     /* Drivetrain Keybinds */
     // m_driverController.a().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-    // m_driverController.start().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+    m_driverController.start().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     /* Belt Indexer Keybinds */
     m_beltIndexer.setDefaultCommand(
         new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.leftTrigger().getAsBoolean() ? -5 : 0), m_beltIndexer));
@@ -90,17 +90,17 @@ public class RobotContainer {
     m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
     /* Turret Keybinds */
-    // m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.2), m_turret));
-    // m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.2), m_turret));
+    m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.2), m_turret));
+    m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.2), m_turret));
     /* Shooter Keybinds */
     m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
     /* Controller Binding Key */
-    SmartDashboard.putString("Drivetrain", "A = Set X \n Start = Zero Heading");
+    SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");
     SmartDashboard.putString("Belt Indexer", "L Trigger = Turn On");
     SmartDashboard.putString("Intake", "R Trigger = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
-    // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
-    SmartDashboard.putString("Turret", "stop touching it.");
+    SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
+    // SmartDashboard.putString("Turret", "stop touching it.");
     SmartDashboard.putString("Shooter", "L Bumper = Turn On \n R Bumper = Turn Off");
   }
 
