@@ -14,7 +14,6 @@ public class TeleOp extends Command {
   /** Creates a new TeleOp. */
   public TeleOp(Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
-
     this.m_turret = turret;
   }
 
