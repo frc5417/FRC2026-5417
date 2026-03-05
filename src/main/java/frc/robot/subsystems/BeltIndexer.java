@@ -10,18 +10,18 @@ import frc.robot.Constants;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BeltIndexer extends SubsystemBase {
   /* Variables */
-  private final SparkFlex beltIndexer = new SparkFlex(Constants.Identification.beltIndexerId, MotorType.kBrushless);
+  private final SparkMax beltIndexer = new SparkMax(Constants.Identification.beltIndexerId, MotorType.kBrushless);
   private final RelativeEncoder beltIndexerEncoder = beltIndexer.getEncoder();
-  private SparkFlexConfig beltIndexerConfig = new SparkFlexConfig();
+  private SparkMaxConfig beltIndexerConfig = new SparkMaxConfig();
 
   /** Creates a new Belt Indexer. */
   public BeltIndexer() {
