@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import com.revrobotics.servohub.ServoChannel;
+
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,14 +21,22 @@ public class TeleOp extends Command {
   private final Intake m_intake;
   private final Shooter m_shooter;
   private final BeltIndexer m_beltIndexer;
+  private final Shooter m_servoHub;
+  private final ServoChannel m_servoLeft;
+  private final ServoChannel m_servoRight;
+
 
   /** Creates a new TeleOp. */
-  public TeleOp(Turret turret, Intake intake, Shooter shooter, BeltIndexer beltIndexer) {
+  public TeleOp(Turret turret, Intake intake, Shooter shooter, BeltIndexer beltIndexer, Shooter servoHub, ServoChannel servoLeft, ServoChannel servoRight) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_turret = turret;
     this.m_intake = intake;
     this.m_shooter = shooter;
     this.m_beltIndexer = beltIndexer;
+    this.m_servoHub = servoHub;
+    this.m_servoLeft = servoLeft;
+    this.m_servoRight = servoRight;
+
   }
 
   // Called when the command is initially scheduled.
@@ -39,6 +49,8 @@ public class TeleOp extends Command {
   @Override
   public void execute() {
     m_turret.setTurretPower(0);
+    m_servoLeft.setPulseWidth(1500);
+  
   }
 
   // Called once the command ends or is interrupted.

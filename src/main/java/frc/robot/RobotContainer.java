@@ -93,15 +93,16 @@ public class RobotContainer {
     // m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.05), m_turret));
     // m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.05), m_turret));
     /* Shooter Keybinds */
-    m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(6000), m_shooter));
-    m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
+    // m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(6000), m_shooter));
+    // m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
+
     /* Controller Binding Key */
-    SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");
-    SmartDashboard.putString("Belt Indexer", "L Trigger = Turn On");
-    SmartDashboard.putString("Intake", "R Trigger = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
-    // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
-    SmartDashboard.putString("Turret", "stop touching it.");
-    SmartDashboard.putString("Shooter", "L Bumper = Turn On \n R Bumper = Turn Off");
+    // SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");
+    // SmartDashboard.putString("Belt Indexer", "L Trigger = Turn On");
+    // SmartDashboard.putString("Intake", "R Trigger = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+    // // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
+    // SmartDashboard.putString("Turret", "stop touching it.");
+    // SmartDashboard.putString("Shooter", "L Bumper = Turn On \n R Bumper = Turn Off");
   }
 
   /**

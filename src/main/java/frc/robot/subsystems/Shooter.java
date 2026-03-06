@@ -19,6 +19,7 @@ import com.revrobotics.servohub.ServoChannel.ChannelId;
 import com.revrobotics.servohub.ServoChannel;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -35,6 +36,10 @@ public class Shooter extends SubsystemBase {
   private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
 
   private SparkClosedLoopController parentPID;
+
+  private double voltage = 0.0;
+  private double increment = 0.0;
+  private double rpm = 0;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -53,13 +58,21 @@ public class Shooter extends SubsystemBase {
   }
 
   @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.addDoubleProperty("Shooter RPM", ()-> rpm, (double val) -> setVelocity(val));
+  }
+
+  @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double parentRPM = Math.round(shooterParentEncoder.getVelocity());
+    // double parentRPM = Math.round(shooterParentEncoder.getVelocity());
     // double childRPM = Math.round(shooterChildEncoder.getVelocity());
 
-    SmartDashboard.putNumber("Shooter Parent RPM (56)", parentRPM);
+    // SmartDashboard.putNumber("Shooter Parent RPM (56)", parentRPM);
+
     // SmartDashboard.putNumber("Shooter Child RPM (55)", childRPM);
+    SmartDashboard.putData(this);
+    
   }
 
   public void setShooterPower(double power) {
@@ -69,6 +82,7 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocity(double velocity) {
     parentPID.setSetpoint(velocity, ControlType.kVelocity);
+    rpm = velocity;
   }
 
   public void setShooterVoltage(double voltage) {
@@ -79,6 +93,20 @@ public class Shooter extends SubsystemBase {
   public void stopShooter() {
     shooterParent.setVoltage(0);
   }
+
+  // public void incrementShooterRPM(int sign) {
+  //   voltage += this.increment*sign;
+  //   shooterParent.setVoltage(voltage);
+  // }
+  // public void decrementShooter() {
+  //   this.increment -= 0.01;
+  // }
+
+  // public void incrementShooter() {
+  //   this.increment += 0.01;
+  // }
+
+
 
   public void setServoLeftPosition(int position) {
     position = MathUtil.clamp(position, 500, 2500);
