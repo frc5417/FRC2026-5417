@@ -39,6 +39,7 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final BeltIndexer m_beltIndexer = new BeltIndexer();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final Shooter m_servorHub = new Shooter();
 
   // The driver's controller
   private final CommandXboxController m_driverController = new CommandXboxController(
@@ -95,6 +96,11 @@ public class RobotContainer {
     /* Shooter Keybinds */
     m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
+   /* Servo Keybinds */
+    m_manipulatorController.x().whileTrue(new RunCommand(() -> m_servorHub.setServoLeftPosition(500), m_servorHub));
+    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_servorHub.setServoRightPosition(500), m_servorHub));
+
+
     /* Controller Binding Key */
     SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");
     SmartDashboard.putString("Belt Indexer", "L Trigger = Turn On");
