@@ -86,14 +86,14 @@ public class RobotContainer {
         new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.leftTrigger().getAsBoolean() ? -5 : 0), m_beltIndexer));
     /* Intake Keybinds */
     m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.rightTrigger().getAsBoolean() ? -4.5 : 0), m_intake));
+        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.rightTrigger().getAsBoolean() ? -4 : 0), m_intake));
     m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
     /* Turret Keybinds */
     // m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.05), m_turret));
     // m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.05), m_turret));
     /* Shooter Keybinds */
-    m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
+    m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(6000), m_shooter));
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
     /* Controller Binding Key */
     SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");

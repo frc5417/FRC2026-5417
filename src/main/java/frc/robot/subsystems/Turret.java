@@ -8,6 +8,8 @@ import frc.robot.Constants;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -18,16 +20,26 @@ public class Turret extends SubsystemBase {
   /* Variables */
   private final SparkMax turret = new SparkMax(Constants.Identification.turretId, MotorType.kBrushless);
   private SparkMaxConfig turretConfig = new SparkMaxConfig();
+  private SparkClosedLoopController turretPID;
 
   /** Creates a new VortexSubsystem. */
   public Turret() {
-    turretConfig.smartCurrentLimit(Constants.HardwareConstants.kNeoCL);
+    turretConfig.smartCurrentLimit(Constants.HardwareConstants.kNeoCL)
+                .closedLoop.pid(Constants.TurretConstants.turretkP,
+                                Constants.TurretConstants.turretkI,
+                                Constants.TurretConstants.turretkD);
     turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    turretPID = turret.getClosedLoopController();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void setTurretPos(double pos) {
+    turretPID.setSetpoint(pos, ControlType.kPosition);
   }
   
   public void setTurretPower(double power) {

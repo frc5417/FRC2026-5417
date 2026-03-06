@@ -120,7 +120,7 @@ public final class Constants {
     public static final int beltIndexerId = 52;
     public static final int intakeId = 53;
     public static final int intakeAngleId = 54;
-    public static final int shooterParentId = 56;
+    public static final int shooterParentId = 55;
     // public static final int shooterChildId = 55;
     public static final int pigeonId = 59;
     public static final int servoHubID = 60;
@@ -128,7 +128,7 @@ public final class Constants {
 
   public static class ShooterConstants {
     public static final boolean shooterChildInvert = true;
-    public static final double kP = 0.0002;
+    public static final double kP = 0.03;
     public static final double kI = 0;
     public static final double kD = 0;
   }
@@ -140,6 +140,12 @@ public final class Constants {
     public static final double intakekP = 0.50;
     public static final double intakekI = 0.0;
     public static final double intakekD = 0.0;
+  }
+  
+  public static class TurretConstants {
+    public static final double turretkP = 0.01;
+    public static final double turretkI = 0;
+    public static final double turretkD = 0;
   }
   
   public static final class VortexMotorConstants {
