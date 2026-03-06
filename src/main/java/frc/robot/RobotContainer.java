@@ -13,6 +13,15 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import frc.robot.helpers.ControllerHelper;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
+import frc.robot.subsystems.*;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -34,6 +43,7 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
+  // The robot's subsystems and commands are defined here...
   private final Turret m_turret = new Turret();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
@@ -48,6 +58,8 @@ public class RobotContainer {
       OperatorConstants.kManipulatorControllerPort);
 
   double intakeAnglePos = 0.0;
+
+  private final SendableChooser<Command> autoChooser;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -67,6 +79,9 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
                 true),
             m_robotDrive));
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -108,6 +123,8 @@ public class RobotContainer {
     // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
     SmartDashboard.putString("Turret", "stop touching it.");
     SmartDashboard.putString("Shooter", "L Bumper = Turn On \n R Bumper = Turn Off");
+    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.runPower(
+        ControllerHelper.Manipulator.rightTrigger() - ControllerHelper.Manipulator.leftTrigger()), m_turret));
   }
 
   /**
@@ -154,5 +171,6 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    return autoChooser.getSelected();
   }
 }

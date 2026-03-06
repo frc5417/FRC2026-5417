@@ -25,6 +25,7 @@ public class TeleOp extends Command {
     this.m_intake = intake;
     this.m_shooter = shooter;
     this.m_beltIndexer = beltIndexer;
+    this.m_turret = turret;
   }
 
   // Called when the command is initially scheduled.
