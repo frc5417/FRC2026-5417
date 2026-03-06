@@ -34,7 +34,6 @@ public class Shooter extends SubsystemBase {
   private ServoChannel servoLeft = servoHub.getServoChannel(ChannelId.kChannelId0);
   private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
 
-
   private SparkClosedLoopController parentPID;
 
   /** Creates a new Shooter. */
