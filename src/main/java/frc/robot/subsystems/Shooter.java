@@ -111,7 +111,7 @@ public class Shooter extends SubsystemBase {
     servoLeft.setPowered(true);
     servoLeft.setEnabled(true);
     servoIncrement += this.increment*sign;
-    servoPos = servoPos + servoIncrement;
+    servoPos = servoPos + servoIncrement; // servi\oPos += 
     servoPos = MathUtil.clamp(servoPos, 500, 2500);
     servoLeft.setPulseWidth(servoPos);
   }
