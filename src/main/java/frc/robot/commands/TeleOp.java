@@ -43,13 +43,14 @@ public class TeleOp extends Command {
   @Override
   public void initialize() {
     SmartDashboard.putData("Field", m_field);
+    m_servoLeft.setPulseWidth(1500);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_turret.setTurretPower(0);
-    m_servoLeft.setPulseWidth(1500);
+    m_turret.setTurretPos(0);
   
   }
 
