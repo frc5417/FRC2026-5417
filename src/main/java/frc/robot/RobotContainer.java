@@ -4,22 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import frc.robot.helpers.ControllerHelper;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.subsystems.*;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,10 +14,23 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import frc.robot.Constants.*;
+import frc.robot.subsystems.*;
+import frc.robot.commands.Autos;
 import frc.robot.subsystems.*;
 
 import java.util.List;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -114,8 +111,6 @@ public class RobotContainer {
    /* Servo Keybinds */
     m_manipulatorController.x().whileTrue(new RunCommand(() -> m_servorHub.setServoLeftPosition(500), m_servorHub));
     m_manipulatorController.y().whileTrue(new RunCommand(() -> m_servorHub.setServoRightPosition(500), m_servorHub));
-
-
     /* Controller Binding Key */
     SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");
     SmartDashboard.putString("Belt Indexer", "L Trigger = Turn On");
@@ -123,8 +118,6 @@ public class RobotContainer {
     // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
     SmartDashboard.putString("Turret", "stop touching it.");
     SmartDashboard.putString("Shooter", "L Bumper = Turn On \n R Bumper = Turn Off");
-    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.runPower(
-        ControllerHelper.Manipulator.rightTrigger() - ControllerHelper.Manipulator.leftTrigger()), m_turret));
   }
 
   /**
@@ -171,6 +164,5 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
-    return autoChooser.getSelected();
   }
 }
