@@ -4,33 +4,47 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.*;
+
+/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+  /** Creates a new TeleOp. */
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
-  private final Turret m_turret;
+  private final Field2d m_field = new Field2d();
+  private final Intake m_intake;
+  private final Shooter m_shooter;
+  private final BeltIndexer m_beltIndexer;
 
   /** Creates a new TeleOp. */
-  public TeleOp(Turret turret) {
+  public TeleOp(Intake intake, Shooter shooter, BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.m_intake = intake;
+    this.m_shooter = shooter;
+    this.m_beltIndexer = beltIndexer;
     this.m_turret = turret;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putData("Field", m_field);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_intake.stopIntake();
+    m_shooter.stopShooter();
+    m_beltIndexer.stopBeltIndexer();
   }
 
   // Returns true when the command should end.
