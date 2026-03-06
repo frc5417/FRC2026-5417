@@ -47,6 +47,25 @@ public final class Constants {
 
   public static class Identification {
     public static final int kTurretId = 50;
-    public static final int climberId = 51;
+    public static final int climberId = 59;
+  }
+
+  public static class ClimberConstants {
+    // Motor configuration
+    public static final boolean inverted = false;
+    public static final int currentLimit = 40;
+
+    // PID Constants
+    public static final double kClimberP = 0.1;
+    public static final double kClimberI = 0.0;
+    public static final double kClimberD = 0.0;
+
+    // Positions - subject to change based on measurements
+    public static final double extendPosition = 100;
+    public static final double retractPosition = 0;
+ 
+
+
+
   }
 }

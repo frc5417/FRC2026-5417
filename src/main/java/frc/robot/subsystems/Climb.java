@@ -10,28 +10,41 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkClosedLoopController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Climb extends SubsystemBase{
-    private final SparkMax climber = new SparkMax(Constants.Identification.climberId, MotorType.kBrushless);
+   
+    private final SparkMax climber = 
+        new SparkMax(Constants.Identification.climberId, MotorType.kBrushless);
+    
     private final RelativeEncoder climberEncoder = climber.getEncoder();
+    
     private SparkMaxConfig climberConfig = new SparkMaxConfig();
+    
+    private final SparkClosedLoopController controller = 
+        climber.getClosedLoopController();
 
     public Climb() {
 
-        
-    climberConfig
-        .idleMode(SparkMaxConfig.IdleMode.kBrake)
-        .smartCurrentLimit(40)
-        .inverted(false);
+        climberConfig
+            .idleMode(com.revrobotics.spark.config.SparkBaseConfig.IdleMode.kBrake)
+            .smartCurrentLimit(Constants.ClimberConstants.currentLimit);
 
-        climber.configure(
-            climberConfig, 
+        climberConfig.closedLoop
+        .p(Constants.ClimberConstants.kClimberP, ClosedLoopSlot.kSlot0)
+        .i(Constants.ClimberConstants.kClimberI, ClosedLoopSlot.kSlot0)
+        .d(Constants.ClimberConstants.kClimberD, ClosedLoopSlot.kSlot0)
+        .outputRange(-1.0, 1.0, ClosedLoopSlot.kSlot0);
+
+        climber.configure(climberConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kPersistParameters
     );
@@ -39,12 +52,15 @@ public class Climb extends SubsystemBase{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Climber RPM", climberEncoder.getVelocity());
+        SmartDashboard.putNumber("Climber Velocty", climberEncoder.getVelocity());
         SmartDashboard.putNumber("Climber Position", climberEncoder.getPosition());
     }
 
-    public void setClimbVoltage(double voltage) {
-        climber.setVoltage(voltage);
+ 
+    @SuppressWarnings("removal")
+    public void setPosition(double position) {
+        
+        controller.setReference(position, ControlType.kPosition);
     }
 
     public void runClimber(double voltage) {
@@ -52,7 +68,7 @@ public class Climb extends SubsystemBase{
     }
 
     public void stop() {
-        climber.stopMotor();
+        climber.setVoltage(0);
     }
 
     public void resetEncoder() {
