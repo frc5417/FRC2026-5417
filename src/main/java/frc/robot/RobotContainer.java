@@ -22,6 +22,7 @@ import frc.robot.commands.Autos;
 import frc.robot.subsystems.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -107,6 +108,16 @@ public class RobotContainer {
     // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
     SmartDashboard.putString("Turret", "stop touching it.");
     SmartDashboard.putString("Shooter", "L Bumper = Turn On \n R Bumper = Turn Off");
+  }
+
+  /**
+   * Registers commands for use in PathPlanner.
+   */
+  private void registerNamedCommands() {
+    // NamedCommands.registerCommand(null, teleOpDrive);
+    // NamedCommands.registerCommand("Run Coral", new RunCoral(m_coralIntake, Constants.CoralConstants.kCoralPercent).withTimeout(3));
+    // NamedCommands.registerCommand("Run Elevator Minimum", new RunElevator(m_elevator, Constants.ElevatorConstants.elevatorMin).withTimeout(2));
+    // NamedCommands.registerCommand("Run Elevator L4", new RunElevator(m_elevator, Constants.ElevatorConstants.elevatorL4).withTimeout(2));
   }
 
   /**
