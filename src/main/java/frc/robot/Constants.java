@@ -23,9 +23,30 @@ public final class Constants {
   }
 
   public static class TurretConstants {
-    public static final int kYawMotorId = 50;
-    public static final double kYawP = 0;
-    public static final double kYawI = 0;
-    public static final double kYawD = 0;
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    
+    public static final double kLowBound = 0;
+    public static final double kUpBound = 0;
+
+    public static final int kHeadingMotorId = 51;
+    public static final double kHeadingGearRatio = 1.0 / 16.0;
+    public static final double kHeadingTxMultiplier = 0.2;
+    public static final double kHeadingTolerance = 1;
+    public static final double kHeadingP = 0.002;
+    public static final double kHeadingI = 0;
+    public static final double kHeadingD = 0;
+
+    public static final double kPosFactor = kHeadingGearRatio * 360.0; // pos will be in degrees
+
+    public static final double dZ = 0.595; // how much distance into the april tag
+    public static final double dZ2 = 0.354025;
+  }
+
+  public static class Identification {
+    public static final int kTurretId = 50;
+    public static final int climberId = 51;
   }
 }
