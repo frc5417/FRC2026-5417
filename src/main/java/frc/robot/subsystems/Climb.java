@@ -17,26 +17,53 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
-public class Climb {
+public class Climb extends SubsystemBase{
     private final SparkMax climber = new SparkMax(Constants.Identification.climberId, MotorType.kBrushless);
     private final RelativeEncoder climberEncoder = climber.getEncoder();
     private SparkMaxConfig climberConfig = new SparkMaxConfig();
 
     public Climb() {
-        climber.configure(climberConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        
-    }
 
+        
+    climberConfig
+        .idleMode(SparkMaxConfig.IdleMode.kBrake)
+        .smartCurrentLimit(40)
+        .inverted(false);
+
+        climber.configure(
+            climberConfig, 
+            ResetMode.kResetSafeParameters, 
+            PersistMode.kPersistParameters
+    );
+}
+
+    @Override
     public void periodic() {
-        double RPM = Math.round(climberEncoder.getVelocity());
-        SmartDashboard.putNumber("Climber RPM", RPM);
+        SmartDashboard.putNumber("Climber RPM", climberEncoder.getVelocity());
+        SmartDashboard.putNumber("Climber Position", climberEncoder.getPosition());
     }
 
     public void setClimbVoltage(double voltage) {
         climber.setVoltage(voltage);
     }
 
-    public void stopClimb() {
-        climber.setVoltage(0);
+    public void runClimber(double voltage) {
+        climber.setVoltage(voltage);
+    }
+
+    public void stop() {
+        climber.stopMotor();
+    }
+
+    public void resetEncoder() {
+        climberEncoder.setPosition(0);
+    }
+
+    public double getRPM() {
+        return climberEncoder.getVelocity();
+    }
+
+    public double getPosition() {
+        return climberEncoder.getPosition();
     }
 }
