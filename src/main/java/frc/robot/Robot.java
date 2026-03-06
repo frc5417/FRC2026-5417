@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import com.revrobotics.servohub.ServoHub;
-import com.revrobotics.servohub.config.ServoChannelConfig;
-import com.revrobotics.servohub.config.ServoHubConfig;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
