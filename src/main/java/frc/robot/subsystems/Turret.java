@@ -25,6 +25,10 @@ public class Turret extends SubsystemBase {
   private SparkMaxConfig yawMotorConfig = new SparkMaxConfig();
   private final AbsoluteEncoder encoder;
 
+  
+  private static final double MIN_YAW = -20;
+  private static final double MAX_YAW = 20;
+  private static final double YAW_TOLERANCE = 1;
   /** Creates a new Turret. */
   public Turret() {
     /* Yaw Motor Configuration */
@@ -38,6 +42,7 @@ public class Turret extends SubsystemBase {
     yawMotor.configure(yawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     yawPID = yawMotor.getClosedLoopController();
     encoder = yawMotor.getAbsoluteEncoder();
+
 
   }
 
@@ -59,7 +64,15 @@ public class Turret extends SubsystemBase {
   }
 
   public void runPower(double pow) {
-    yawMotor.set(pow);
+    double angle = encoder.getPosition();
+    
+    if(pow > 0 && angle >= (MAX_YAW - YAW_TOLERANCE) ) {
+      pow = 0;
+    }
+    else if(pow < 0 && angle <= (MIN_YAW + YAW_TOLERANCE) ) {
+      pow = 0;
+    }
+    yawMotor.set(MathUtil.clamp(pow, -1, 1));
   }
 
   /**
