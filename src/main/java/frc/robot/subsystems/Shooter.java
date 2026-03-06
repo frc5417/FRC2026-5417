@@ -39,6 +39,7 @@ public class Shooter extends SubsystemBase {
 
   private double voltage = 0.0;
   private double increment = 0.0;
+  private int servoPos = 500;
   private int servoIncrement = 0;
   private double rpm = 0;
 
@@ -110,8 +111,9 @@ public class Shooter extends SubsystemBase {
     servoLeft.setPowered(true);
     servoLeft.setEnabled(true);
     servoIncrement += this.increment*sign;
-    servoIncrement = MathUtil.clamp(servoIncrement, 500, 2500);
-    servoLeft.setPulseWidth(servoIncrement);
+    servoPos = servoPos + servoIncrement;
+    servoPos = MathUtil.clamp(servoPos, 500, 2500);
+    servoLeft.setPulseWidth(servoPos);
   }
 
   public void setServoLeftPosition(int position) {
