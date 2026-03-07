@@ -47,7 +47,7 @@ public final class Constants {
 
   public static class Identification {
     public static final int kTurretId = 50;
-    public static final int climberId = 59;
+    public static final int climberId = 59; // Change to whichever motor ID necessary
   }
 
   public static class ClimberConstants {
@@ -56,6 +56,7 @@ public final class Constants {
     public static final int currentLimit = 40;
 
     // PID Constants
+    // Subject to change - needs testing
     public static final double kClimberP = 0.1;
     public static final double kClimberI = 0.0;
     public static final double kClimberD = 0.0;

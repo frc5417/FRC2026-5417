@@ -32,6 +32,8 @@ public class Climb extends SubsystemBase{
     private final SparkClosedLoopController controller = 
         climber.getClosedLoopController();
 
+    // Creates a new climber
+
     public Climb() {
 
         climberConfig
