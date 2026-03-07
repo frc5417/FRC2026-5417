@@ -120,7 +120,7 @@ public final class Constants {
     public static final int beltIndexerId = 52;
     public static final int intakeId = 53;
     public static final int intakeAngleId = 54;
-    public static final int shooterParentId = 56;
+    public static final int shooterParentId = 55;
     // public static final int shooterChildId = 55;
     public static final int pigeonId = 59;
     public static final int servoHubID = 60;

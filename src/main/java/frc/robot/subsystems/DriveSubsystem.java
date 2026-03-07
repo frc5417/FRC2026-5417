@@ -46,6 +46,8 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
+  private ChassisSpeeds robotRelSpeeds;
+
   // The gyro sensor
   private final Pigeon2 m_pigeon = new Pigeon2(Constants.Identification.pigeonId);
 
@@ -133,6 +135,10 @@ public class DriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return robotRelSpeeds;
+  }
+
   /**
    * Resets the odometry to the specified pose.
    *
@@ -165,11 +171,18 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
-    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative
+
+    robotRelSpeeds = fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(robotRelSpeeds);
+
+    // var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+    //     fieldRelative
+    //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+    //             Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()))
+    //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +24,9 @@ import frc.robot.subsystems.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -38,7 +42,6 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final BeltIndexer m_beltIndexer = new BeltIndexer();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final Shooter m_servorHub = new Shooter();
 
   // The driver's controller
   private final CommandXboxController m_driverController = new CommandXboxController(
@@ -57,6 +60,34 @@ public class RobotContainer {
     // Configure the button bindings
     configureBindings();
     // Build an auto chooser. This will use Commands.none() as the default option.
+    // AutoBuilder.configure(null, null, null, null, null, null, null, null);
+
+    boolean isPathplanner;
+    try {
+        RobotConfig config = RobotConfig.fromGUISettings();
+        AutoBuilder.configure(
+            m_robotDrive::getPose, 
+            m_robotDrive::resetOdometry, 
+            m_robotDrive::getRobotRelativeSpeeds,
+            (speeds, feedforwards) -> m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
+            new PPHolonomicDriveController(new PIDConstants(5.0,0,0), new PIDConstants(5.0,0,0)),
+        config,
+        ()-> {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+            }
+            return false;
+        }, 
+        m_robotDrive);
+        isPathplanner = true;
+    } catch (Exception e) {
+        e.printStackTrace();
+        isPathplanner = false;
+    }
+
+    SmartDashboard.putBoolean("Pathplanner Active", isPathplanner);
+    
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
@@ -99,8 +130,8 @@ public class RobotContainer {
     m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(12000), m_shooter));
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
    /* Servo Keybinds */
-    m_manipulatorController.x().whileTrue(new RunCommand(() -> m_servorHub.setServoLeftPosition(500), m_servorHub));
-    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_servorHub.setServoRightPosition(500), m_servorHub));
+    m_manipulatorController.x().whileTrue(new RunCommand(() -> m_shooter.setServoLeftPosition(500), m_shooter));
+    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_shooter.setServoRightPosition(500), m_shooter));
     /* Controller Binding Key */
     SmartDashboard.putString("Drivetrain", "Start = Reset Gyro");
     SmartDashboard.putString("Belt Indexer", "L Trigger = Turn On");
@@ -114,6 +145,7 @@ public class RobotContainer {
    * Registers commands for use in PathPlanner.
    */
   private void registerNamedCommands() {
+
     // NamedCommands.registerCommand(null, teleOpDrive);
     // NamedCommands.registerCommand("Run Coral", new RunCoral(m_coralIntake, Constants.CoralConstants.kCoralPercent).withTimeout(3));
     // NamedCommands.registerCommand("Run Elevator Minimum", new RunElevator(m_elevator, Constants.ElevatorConstants.elevatorMin).withTimeout(2));

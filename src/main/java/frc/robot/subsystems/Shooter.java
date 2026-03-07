@@ -32,7 +32,7 @@ public class Shooter extends SubsystemBase {
   // private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
   private ServoHub servoHub = new ServoHub(Constants.Identification.servoHubID);
   private ServoChannel servoLeft = servoHub.getServoChannel(ChannelId.kChannelId0);
-  private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
+  private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId5);
 
   private SparkClosedLoopController parentPID;
 
