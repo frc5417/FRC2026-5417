@@ -5,17 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Climb;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
-  private final Turret m_turret;
+  private final Climb m_climber;
 
   /** Creates a new TeleOp. */
-  public TeleOp(Turret turret) {
+  public TeleOp(Climb climber) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.m_turret = turret;
+    this.m_climber = climber;
   }
 
   // Called when the command is initially scheduled.
@@ -32,6 +32,7 @@ public class TeleOp extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+  
   }
 
   // Returns true when the command should end.

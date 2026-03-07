@@ -69,7 +69,7 @@ public class Climb extends SubsystemBase{
         climber.setVoltage(voltage);
     }
 
-    public void stop() {
+    public void stopClimber() {
         climber.setVoltage(0);
     }
 
