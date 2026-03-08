@@ -19,7 +19,10 @@ import edu.wpi.first.math.MathUtil;
 
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.AutoTest;
 import frc.robot.commands.Autos;
+import frc.robot.commands.RunBeltIndexer;
+import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -59,6 +62,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureBindings();
+    registerNamedCommands();
     // Build an auto chooser. This will use Commands.none() as the default option.
     // AutoBuilder.configure(null, null, null, null, null, null, null, null);
 
@@ -146,10 +150,12 @@ public class RobotContainer {
    */
   private void registerNamedCommands() {
 
-    // NamedCommands.registerCommand(null, teleOpDrive);
     // NamedCommands.registerCommand("Run Coral", new RunCoral(m_coralIntake, Constants.CoralConstants.kCoralPercent).withTimeout(3));
     // NamedCommands.registerCommand("Run Elevator Minimum", new RunElevator(m_elevator, Constants.ElevatorConstants.elevatorMin).withTimeout(2));
     // NamedCommands.registerCommand("Run Elevator L4", new RunElevator(m_elevator, Constants.ElevatorConstants.elevatorL4).withTimeout(2));
+
+    NamedCommands.registerCommand("RunBeltIndexer", new RunBeltIndexer(m_beltIndexer, -3.75).withTimeout(5));
+    NamedCommands.registerCommand("RunShooter", new RunShooter(m_shooter, 5000).withTimeout(5));
   }
 
   /**
@@ -161,6 +167,8 @@ public class RobotContainer {
     // This method loads the auto when it is called, however, it is recommended
     // to first load your paths/autos when code starts, then return the
     // pre-loaded auto/path
-    return autoChooser.getSelected();
+    return new AutoTest();
+    // return new RunBeltIndexer(m_beltIndexer, -3.75).withTimeout(5);
+    // return autoChooser.getSelected();
   }
 }
