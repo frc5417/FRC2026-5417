@@ -56,7 +56,7 @@ public final class Constants {
 
   public static class ShooterConstants {
     public static final boolean shooterChildInvert = true;
-    public static final double shooterVelocity = 5000;
+    public static final double shooterVelocity = 4500;
     public static final double kP = 0.00175;
     public static final double kI = 0;
     public static final double kD = 0;

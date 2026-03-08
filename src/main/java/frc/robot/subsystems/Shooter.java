@@ -47,7 +47,6 @@ public class Shooter extends SubsystemBase {
   private double increment = 0.0;
   private int servoPos = 500;
   private int servoIncrement = 0;
-  private double rpm = 0;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -95,7 +94,6 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocity(double velocity) {
     parentPID.setSetpoint(velocity, ControlType.kVelocity);
-    rpm = velocity;
   }
 
   public double getVelocity() {

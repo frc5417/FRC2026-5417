@@ -30,8 +30,6 @@ import frc.robot.Constants.*;
 import frc.robot.commands.StopShooter;
 import frc.robot.subsystems.*;
 
-import java.util.List;
-
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -73,7 +71,7 @@ public class RobotContainer {
                                         OperatorConstants.kDriveDeadband),
                                 true),
                         m_robotDrive));
-        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+        // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
     /**
@@ -92,9 +90,10 @@ public class RobotContainer {
         /* Belt Indexer Keybinds */
         m_beltIndexer.setDefaultCommand(
                 new RunCommand(
-                        () -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.rightTrigger().getAsBoolean()
-                                ? Constants.BeltIndexerConstants.beltIndexerVoltage
-                                : 0),
+                        () -> m_beltIndexer.setBeltIndexerVoltage(
+                                m_driverController.rightTrigger().getAsBoolean()
+                                        ? Constants.BeltIndexerConstants.beltIndexerVoltage
+                                        : 0),
                         m_beltIndexer));
         /* Intake Keybinds */
         // m_driverController.rightBumper().toggleOnTrue(new RunCommand(() ->
@@ -187,9 +186,9 @@ public class RobotContainer {
                 new WaitCommand(2),
                 new InstantCommand(
                         () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage),
-                        m_beltIndexer),
-                new WaitCommand(5),
-                new InstantCommand(() -> m_beltIndexer.stopBeltIndexer(), m_beltIndexer)
+                        m_beltIndexer)
+        // new WaitCommand(5),
+        // new InstantCommand(() -> m_beltIndexer.stopBeltIndexer(), m_beltIndexer)
         // new InstantCommand(() -> m_shooter.setVelocity(0), m_shooter)
         // new StopShooter(m_shooter)
         );
