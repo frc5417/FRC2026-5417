@@ -73,12 +73,6 @@ public class MAXSwerveModule extends SubsystemBase {
     m_drivingEncoder.setPosition(0);
   }
 
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    builder.addDoubleArrayProperty("Desired State",
-        () -> new double[] { m_desiredState.speedMetersPerSecond, m_desiredState.angle.getRadians() }, null);
-    builder.addDoubleArrayProperty("Actual State", () -> new double[] { getSpeed(), getAnglePos() }, null);
-  }
 
   /**
    * Returns the current state of the module.

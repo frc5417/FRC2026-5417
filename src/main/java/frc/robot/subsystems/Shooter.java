@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.servohub.ServoHub;
 import com.revrobotics.servohub.ServoChannel.ChannelId;
 import com.revrobotics.servohub.ServoChannel;
@@ -49,6 +50,7 @@ public class Shooter extends SubsystemBase {
         Constants.ShooterConstants.kP,
         Constants.ShooterConstants.kI,
         Constants.ShooterConstants.kD);
+    parentConfig.idleMode(IdleMode.kCoast);
 
     shooterParent.configure(parentConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -63,6 +65,7 @@ public class Shooter extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     builder.addDoubleProperty("Setpoint RPM", parentPID::getSetpoint, this::setVelocity);
     builder.addDoubleProperty("Actual RPM", shooterParentEncoder::getVelocity, null);
+    builder.addDoubleProperty("Error RPM", ()-> shooterParentEncoder.getVelocity() - parentPID.getSetpoint(), null);
   }
 
   @Override
@@ -88,6 +91,10 @@ public class Shooter extends SubsystemBase {
     rpm = velocity;
   }
 
+  public double getVelocity() {
+    
+  }
+
   public void setShooterVoltage(double voltage) {
     // shooterParent.setVoltage(12 * power);
     shooterParent.setVoltage(voltage);
@@ -95,6 +102,10 @@ public class Shooter extends SubsystemBase {
 
   public void stopShooter() {
     shooterParent.setVoltage(0);
+  }
+
+  public boolean atSetpoint() {
+    return parentPID.isAtSetpoint();
   }
 
   // public void incrementShooterRPM(int sign) {
