@@ -73,7 +73,13 @@ public class RobotContainer {
             m_robotDrive::getPose, 
             m_robotDrive::resetOdometry, 
             m_robotDrive::getRobotRelativeSpeeds,
-            (speeds, feedforwards) -> m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
+            (speeds, feedforwards) -> {
+                if (speeds == null) {
+                    m_robotDrive.drive(0, 0, 0, false);
+                } else {
+                    m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
+                }
+            },
             new PPHolonomicDriveController(new PIDConstants(5.0,0,0), new PIDConstants(5.0,0,0)),
         config,
         ()-> {
