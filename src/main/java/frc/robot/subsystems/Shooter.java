@@ -91,9 +91,9 @@ public class Shooter extends SubsystemBase {
     rpm = velocity;
   }
 
-  public double getVelocity() {
+  // public double getVelocity() {
     
-  }
+  // }
 
   public void setShooterVoltage(double voltage) {
     // shooterParent.setVoltage(12 * power);
