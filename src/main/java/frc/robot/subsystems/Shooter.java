@@ -31,9 +31,9 @@ public class Shooter extends SubsystemBase {
   // private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
   private SparkFlexConfig parentConfig = new SparkFlexConfig();
   // private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
-  private ServoHub servoHub = new ServoHub(Constants.Identification.servoHubID);
-  private ServoChannel servoLeft = servoHub.getServoChannel(ChannelId.kChannelId0);
-  private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
+  // private ServoHub servoHub = new ServoHub(Constants.Identification.servoHubID);
+  // private ServoChannel servoLeft = servoHub.getServoChannel(ChannelId.kChannelId0);
+  // private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
 
   private SparkClosedLoopController parentPID;
 
@@ -107,26 +107,26 @@ public class Shooter extends SubsystemBase {
   // public void incrementShooter() {
   //   this.increment += 0.01;
   // }
-  public void incrementLeftServoPosition(int sign) {
-    servoLeft.setPowered(true);
-    servoLeft.setEnabled(true);
-    servoIncrement += this.increment*sign;
-    servoPos = servoPos + servoIncrement; // servi\oPos += 
-    servoPos = MathUtil.clamp(servoPos, 500, 2500);
-    servoLeft.setPulseWidth(servoPos);
-  }
+  // public void incrementLeftServoPosition(int sign) {
+  //   servoLeft.setPowered(true);
+  //   servoLeft.setEnabled(true);
+  //   servoIncrement += this.increment*sign;
+  //   servoPos = servoPos + servoIncrement; // servi\oPos += 
+  //   servoPos = MathUtil.clamp(servoPos, 500, 2500);
+  //   servoLeft.setPulseWidth(servoPos);
+  // }
 
-  public void setServoLeftPosition(int position) {
-    position = MathUtil.clamp(position, 500, 2500);
-    servoLeft.setPowered(true);
-    servoLeft.setEnabled(true);
-    servoLeft.setPulseWidth(position);
-  }
+  // public void setServoLeftPosition(int position) {
+  //   position = MathUtil.clamp(position, 500, 2500);
+  //   servoLeft.setPowered(true);
+  //   servoLeft.setEnabled(true);
+  //   servoLeft.setPulseWidth(position);
+  // }
 
-  public void setServoRightPosition(int position) { //1500 microseconds = move to center
-    position = MathUtil.clamp(position, 500, 2500);
-    servoRight.setPowered(true);
-    servoRight.setEnabled(true);
-    servoRight.setPulseWidth(position);// position set between 500-2500 microseconds
-  }
+  // public void setServoRightPosition(int position) { //1500 microseconds = move to center
+  //   position = MathUtil.clamp(position, 500, 2500);
+  //   servoRight.setPowered(true);
+  //   servoRight.setEnabled(true);
+  //   servoRight.setPulseWidth(position);// position set between 500-2500 microseconds
+  // }
 }
