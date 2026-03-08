@@ -167,8 +167,8 @@ public class RobotContainer {
     // This method loads the auto when it is called, however, it is recommended
     // to first load your paths/autos when code starts, then return the
     // pre-loaded auto/path
-    return new AutoTest();
+    // return new AutoTest();
     // return new RunBeltIndexer(m_beltIndexer, -3.75).withTimeout(5);
-    // return autoChooser.getSelected();
+    return autoChooser.getSelected();
   }
 }
