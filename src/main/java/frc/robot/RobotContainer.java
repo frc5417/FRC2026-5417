@@ -79,30 +79,29 @@ public class RobotContainer {
    */
   private void configureBindings() {
     /* Drivetrain Keybinds */
-    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    m_driverController.leftTrigger().onTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
     m_driverController.start().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     /* Belt Indexer Keybinds */
     m_beltIndexer.setDefaultCommand(
-        new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.rightTrigger().getAsBoolean() ? -4 : 0), m_beltIndexer));
+        new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.rightTrigger().getAsBoolean() ? Constants.BeltIndexerConstants.beltIndexerVoltage : 0), m_beltIndexer));
     /* Intake Keybinds */
-    m_intake.setDefaultCommand(
-        new RunCommand(() -> m_intake.setIntakeVoltage(m_driverController.leftBumper().getAsBoolean() ? -3.75 : 0), m_intake));
+    m_driverController.rightBumper().toggleOnTrue(new RunCommand(() -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage), m_intake));
     m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
     m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
     /* Turret Keybinds */
     // m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.05), m_turret));
     // m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.05), m_turret));
     /* Shooter Keybinds */
-    m_driverController.a().whileTrue(new RunCommand(() -> m_shooter.setVelocity(6000), m_shooter));
+    m_driverController.a().whileTrue(new RunCommand(() -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), m_shooter));
     m_driverController.b().whileTrue(new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
 
     /* Controller Binding Key */
-    SmartDashboard.putString("Drivetrain", "Hold L Trigger = X Mode \n Tap Menu = Reset Gyro");
+    SmartDashboard.putString("Drivetrain", "Tap L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
     SmartDashboard.putString("Belt Indexer", "Hold R Trigger = Turn On");
-    SmartDashboard.putString("Intake", "Hold L Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
-    // // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
+    SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+    // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
     // SmartDashboard.putString("Turret", "stop touching it.");
-    SmartDashboard.putString("Shooter", "A = Turn On \n B = Turn Off");
+    SmartDashboard.putString("Shooter", "Tap A = Turn On \n Tap B = Turn Off");
   }
 
   /**

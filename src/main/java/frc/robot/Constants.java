@@ -23,10 +23,63 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   
+  public static final class OperatorConstants {
+    public static final int kDriverControllerPort = 0;
+    public static final int kManipulatorControllerPort = 1;
+    public static final double kDriveDeadband = 0.25;
+  }
+
+  public static class Identification {
+    public static final int turretId = 51;
+    public static final int beltIndexerId = 52;
+    public static final int intakeId = 53;
+    public static final int intakeAngleId = 54;
+    public static final int shooterParentId = 55;
+    // public static final int shooterChildId = 55;
+    public static final int pigeonId = 59;
+    public static final int servoHubID = 60;
+  }
+
+  public static class BeltIndexerConstants {
+    public static final double beltIndexerVoltage = -4;
+  }
+
+  public static class IntakeConstants {
+    public static final double intakeFloor = 0.0; 
+    public static final double intakeUp = -1.5;
+    public static final double intakeVoltage = -4;
+
+    public static final double intakekP = 0.50;
+    public static final double intakekI = 0.0;
+    public static final double intakekD = 0.0;
+  }
+
+  public static class ShooterConstants {
+    public static final boolean shooterChildInvert = true;
+    public static final double shooterVelocity = 5000;
+    public static final double kP = 0.03;
+    public static final double kI = 0;
+    public static final double kD = 0;
+  }
+
+  public static class TurretConstants {
+    public static final double turretkP = 0.01;
+    public static final double turretkI = 0;
+    public static final double turretkD = 0;
+  }
+
   public static class HardwareConstants {
     public static final int kNeo550CL = 20; // current limit for NEO 550s
     public static final int kNeoCL = 50; // current limit for NEOs
     public static final int kVortexCL = 60; // current limit for Vortexes
+  }
+
+  public static final class VortexMotorConstants {
+    public static final double kFreeSpeedRpm = 6784;
+  }
+
+  public static final class NeoMotorConstants {
+    public static final double kFreeSpeedRpm = 5676;
   }
 
   public static final class DriveConstants {
@@ -94,12 +147,6 @@ public final class Constants {
     public static final double angleKD = 0;
   }
 
-  public static final class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-    public static final int kManipulatorControllerPort = 1;
-    public static final double kDriveDeadband = 0.25;
-  }
-
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -113,46 +160,5 @@ public final class Constants {
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-  }
-
-  public static class Identification {
-    public static final int turretId = 51;
-    public static final int beltIndexerId = 52;
-    public static final int intakeId = 53;
-    public static final int intakeAngleId = 54;
-    public static final int shooterParentId = 55;
-    // public static final int shooterChildId = 55;
-    public static final int pigeonId = 59;
-    public static final int servoHubID = 60;
-  }
-
-  public static class ShooterConstants {
-    public static final boolean shooterChildInvert = true;
-    public static final double kP = 0.03;
-    public static final double kI = 0;
-    public static final double kD = 0;
-  }
-
-  public static class IntakeConstants {
-    public static final double intakeFloor = 0.0;
-    public static final double intakeUp = -1.5;
-
-    public static final double intakekP = 0.50;
-    public static final double intakekI = 0.0;
-    public static final double intakekD = 0.0;
-  }
-  
-  public static class TurretConstants {
-    public static final double turretkP = 0.01;
-    public static final double turretkI = 0;
-    public static final double turretkD = 0;
-  }
-  
-  public static final class VortexMotorConstants {
-    public static final double kFreeSpeedRpm = 6784;
-  }
-
-  public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;
   }
 }
