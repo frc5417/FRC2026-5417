@@ -11,11 +11,14 @@ import frc.robot.subsystems.Shooter;
 public class StopShooter extends Command {
   private final Shooter m_shooter;
   private double stepSize = 1000;
+  private boolean skipStep = true;
   private boolean terminated = false;
 
   /** Creates a new StopShooter. */
   public StopShooter(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
+
     m_shooter = shooter;
   }
 
@@ -28,14 +31,16 @@ public class StopShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!m_shooter.atSetpoint()) {
+    skipStep = !skipStep;
+    if (!skipStep) {
       return;
     }
 
     double setPoint = m_shooter.getVelocity() - stepSize;
     if (setPoint >= 0) {
-      m_shooter.setVelocity(setPoint);
+
     } else {
+      m_shooter.setVelocity(0);
       end(false);
     }
   }

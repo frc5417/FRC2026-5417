@@ -22,7 +22,7 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  
+
   public static final class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kManipulatorControllerPort = 1;
@@ -45,7 +45,7 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final double intakeFloor = 0.0; 
+    public static final double intakeFloor = 0.0;
     public static final double intakeUp = -1.5;
     public static final double intakeVoltage = -4;
 
@@ -85,7 +85,7 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 4.8; // Marco said to change it to 9?
+    public static final double kMaxSpeedMetersPerSecond = 5.3; // Marco said to change it to 9?
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
     // Chassis configuration
