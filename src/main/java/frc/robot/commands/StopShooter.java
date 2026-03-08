@@ -25,7 +25,6 @@ public class StopShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,9 +36,7 @@ public class StopShooter extends Command {
     }
 
     double setPoint = m_shooter.getVelocity() - stepSize;
-    if (setPoint >= 0) {
-
-    } else {
+    if (setPoint < 0) {
       m_shooter.setVelocity(0);
       end(false);
     }
@@ -48,6 +45,11 @@ public class StopShooter extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // To make sure shooter does stop
+    if (interrupted) {
+      m_shooter.setVelocity(0);
+    }
+
     terminated = true;
   }
 
