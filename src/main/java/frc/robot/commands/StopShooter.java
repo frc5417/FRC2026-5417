@@ -10,15 +10,13 @@ import frc.robot.subsystems.Shooter;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class StopShooter extends Command {
   private final Shooter m_shooter;
-  private double targetRPM;
-  private double stepSize;
+  private double stepSize = 1000;
   private boolean terminated = false;
 
   /** Creates a new StopShooter. */
-  public StopShooter(Shooter shooter, double targetRPM) {
+  public StopShooter(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
-    this.targetRPM = targetRPM;
   }
 
   // Called when the command is initially scheduled.
@@ -30,9 +28,15 @@ public class StopShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.atSetpoint()) {
-      m_shooter.setVelocity(stepSize);
+    if (!m_shooter.atSetpoint()) {
+      return;
+    }
 
+    double setPoint = m_shooter.getVelocity() - stepSize;
+    if (setPoint >= 0) {
+      m_shooter.setVelocity(setPoint);
+    } else {
+      end(false);
     }
   }
 

@@ -27,14 +27,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
   /* Variables */
   private final SparkFlex shooterParent = new SparkFlex(Constants.Identification.shooterParentId, MotorType.kBrushless);
-  // private final SparkFlex shooterChild = new SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
+  // private final SparkFlex shooterChild = new
+  // SparkFlex(Constants.Identification.shooterChildId, MotorType.kBrushless);
   private final RelativeEncoder shooterParentEncoder = shooterParent.getEncoder();
-  // private final RelativeEncoder shooterChildEncoder = shooterChild.getEncoder();
+  // private final RelativeEncoder shooterChildEncoder =
+  // shooterChild.getEncoder();
   private SparkFlexConfig parentConfig = new SparkFlexConfig();
   // private SparkFlexConfig shooterChildConfig = new SparkFlexConfig();
-  // private ServoHub servoHub = new ServoHub(Constants.Identification.servoHubID);
-  // private ServoChannel servoLeft = servoHub.getServoChannel(ChannelId.kChannelId0);
-  // private ServoChannel servoRight = servoHub.getServoChannel(ChannelId.kChannelId1);
+  // private ServoHub servoHub = new
+  // ServoHub(Constants.Identification.servoHubID);
+  // private ServoChannel servoLeft =
+  // servoHub.getServoChannel(ChannelId.kChannelId0);
+  // private ServoChannel servoRight =
+  // servoHub.getServoChannel(ChannelId.kChannelId1);
 
   private SparkClosedLoopController parentPID;
 
@@ -55,8 +60,10 @@ public class Shooter extends SubsystemBase {
     shooterParent.configure(parentConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // shooterChildConfig.apply(parentConfig);
-    // shooterChildConfig.follow(shooterParent, Constants.ShooterConstants.shooterChildInvert);
-    // shooterChild.configure(shooterChildConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // shooterChildConfig.follow(shooterParent,
+    // Constants.ShooterConstants.shooterChildInvert);
+    // shooterChild.configure(shooterChildConfig, ResetMode.kResetSafeParameters,
+    // PersistMode.kPersistParameters);
 
     parentPID = shooterParent.getClosedLoopController();
   }
@@ -65,7 +72,7 @@ public class Shooter extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     builder.addDoubleProperty("Setpoint RPM", parentPID::getSetpoint, this::setVelocity);
     builder.addDoubleProperty("Actual RPM", shooterParentEncoder::getVelocity, null);
-    builder.addDoubleProperty("Error RPM", ()-> shooterParentEncoder.getVelocity() - parentPID.getSetpoint(), null);
+    builder.addDoubleProperty("Error RPM", () -> shooterParentEncoder.getVelocity() - parentPID.getSetpoint(), null);
   }
 
   @Override
@@ -78,7 +85,7 @@ public class Shooter extends SubsystemBase {
 
     // SmartDashboard.putNumber("Shooter Child RPM (55)", childRPM);
     SmartDashboard.putData(this);
-    
+
   }
 
   public void setShooterPower(double power) {
@@ -91,9 +98,9 @@ public class Shooter extends SubsystemBase {
     rpm = velocity;
   }
 
-  // public double getVelocity() {
-    
-  // }
+  public double getVelocity() {
+    return shooterParentEncoder.getVelocity();
+  }
 
   public void setShooterVoltage(double voltage) {
     // shooterParent.setVoltage(12 * power);
@@ -109,36 +116,38 @@ public class Shooter extends SubsystemBase {
   }
 
   // public void incrementShooterRPM(int sign) {
-  //   voltage += this.increment*sign;
-  //   shooterParent.setVoltage(voltage);
+  // voltage += this.increment*sign;
+  // shooterParent.setVoltage(voltage);
   // }
   // public void decrementShooter() {
-  //   this.increment -= 0.01;
+  // this.increment -= 0.01;
   // }
 
   // public void incrementShooter() {
-  //   this.increment += 0.01;
+  // this.increment += 0.01;
   // }
   // public void incrementLeftServoPosition(int sign) {
-  //   servoLeft.setPowered(true);
-  //   servoLeft.setEnabled(true);
-  //   servoIncrement += this.increment*sign;
-  //   servoPos = servoPos + servoIncrement; // servi\oPos += 
-  //   servoPos = MathUtil.clamp(servoPos, 500, 2500);
-  //   servoLeft.setPulseWidth(servoPos);
+  // servoLeft.setPowered(true);
+  // servoLeft.setEnabled(true);
+  // servoIncrement += this.increment*sign;
+  // servoPos = servoPos + servoIncrement; // servi\oPos +=
+  // servoPos = MathUtil.clamp(servoPos, 500, 2500);
+  // servoLeft.setPulseWidth(servoPos);
   // }
 
   // public void setServoLeftPosition(int position) {
-  //   position = MathUtil.clamp(position, 500, 2500);
-  //   servoLeft.setPowered(true);
-  //   servoLeft.setEnabled(true);
-  //   servoLeft.setPulseWidth(position);
+  // position = MathUtil.clamp(position, 500, 2500);
+  // servoLeft.setPowered(true);
+  // servoLeft.setEnabled(true);
+  // servoLeft.setPulseWidth(position);
   // }
 
-  // public void setServoRightPosition(int position) { //1500 microseconds = move to center
-  //   position = MathUtil.clamp(position, 500, 2500);
-  //   servoRight.setPowered(true);
-  //   servoRight.setEnabled(true);
-  //   servoRight.setPulseWidth(position);// position set between 500-2500 microseconds
+  // public void setServoRightPosition(int position) { //1500 microseconds = move
+  // to center
+  // position = MathUtil.clamp(position, 500, 2500);
+  // servoRight.setPowered(true);
+  // servoRight.setEnabled(true);
+  // servoRight.setPulseWidth(position);// position set between 500-2500
+  // microseconds
   // }
 }
