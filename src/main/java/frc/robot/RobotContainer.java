@@ -61,8 +61,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    configureBindings();
-    registerNamedCommands();
+    
     // Build an auto chooser. This will use Commands.none() as the default option.
     // AutoBuilder.configure(null, null, null, null, null, null, null, null);
 
@@ -73,13 +72,7 @@ public class RobotContainer {
             m_robotDrive::getPose, 
             m_robotDrive::resetOdometry, 
             m_robotDrive::getRobotRelativeSpeeds,
-            (speeds, feedforwards) -> {
-                if (speeds == null) {
-                    m_robotDrive.drive(0, 0, 0, false);
-                } else {
-                    m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
-                }
-            },
+            (speeds, feedforwards) -> m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
             new PPHolonomicDriveController(new PIDConstants(5.0,0,0), new PIDConstants(5.0,0,0)),
         config,
         ()-> {
@@ -97,7 +90,9 @@ public class RobotContainer {
     }
 
     SmartDashboard.putBoolean("Pathplanner Active", isPathplanner);
-    
+    registerNamedCommands();
+    configureBindings();
+
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
