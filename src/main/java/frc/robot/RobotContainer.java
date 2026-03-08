@@ -85,15 +85,15 @@ public class RobotContainer {
         new RunCommand(() -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.rightTrigger().getAsBoolean() ? Constants.BeltIndexerConstants.beltIndexerVoltage : 0), m_beltIndexer));
     /* Intake Keybinds */
     // m_driverController.rightBumper().toggleOnTrue(new RunCommand(() -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage), m_intake));
-    m_driverController.rightBumper().toggleOnTrue(
-        new StartEndCommand(
-            () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage), 
-            () -> m_intake.setIntakeVoltage(0),
-            m_intake
-        )
-    );
-    m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
-    m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
+    // m_driverController.rightBumper().toggleOnTrue(
+    //     new StartEndCommand(
+    //         () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage), 
+    //         () -> m_intake.setIntakeVoltage(0),
+    //         m_intake
+    //     )
+    // );
+    // m_driverController.x().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), m_intake));
+    // m_driverController.y().whileTrue(new RunCommand(() -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor), m_intake));
     /* Turret Keybinds */
     // m_driverController.a().whileTrue(new RunCommand(() -> m_turret.setTurretPower(-0.05), m_turret));
     // m_driverController.b().whileTrue(new RunCommand(() -> m_turret.setTurretPower(0.05), m_turret));
