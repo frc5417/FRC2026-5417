@@ -61,7 +61,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    builder.addDoubleProperty("Shooter RPM", ()-> rpm, (double val) -> setVelocity(val));
+    builder.addDoubleProperty("Setpoint RPM", parentPID::getSetpoint, this::setVelocity);
+    builder.addDoubleProperty("Actual RPM", shooterParentEncoder::getVelocity, null);
   }
 
   @Override

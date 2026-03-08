@@ -15,15 +15,13 @@ import frc.robot.subsystems.*;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
-  private final Turret m_turret;
   private final Intake m_intake;
   private final Shooter m_shooter;
   private final BeltIndexer m_beltIndexer;
 
   /** Creates a new TeleOp. */
-  public TeleOp(Turret turret, Intake intake, Shooter shooter, BeltIndexer beltIndexer) {
+  public TeleOp(Intake intake, Shooter shooter, BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_turret = turret;
     this.m_intake = intake;
     this.m_shooter = shooter;
     this.m_beltIndexer = beltIndexer;
