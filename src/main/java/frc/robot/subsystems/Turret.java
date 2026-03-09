@@ -7,13 +7,14 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,66 +22,72 @@ import frc.robot.Constants;
 public class Turret extends SubsystemBase {
   /* Variables */
   private final SparkMax yawMotor = new SparkMax(Constants.Identification.kTurretId, MotorType.kBrushless);
-  private final SparkClosedLoopController yawPID; // necessary to do pos based
-  private SparkMaxConfig yawMotorConfig = new SparkMaxConfig();
-  private final AbsoluteEncoder encoder;
+  private final PIDController pid;
+  private final AbsoluteEncoder encoder; // TODO: wouldn't relative encoder be easier?
 
-  
-  private static final double MIN_YAW = -20;
-  private static final double MAX_YAW = 20;
-  private static final double YAW_TOLERANCE = 1;
+  private SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+  private double rotPos = 0;
+  private double prevRot = 0;
+  private double setpoint = 0;
+
   /** Creates a new Turret. */
   public Turret() {
-    /* Yaw Motor Configuration */
-    yawMotorConfig.absoluteEncoder.positionConversionFactor(Constants.TurretConstants.kPosFactor);
-
-    yawMotorConfig.closedLoop.pid(
+    yawMotor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    pid = new PIDController(
         Constants.TurretConstants.kP,
         Constants.TurretConstants.kI,
         Constants.TurretConstants.kD);
-
-    yawMotor.configure(yawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    yawPID = yawMotor.getClosedLoopController();
     encoder = yawMotor.getAbsoluteEncoder();
+  }
 
-
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.addDoubleProperty("Angle Error (rots)", () -> rotPos - setpoint, null);
+    builder.addDoubleProperty("Angle Actual (rots)", () -> rotPos, null);
+    builder.addDoubleProperty("Angle Setpoint (rots)", () -> setpoint, (double val) -> setSetpoint(val));
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putData(this);
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Turret Angular Position", getPos());
+
+    double currentPos = Math.round(encoder.getPosition() * 1000) / 1000.0;
+    double dPos = currentPos - prevRot;
+    prevRot = currentPos;
+    rotPos += dPos;
+
+    // TODO: clean this up later
+    if (rotPos > Constants.TurretConstants.kUpBound || rotPos < Constants.TurretConstants.kLowBound) {
+      yawMotor.set(0);
+    } else if (Math.abs(rotPos - setpoint) > Constants.TurretConstants.kPIDTolerance) {
+      yawMotor.set(pid.calculate(rotPos, setpoint));
+    } else {
+      yawMotor.set(0);
+    }
+  }
+
+  public void setSetpoint(double val) {
+    setpoint = val;
   }
 
   /**
    * 
-   * @param pos degrees
+   * @param theta angle to run to in radians
    */
-  public void runToPos(double pos) {
-    pos = MathUtil.inputModulus(pos, -180, 180); // smallest possible angle
-    // limit angle range
-    pos = MathUtil.clamp(pos, Constants.TurretConstants.kLowBound, Constants.TurretConstants.kUpBound);
-    yawPID.setSetpoint(pos, ControlType.kPosition);
+  public void runToAngle(double theta) {
+    setpoint = 3 * theta / (2 * Math.PI); // TODO: double check math
   }
 
   public void runPower(double pow) {
     double angle = encoder.getPosition();
-    
-    if(pow > 0 && angle >= (MAX_YAW - YAW_TOLERANCE) ) {
+
+    if (pow > 0 && angle >= Constants.TurretConstants.kUpBound) {
       pow = 0;
-    }
-    else if(pow < 0 && angle <= (MIN_YAW + YAW_TOLERANCE) ) {
+    } else if (pow < 0 && angle <= Constants.TurretConstants.kLowBound) {
       pow = 0;
     }
     yawMotor.set(MathUtil.clamp(pow, -1, 1));
-  }
-
-  /**
-   * Gets the rotational position of the turret in degrees.
-   * 
-   * @return
-   */
-  public double getPos() {
-    return encoder.getPosition();
   }
 }

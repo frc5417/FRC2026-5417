@@ -39,8 +39,8 @@ public class TurretTracking extends Command {
     double robotVelX = 0;
     double robotVelY = 0;
 
-    double angle_triangle = Math.atan2(deltaY - robotVelY, deltaX - robotVelX);
-    m_turret.runToPos(angle_triangle - yaw);
+    double angle_triangle = Math.atan2(deltaY, deltaX);
+    // m_turret.runToPos(angle_triangle - yaw);
   }
 
   // Called once the command ends or is interrupted.
