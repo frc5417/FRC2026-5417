@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -46,7 +47,8 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
-  private ChassisSpeeds robotRelSpeeds;
+  private ChassisSpeeds robotRelSpeeds = new ChassisSpeeds(0, 0, 0);
+  private Field2d field = new Field2d();
 
   // The gyro sensor
   private final Pigeon2 m_pigeon = new Pigeon2(Constants.Identification.pigeonId);
@@ -124,6 +126,9 @@ public class DriveSubsystem extends SubsystemBase {
         });
 
     SmartDashboard.putData(this);
+
+    field.setRobotPose(m_odometry.getPoseMeters());
+    SmartDashboard.putData(field);
   }
 
   /**
@@ -175,18 +180,19 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
-
     robotRelSpeeds = fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+            Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()))
+        : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(robotRelSpeeds);
 
-    // var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-    //     fieldRelative
-    //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-    //             Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()))
-    //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    // var swerveModuleStates =
+    // DriveConstants.kDriveKinematics.toSwerveModuleStates(
+    // fieldRelative
+    // ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered,
+    // rotDelivered,
+    // Rotation2d.fromDegrees(m_pigeon.getRotation2d().getDegrees()))
+    // : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
