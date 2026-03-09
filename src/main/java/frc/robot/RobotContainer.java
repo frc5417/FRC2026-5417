@@ -125,8 +125,10 @@ public class RobotContainer {
 
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
-        SmartDashboard.putString("Belt Indexer", "Hold R Trigger = Turn On");
-        SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+        // SmartDashboard.putString("Belt Indexer", "Hold R Trigger = Turn On");
+        SmartDashboard.putString("Belt Indexer", "stop touching it.");
+        // SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+        SmartDashboard.putString("Intake", "stop touching it.");
         // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
         // SmartDashboard.putString("Turret", "stop touching it.");
         SmartDashboard.putString("Shooter", "Tap A = Turn On \n Tap B = Turn Off");
@@ -180,15 +182,15 @@ public class RobotContainer {
         // return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0,
         // false));
 
-        return new SequentialCommandGroup(
-                new InstantCommand(() -> m_robotDrive.drive(0.25, 0, 0, true)),
-                new WaitCommand(5)
+        // return new SequentialCommandGroup(
+        //         new InstantCommand(() -> m_robotDrive.drive(0.25, 0, 0, true)),
+        //         new WaitCommand(5)
                 // new InstantCommand(() -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), m_shooter),
                 // new WaitCommand(2),
                 // new InstantCommand(
                 //         () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage),
                 //         m_beltIndexer),
                 // new WaitCommand(15)
-        );
+        return null;
     }
 }
