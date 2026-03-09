@@ -121,7 +121,7 @@ public class RobotContainer {
                 new RunCommand(() -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), m_shooter));
         // m_driverController.b().whileTrue(new StopShooter(m_shooter));
         m_driverController.b().whileTrue(
-                new RunCommand(() -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), m_shooter));
+                new RunCommand(() -> m_shooter.setVelocity(0), m_shooter));
 
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
@@ -186,8 +186,8 @@ public class RobotContainer {
                 new WaitCommand(2),
                 new InstantCommand(
                         () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage),
-                        m_beltIndexer)
-        // new WaitCommand(5),
+                        m_beltIndexer),
+                new WaitCommand(15)
         // new InstantCommand(() -> m_beltIndexer.stopBeltIndexer(), m_beltIndexer)
         // new InstantCommand(() -> m_shooter.setVelocity(0), m_shooter)
         // new StopShooter(m_shooter)
