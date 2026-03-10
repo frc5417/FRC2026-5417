@@ -4,51 +4,57 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-  /** Creates a new TeleOp. */
-
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class TeleOp extends Command {
-  private final Field2d m_field = new Field2d();
-  private final Intake m_intake;
+public class StopShooter extends Command {
   private final Shooter m_shooter;
-  private final BeltIndexer m_beltIndexer;
+  private boolean skipStep = true;
+  private boolean terminated = false;
 
-  /** Creates a new TeleOp. */
-  public TeleOp(Intake intake, Shooter shooter, BeltIndexer beltIndexer) {
+  /** Creates a new StopShooter. */
+  public StopShooter(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_intake = intake;
-    this.m_shooter = shooter;
-    this.m_beltIndexer = beltIndexer;
+    addRequirements(shooter);
+
+    m_shooter = shooter;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putData("Field", m_field);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    skipStep = !skipStep;
+    if (!skipStep) {
+      return;
+    }
+
+    double setPoint = m_shooter.getVelocity() - 1000;
+    if (setPoint < 0) {
+      m_shooter.setVelocity(0);
+      terminated = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.stopIntake();
-    m_shooter.stopShooter();
-    m_beltIndexer.stopBeltIndexer();
+    // To make sure shooter does stop
+    if (interrupted) {
+      m_shooter.setVelocity(0);
+    }
+
+    terminated = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return terminated;
   }
 }

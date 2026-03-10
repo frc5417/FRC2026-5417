@@ -4,34 +4,33 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
   /* Variables */
-  private final SparkMax yawMotor = new SparkMax(Constants.TurretConstants.kYawMotorId, MotorType.kBrushless);
-  private final SparkClosedLoopController yawPID; // necessary to do pos based
-  private SparkMaxConfig yawMotorConfig = new SparkMaxConfig();
+  private final SparkMax turret = new SparkMax(Constants.Identification.turretId, MotorType.kBrushless);
+  private SparkMaxConfig turretConfig = new SparkMaxConfig();
+  private SparkClosedLoopController turretPID;
 
-  /** Creates a new Turret. */
+  /** Creates a new VortexSubsystem. */
   public Turret() {
-    // TODO: absolute encoder config
+    turretConfig.smartCurrentLimit(Constants.HardwareConstants.kNeoCL)
+                .closedLoop.pid(Constants.TurretConstants.turretkP,
+                                Constants.TurretConstants.turretkI,
+                                Constants.TurretConstants.turretkD);
+    turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    /* Yaw Motor Configuration */
-    yawMotorConfig.closedLoop.pid(Constants.TurretConstants.kYawP, Constants.TurretConstants.kYawI,
-        Constants.TurretConstants.kYawD, null);
-    yawMotor.configure(yawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    yawPID = yawMotor.getClosedLoopController();
-
+    turretPID = turret.getClosedLoopController();
   }
 
   @Override
@@ -39,15 +38,15 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  /**
-   * 
-   * @param pos rotations of motor
-   */
-  public void runToPos(double pos) {
-    yawPID.setSetpoint(pos, ControlType.kPosition);
+  public void setTurretPos(double pos) {
+    turretPID.setSetpoint(pos, ControlType.kPosition);
+  }
+  
+  public void setTurretPower(double power) {
+    turret.set(power);
   }
 
-  public void runPower(double pow) {
-    yawMotor.set(pow);
+  public void stopTurret() {
+    turret.set(0);
   }
 }
