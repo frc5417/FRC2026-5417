@@ -53,15 +53,24 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putData(this);
     // This method will be called once per scheduler run
 
-    double currentPos = Math.round(encoder.getPosition() * 1000) / 1000.0;
-    double dPos = currentPos - prevRot;
-    prevRot = currentPos;
+    double curRot = Math.round(encoder.getPosition() * 1000) / 1000.0;
+    double dPos = curRot - prevRot;
+    prevRot = curRot;
+
+    /* Handle Wrap Around case */
+    if (dPos >= Constants.TurretConstants.kWrapAround) {
+      // from 0 -> 1 produces a positive value, but indicates - change in rotation
+      dPos = dPos - 1; // ex: 0.998 - 1 -> -0.002 rot
+    } else if (dPos <= -Constants.TurretConstants.kWrapAround) {
+      // from 1 -> 0 produces a negative value, but indicates + change in rotation
+      dPos = dPos + 1; // ex: -0.998 + 1 -> 0.002 rot
+    }
     rotPos += dPos;
 
     // TODO: clean this up later
-    if (rotPos > Constants.TurretConstants.kUpBound || rotPos < Constants.TurretConstants.kLowBound) {
-      yawMotor.set(0);
-    } else if (Math.abs(rotPos - setpoint) > Constants.TurretConstants.kPIDTolerance) {
+    // within range of turret and
+    if (rotPos <= Constants.TurretConstants.kUpBound && rotPos >= Constants.TurretConstants.kLowBound
+        && Math.abs(rotPos - setpoint) > Constants.TurretConstants.kPIDTolerance) {
       yawMotor.set(pid.calculate(rotPos, setpoint));
     } else {
       yawMotor.set(0);
