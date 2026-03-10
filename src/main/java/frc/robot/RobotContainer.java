@@ -156,17 +156,9 @@ public class RobotContainer {
      * Registers commands for use in PathPlanner.
      */
     private void registerNamedCommands() {
-
-        // NamedCommands.registerCommand("Run Coral", new RunCoral(m_coralIntake,
-        // Constants.CoralConstants.kCoralPercent).withTimeout(3));
-        // NamedCommands.registerCommand("Run Elevator Minimum", new
-        // RunElevator(m_elevator,
-        // NamedCommands.registerCommand("Run Elevator L4", new RunElevator(m_elevator,
-        // Constants.ElevatorConstants.elevatorL4).withTimeout(2));
-
         NamedCommands.registerCommand("Run Intake", new RunIntake(m_intake, Constants.IntakeConstants.intakeVoltage).withTimeout(5));
-        NamedCommands.registerCommand("Run Belt Indexer", new RunBeltIndexer(m_beltIndexer, Constants.BeltIndexerConstants.beltIndexerVoltage).withTimeout(5));
-        NamedCommands.registerCommand("Run Shooter", new RunShooter(m_shooter, Constants.ShooterConstants.shooterVelocity).withTimeout(5));
+        NamedCommands.registerCommand("Run Shooter", new RunShooter(m_shooter, Constants.ShooterConstants.shooterVelocity).withTimeout(10));
+        NamedCommands.registerCommand("Run Belt Indexer", new RunBeltIndexer(m_beltIndexer, Constants.BeltIndexerConstants.beltIndexerVoltage).withTimeout(10));
     }
 
     /**
