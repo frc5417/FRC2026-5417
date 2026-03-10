@@ -18,9 +18,7 @@ import edu.wpi.first.math.MathUtil;
 
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.RunBeltIndexer;
-import frc.robot.commands.RunShooter;
-import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -93,14 +91,6 @@ public class RobotContainer {
         /* Auto Chooser */
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
-    }
-
-    SmartDashboard.putBoolean("Pathplanner Active", isPathplanner);
-    registerNamedCommands();
-    configureBindings();
-
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
     /**
      * Use this method to define your button->command mappings. Buttons can be
@@ -174,8 +164,9 @@ public class RobotContainer {
         // NamedCommands.registerCommand("Run Elevator L4", new RunElevator(m_elevator,
         // Constants.ElevatorConstants.elevatorL4).withTimeout(2));
 
-        NamedCommands.registerCommand("RunBeltIndexer", new RunBeltIndexer(m_beltIndexer, -3.75).withTimeout(5));
-        NamedCommands.registerCommand("RunShooter", new RunShooter(m_shooter, 5000).withTimeout(5));
+        NamedCommands.registerCommand("Run Intake", new RunIntake(m_intake, Constants.IntakeConstants.intakeVoltage).withTimeout(5));
+        NamedCommands.registerCommand("Run Belt Indexer", new RunBeltIndexer(m_beltIndexer, Constants.BeltIndexerConstants.beltIndexerVoltage).withTimeout(5));
+        NamedCommands.registerCommand("Run Shooter", new RunShooter(m_shooter, Constants.ShooterConstants.shooterVelocity).withTimeout(5));
     }
 
     /**

@@ -126,20 +126,26 @@ public final class Constants {
     public static final int servoHubID = 60;
   }
 
-  public static class ShooterConstants {
-    public static final boolean shooterChildInvert = true;
-    public static final double kP = 0.0002;
-    public static final double kI = 0;
-    public static final double kD = 0;
+  public static class BeltIndexerConstants {
+    public static final double beltIndexerVoltage = -4;
   }
 
   public static class IntakeConstants {
     public static final double intakeFloor = 0.0;
     public static final double intakeUp = -1.5;
+    public static final double intakeVoltage = -4;
 
     public static final double intakekP = 0.50;
     public static final double intakekI = 0.0;
     public static final double intakekD = 0.0;
+  }
+
+  public static class ShooterConstants {
+    public static final boolean shooterChildInvert = true;
+    public static final double shooterVelocity = 5000;
+    public static final double kP = 0.00175;
+    public static final double kI = 0;
+    public static final double kD = 0;
   }
   
   public static final class VortexMotorConstants {
