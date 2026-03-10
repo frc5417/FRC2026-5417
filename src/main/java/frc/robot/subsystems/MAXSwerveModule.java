@@ -4,11 +4,14 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -39,7 +42,6 @@ public class MAXSwerveModule extends SubsystemBase {
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
   private PIDController turningPID;
-  private double[] drivePID = { 0, 0, 0 };
 
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
@@ -73,6 +75,25 @@ public class MAXSwerveModule extends SubsystemBase {
     m_drivingEncoder.setPosition(0);
   }
 
+  @Override
+  public void periodic() {
+    SmartDashboard.putData(this);
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    // if (DriverStation.isTest()) {
+    builder.addDoubleProperty("Error Velocity (ms^-1)",
+        () -> m_drivingEncoder.getVelocity() - m_drivingClosedLoopController.getSetpoint(), null);
+    builder.addDoubleProperty("Actual Velocity (ms^-1)", m_drivingEncoder::getVelocity, null);
+    builder.addDoubleProperty("Setpoint Velocity (ms^-1)", m_drivingClosedLoopController::getSetpoint, null);
+
+    builder.addDoubleProperty("Error Theta (rads)",
+        () -> m_drivingEncoder.getVelocity() - m_drivingClosedLoopController.getSetpoint(), null);
+    builder.addDoubleProperty("Actual Theta (rads)", m_turningEncoder::getPosition, null);
+    builder.addDoubleProperty("Setpoint Theta (rads)", m_turningClosedLoopController::getSetpoint, null);
+    // }
+  }
 
   /**
    * Returns the current state of the module.
@@ -111,13 +132,16 @@ public class MAXSwerveModule extends SubsystemBase {
     correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
-    correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
+    // correctedDesiredState.optimize(new
+    // Rotation2d(m_turningEncoder.getPosition()));
 
     // Command driving and turning SPARKS towards their respective setpoints.
     m_drivingClosedLoopController.setSetpoint(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
     // m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(),
     // ControlType.kPosition);
-    m_turningSpark.set(turningPID.calculate(m_turningEncoder.getPosition(), correctedDesiredState.angle.getRadians()));
+
+    double desiredAngle = MathUtil.inputModulus(correctedDesiredState.angle.getRadians(), 0, 2 * Math.PI);
+    m_turningSpark.set(turningPID.calculate(m_turningEncoder.getPosition(), desiredAngle));
 
     m_desiredState = desiredState;
   }
@@ -178,8 +202,4 @@ public class MAXSwerveModule extends SubsystemBase {
   // m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();
   // drivePID = pid;
   // }
-
-  public double[] getDrivePID() {
-    return drivePID;
-  }
 }

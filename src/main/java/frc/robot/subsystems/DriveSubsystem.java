@@ -89,24 +89,6 @@ public class DriveSubsystem extends SubsystemBase {
     builder.addDoubleProperty("Back Right Velocity", m_rearRight::getSpeed, null);
 
     builder.addDoubleProperty("Robot Angle", () -> m_pigeon.getRotation2d().getRadians(), null);
-
-    if (DriverStation.isTest()) {
-      /* PID Testing */
-      builder.addDoubleArrayProperty("Angle PID", m_frontLeft::getAnglePID, (double[] pid) -> {
-        m_frontLeft.setAnglePID(pid);
-        m_frontRight.setAnglePID(pid);
-        m_rearLeft.setAnglePID(pid);
-        m_rearRight.setAnglePID(pid);
-      });
-
-      // builder.addDoubleArrayProperty("Drive PID", m_frontLeft::getDrivePID,
-      // (double[] pid) -> {
-      // m_frontLeft.setDrivePID(pid);
-      // m_frontRight.setDrivePID(pid);
-      // m_rearLeft.setDrivePID(pid);
-      // m_rearRight.setDrivePID(pid);
-      // });
-    }
   }
 
   @Override
