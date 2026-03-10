@@ -4,37 +4,64 @@
 
 package frc.robot.commands;
 
+import com.revrobotics.servohub.ServoChannel;
+
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.*;
+
+/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+  /** Creates a new TeleOp. */
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
+  private final Turret m_turret;
+  private final Intake m_intake;
+  private final Shooter m_shooter;
+  private final BeltIndexer m_beltIndexer;
+  private final Shooter m_servoHub;
+  private final ServoChannel m_servoLeft;
+  private final ServoChannel m_servoRight;
   private final Climb m_climber;
 
-  /** Creates a new TeleOp. */
-  public TeleOp(Climb climber) {
-    // Use addRequirements() here to declare subsystem dependencies.
 
+  /** Creates a new TeleOp. */
+  public TeleOp(Turret turret, Intake intake, Shooter shooter, BeltIndexer beltIndexer, Shooter servoHub, ServoChannel servoLeft, ServoChannel servoRight, Climb climber) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.m_turret = turret;
+    this.m_intake = intake;
+    this.m_shooter = shooter;
+    this.m_beltIndexer = beltIndexer;
+    this.m_servoHub = servoHub;
+    this.m_servoLeft = servoLeft;
+    this.m_servoRight = servoRight;
     this.m_climber = climber;
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     SmartDashboard.putData("Field", m_field);
+    m_servoLeft.setPulseWidth(1500);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_turret.setTurretPos(0);
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_intake.stopIntake();
+    m_shooter.stopShooter();
+    m_beltIndexer.stopBeltIndexer();
     m_climber.stopClimber();
   }
 
