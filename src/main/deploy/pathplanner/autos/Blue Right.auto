@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1.BL - Trench to Neutral Zone"
+            "pathName": "1.BR - Trench to Neutral Zone"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "2.BL - Neutral Zone"
+            "pathName": "2.BR - Neutral Zone"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "3.BL - Neutral Zone to Trench"
+            "pathName": "3.BR - Neutral Zone to Trench"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "4.BL - Trench to Neutral Zone"
+            "pathName": "4.BR - Trench to Neutral Zone"
           }
         }
       ]
