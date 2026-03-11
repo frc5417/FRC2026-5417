@@ -161,6 +161,21 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   * Drives the robot using a quadratic relationship instead of a linear one.
+   * 
+   * @param xSpeed
+   * @param ySpeed
+   * @param rot
+   * @param fieldRelative
+   */
+  public void quadDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    double x = Math.signum(xSpeed) * Math.pow(xSpeed, 2);
+    double y = Math.signum(ySpeed) * Math.pow(ySpeed, 2);
+    double rotQuad = Math.signum(rot) * Math.pow(rot, 2);
+    drive(x, y, rotQuad, fieldRelative);
+  }
+
+  /**
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
