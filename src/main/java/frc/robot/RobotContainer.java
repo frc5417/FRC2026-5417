@@ -71,7 +71,7 @@ public class RobotContainer {
                     m_robotDrive::getRobotRelativeSpeeds,
                     (speeds, feedforwards) -> m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
                             speeds.omegaRadiansPerSecond, false),
-                    new PPHolonomicDriveController(new PIDConstants(2.5, 0, 0), new PIDConstants(5.0, 0, 0)),
+                    new PPHolonomicDriveController(new PIDConstants(1, 0, 0), new PIDConstants(1, 0, 0)),
                     config,
                     () -> {
                         var alliance = DriverStation.getAlliance();

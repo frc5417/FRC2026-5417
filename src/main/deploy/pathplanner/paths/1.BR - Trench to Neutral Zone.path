@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.9,
-        "y": 0.6
+        "y": 0.6000000000000001
       },
       "nextControl": null,
       "isLocked": false,
