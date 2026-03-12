@@ -74,6 +74,7 @@ public class Turret extends SubsystemBase {
       yawMotor.set(pid.calculate(rotPos, setpoint));
     } else {
       yawMotor.set(0);
+      rotPos -= dPos; // undo the change as to not lose track of the actual heading
     }
   }
 

@@ -30,7 +30,7 @@ public final class Constants {
     public static final double kLowBound = -1;
     public static final double kUpBound = 1.5;
     public static final double kPIDTolerance = 0.1; // 1/10th of a rotation
-    public static final double kWrapAround = 0.998; // what value indicates a wrap around
+    public static final double kWrapAround = 0.960; // what value indicates a wrap around
 
     public static final double kHeadingGearRatio = 1.0 / 16.0;
     public static final double kHeadingTxMultiplier = 0.2;
