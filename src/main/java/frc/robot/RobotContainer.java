@@ -70,8 +70,8 @@ public class RobotContainer {
                     m_robotDrive::resetOdometry,
                     m_robotDrive::getRobotRelativeSpeeds,
                     (speeds, feedforwards) -> m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
-                            speeds.omegaRadiansPerSecond, false),
-                    new PPHolonomicDriveController(new PIDConstants(1, 0, 0), new PIDConstants(1, 0, 0)),
+                            speeds.omegaRadiansPerSecond, true),
+                    new PPHolonomicDriveController(new PIDConstants(0.1, 0, 0), new PIDConstants(.05, 0, 0)),
                     config,
                     () -> {
                         var alliance = DriverStation.getAlliance();
