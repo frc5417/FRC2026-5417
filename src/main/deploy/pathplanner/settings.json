@@ -3,9 +3,10 @@
   "robotLength": 0.83185,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue Left",
-    "Blue Right",
+    "Left - Trench to Neutral Zone",
+    "Not Using",
     "Red Right",
+    "Right - Trench to Neutral Zone",
     "Testing"
   ],
   "autoFolders": [],
@@ -19,7 +20,7 @@
   "robotTrackwidth": 0.546,
   "driveWheelRadius": 0.038,
   "driveGearing": 4.0,
-  "maxDriveSpeed": 5.3,
+  "maxDriveSpeed": 6.0,
   "driveMotorType": "vortex",
   "driveCurrentLimit": 50.0,
   "wheelCOF": 0.5,
