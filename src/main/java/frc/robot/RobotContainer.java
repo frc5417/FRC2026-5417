@@ -55,9 +55,8 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        // Configure the button bindings
-        configureBindings();
         registerNamedCommands();
+        configureBindings();
         // Build an auto chooser. This will use Commands.none() as the default option.
         // AutoBuilder.configure(null, null, null, null, null, null, null, null);
 
