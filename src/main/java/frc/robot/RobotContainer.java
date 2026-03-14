@@ -157,6 +157,8 @@ public class RobotContainer {
      */
     private void registerNamedCommands() {
         NamedCommands.registerCommand("Run Intake", new RunIntake(m_intake, Constants.IntakeConstants.intakeVoltage).withTimeout(5));
+        NamedCommands.registerCommand("Run Intake Angle Up", new RunIntakeAngle(m_intake, Constants.IntakeConstants.intakeUp).withTimeout(5));
+        NamedCommands.registerCommand("Run Intake Angle Down", new RunIntakeAngle(m_intake, Constants.IntakeConstants.intakeFloor).withTimeout(5));
         NamedCommands.registerCommand("Run Shooter", new RunShooter(m_shooter, Constants.ShooterConstants.shooterVelocity).withTimeout(10));
         NamedCommands.registerCommand("Run Belt Indexer", new RunBeltIndexer(m_beltIndexer, Constants.BeltIndexerConstants.beltIndexerVoltage).withTimeout(10));
     }

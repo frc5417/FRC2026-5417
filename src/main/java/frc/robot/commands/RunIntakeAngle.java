@@ -8,22 +8,22 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class RunIntake extends Command {
+public class RunIntakeAngle extends Command {
   /** Creates a new RunIntake. */
   private Intake m_intake;
-  private double power;
+  private double pos;
   private boolean terminate = false;
 
-  public RunIntake(Intake intake, double power) {
+  public RunIntakeAngle(Intake intake, double pos) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_intake = intake;
-    this.power = power;
+    this.pos = pos;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.setIntakeVoltage(this.power);
+    m_intake.setIntakeAnglePos(this.pos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
