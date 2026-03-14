@@ -93,5 +93,20 @@ public class Turret extends SubsystemBase {
     targetPoint = point;
   }
 
+  public static double accountForWrapping(double oldAbsEncoderValue, double newAbsEncoderValue) {
+    // max amount of change in abs encoder value in one time step before assuming the turret has wrapped around
+    double omega = 0.03;
+    double delta = newAbsEncoderValue - oldAbsEncoderValue;
+    
+    if (delta >= omega) {
+      delta = delta - 1;
+    } else if (delta <= -omega) {
+      delta = delta + 1;
+    }
+    return oldAbsEncoderValue + delta;
+  }
+
+  
+
   
 }
