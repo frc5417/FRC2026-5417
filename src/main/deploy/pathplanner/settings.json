@@ -3,8 +3,9 @@
   "robotLength": 0.83185,
   "holonomicMode": true,
   "pathFolders": [
-    "Left - Trench to Neutral Zone",
     "Depo Shoot",
+    "Left - Trench to Neutral Zone",
+    "Trench to Trench",
     "Not Using",
     "Red Right",
     "Right - Trench to Neutral Zone",
