@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Trench to Neutral Zone"
+            "pathName": "1.A - L Trench to Neutral Zone"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Through Neutral Zone"
+            "pathName": "2.A - Neutral Zone"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Neutral Zone to Right Trench"
+            "pathName": "3.A - Neutral Zone to R Trench"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Trench to Trench",
   "choreoAuto": false
 }

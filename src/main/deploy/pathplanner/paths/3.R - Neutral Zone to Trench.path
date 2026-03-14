@@ -54,7 +54,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Right - Trench to Neutral Zone",
+  "folder": "Trench to Neutral Zone",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 90.0

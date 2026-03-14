@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1.L - Trench to Neutral Zone"
+            "pathName": "1.R - Trench to Neutral Zone"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "2.L - Neutral Zone"
+            "pathName": "1.R - Shooter On"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "3.L - Neutral Zone to Trench"
+            "pathName": "2.R - Shooter Off"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "4.L - Trench to Neutral Zone"
+            "pathName": "3.R - Shooter On"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Lobbing",
   "choreoAuto": false
 }

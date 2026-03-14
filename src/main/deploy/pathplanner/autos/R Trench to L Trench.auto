@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Bump to Depot"
+            "pathName": "1.B - R Trench to Neutral Zone"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot to Shoot"
+            "pathName": "2.B - Neutral Zone"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3.B - Neutral Zone to L Trench"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Trench to Trench",
   "choreoAuto": false
 }

@@ -3,15 +3,19 @@
   "robotLength": 0.83185,
   "holonomicMode": true,
   "pathFolders": [
-    "Depo Shoot",
-    "Left - Trench to Neutral Zone",
-    "Trench to Trench",
-    "Not Using",
-    "Red Right",
-    "Right - Trench to Neutral Zone",
-    "Testing"
+    "Lobbing",
+    "Shooting from Depot",
+    "Testing",
+    "Trench to Neutral Zone",
+    "Trench to Trench"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Lobbing",
+    "Trench to Neutral Zone",
+    "Shooting from Depot",
+    "Testing",
+    "Trench to Trench"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

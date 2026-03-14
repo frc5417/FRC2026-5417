@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.5,
-        "y": 2.0
+        "x": 3.6,
+        "y": 0.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.5,
-        "y": 1.1340826608360701
+        "x": 2.6,
+        "y": 0.7500000000000001
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.5,
-        "y": 0.5
+        "x": 0.75,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 6.317171151978512,
-        "y": 0.4999999999999998
+        "x": 1.75,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Trench to Trench",
+  "folder": "Shooting from Depot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

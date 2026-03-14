@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Trench to Depot"
+            "pathName": "1.R - Bump to Depot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot to Shoot"
+            "pathName": "2. Depot to Hub"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Shooting from Depot",
   "choreoAuto": false
 }

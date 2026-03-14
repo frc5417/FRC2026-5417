@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 4.0,
-        "y": 0.75
+        "y": 7.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 0.7500000000000001
+        "x": 6.785478628863235,
+        "y": 7.5
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.75,
+        "x": 7.5,
         "y": 6.0
       },
       "prevControl": {
-        "x": 1.75,
-        "y": 6.0
+        "x": 7.5,
+        "y": 7.029209496290743
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,11 +41,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 180.0
+    "velocity": 3.0,
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Depo Shoot",
+  "folder": "Trench to Trench",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

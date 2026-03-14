@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Figure 8"
+            "pathName": "1. Hub to Depot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2. Depot to Hub"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Testing",
+  "folder": "Shooting from Depot",
   "choreoAuto": false
 }
