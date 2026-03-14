@@ -5,22 +5,22 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+// import edu.wpi.first.math.controller.PIDController;
+// import edu.wpi.first.math.controller.ProfiledPIDController;
+// import edu.wpi.first.math.geometry.Pose2d;
+// import edu.wpi.first.math.geometry.Rotation2d;
+// import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.math.trajectory.Trajectory;
+// import edu.wpi.first.math.trajectory.TrajectoryConfig;
+// import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+// import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+// import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+// import edu.wpi.first.wpilibj2.command.StartEndCommand;
+// import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+// import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
@@ -91,7 +91,7 @@ public class RobotContainer {
         m_beltIndexer.setDefaultCommand(
                 new RunCommand(
                         () -> m_beltIndexer.setBeltIndexerVoltage(
-                                m_driverController.rightTrigger().getAsBoolean()
+                              m_driverController.rightTrigger().getAsBoolean()
                                         ? Constants.BeltIndexerConstants.beltIndexerVoltage
                                         : 0),
                         m_beltIndexer));
@@ -118,15 +118,17 @@ public class RobotContainer {
         // m_turret.setTurretPower(0.05), m_turret));
         /* Shooter Keybinds */
         m_driverController.a().whileTrue(
-                new RunCommand(() -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), m_shooter));
+                new RunCommand(
+                        () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), m_shooter));
         // m_driverController.b().whileTrue(new StopShooter(m_shooter));
         m_driverController.b().whileTrue(
-                new RunCommand(() -> m_shooter.setShooterVoltage(0), m_shooter));
+                new RunCommand(
+                        () -> m_shooter.setShooterVoltage(0), m_shooter));
 
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
-        // SmartDashboard.putString("Belt Indexer", "Hold R Trigger = Turn On");
-        SmartDashboard.putString("Belt Indexer", "stop touching it.");
+        SmartDashboard.putString("Belt Indexer", "Hold R Trigger = Turn On");
+        // SmartDashboard.putString("Belt Indexer", "stop touching it.");
         // SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
         SmartDashboard.putString("Intake", "stop touching it.");
         // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
