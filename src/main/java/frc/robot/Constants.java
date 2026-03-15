@@ -45,11 +45,11 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final double intakeFloor = 0.0;
-    public static final double intakeUp = -1.5;
-    public static final double intakeVoltage = -4;
+    public static final double intakeFloor = -4.5;
+    public static final double intakeUp = 0.0;
+    public static final double intakeVoltage = 4;
 
-    public static final double intakekP = 0.50;
+    public static final double intakekP = 0.25; 
     public static final double intakekI = 0.0;
     public static final double intakekD = 0.0;
   }
