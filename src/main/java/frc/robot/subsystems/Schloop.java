@@ -17,31 +17,31 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class BeltIndexer extends SubsystemBase {
+public class Schloop extends SubsystemBase {
     /* Variables */
-    private final SparkMax beltIndexer = new SparkMax(Constants.Identification.beltIndexerId, MotorType.kBrushless);
-    private final RelativeEncoder beltIndexerEncoder = beltIndexer.getEncoder();
-    private SparkMaxConfig beltIndexerConfig = new SparkMaxConfig();
+    private final SparkMax schloop = new SparkMax(Constants.Identification.schloopId, MotorType.kBrushless);
+    private final RelativeEncoder schloopEncoder = schloop.getEncoder();
+    private SparkMaxConfig schloopConfig = new SparkMaxConfig();
 
     /** Creates a new Belt Indexer. */
-    public BeltIndexer() {
-        beltIndexer
-            .configure(beltIndexerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    public Schloop() {
+        schloop
+            .configure(schloopConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        double RPM = Math.round(beltIndexerEncoder.getVelocity());
+        double RPM = Math.round(schloopEncoder.getVelocity());
 
         SmartDashboard.putNumber("Belt Indexer RPM", RPM); // RPM
     }
 
-    public void setBeltIndexerVoltage(double voltage) {
-        beltIndexer.setVoltage(voltage);
+    public void setSchloopVoltage(double voltage) {
+        schloop.setVoltage(voltage);
     }
 
-    public void stopBeltIndexer() {
-        beltIndexer.setVoltage(0);
+    public void stopSchloop() {
+        schloop.setVoltage(0);
     }
 }

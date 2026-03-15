@@ -25,9 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.*;
-import frc.robot.commands.StopShooter;
 import frc.robot.subsystems.*;
 
 /*
@@ -40,6 +38,7 @@ public class RobotContainer {
     // The robot's subsystems
     private final Turret m_turret = new Turret();
     private final Intake m_intake = new Intake();
+    private final Schloop m_schloop = new Schloop();
     private final Shooter m_shooter = new Shooter();
     private final BeltIndexer m_beltIndexer = new BeltIndexer();
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
@@ -47,7 +46,6 @@ public class RobotContainer {
     // The driver's controller
     private final CommandXboxController m_driverController = new CommandXboxController(
             OperatorConstants.kDriverControllerPort);
-
     // The manipulator's controller
     private final CommandXboxController m_manipulatorController = new CommandXboxController(
             OperatorConstants.kManipulatorControllerPort);
@@ -66,25 +64,21 @@ public class RobotContainer {
             // The left stick controls translation of the robot.
             // Turning is controlled by the X axis of the right stick.
             new RunCommand(
-                () -> m_robotDrive.drive(
-                    -MathUtil.applyDeadband(m_driverController.getLeftY(),
-                                            OperatorConstants.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getLeftX(),
-                                            OperatorConstants.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getRightX(),
-                                            OperatorConstants.kDriveDeadband),
-                    true
-                ),
+                () -> m_robotDrive.drive(-MathUtil.applyDeadband(m_driverController.getLeftY(),
+                                                                 OperatorConstants.kDriveDeadband),
+                                         -MathUtil.applyDeadband(m_driverController.getLeftX(),
+                                                                 OperatorConstants.kDriveDeadband),
+                                         -MathUtil.applyDeadband(m_driverController.getRightX(),
+                                                                 OperatorConstants.kDriveDeadband),
+                                        true),
                 m_robotDrive
             )
         );
 
         m_turret.setDefaultCommand(
             new RunCommand(
-                () -> m_turret.setTurretPower(
-                    -MathUtil.applyDeadband(m_manipulatorController.getRightX(),
-                                            TurretConstants.kTurretDeadband)
-                ),
+                () -> m_turret.setTurretPower(-MathUtil.applyDeadband(m_manipulatorController.getRightX(),
+                                                                      TurretConstants.kTurretDeadband)),
                 m_turret
             )
         );
@@ -101,86 +95,80 @@ public class RobotContainer {
      * {@link JoystickButton}.
      */
     private void configureBindings() {
+
         /* Drivetrain Keybinds */
         m_driverController.leftTrigger().whileTrue(
             new RunCommand(
-                () -> m_robotDrive.setX(), m_robotDrive
+                () -> m_robotDrive.setX(), 
+                m_robotDrive
             )
         );
         m_driverController.start().onTrue(
             new InstantCommand(
-                () -> m_robotDrive.zeroHeading(), m_robotDrive
+                () -> m_robotDrive.zeroHeading(), 
+                m_robotDrive
             )
         );
+
         /* Belt Indexer Keybinds */
         m_beltIndexer.setDefaultCommand(
             new RunCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    m_driverController.rightTrigger().getAsBoolean() 
-                    ? Constants.BeltIndexerConstants.beltIndexerVoltage 
-                    : 0
-                ), 
+                () -> m_beltIndexer.setBeltIndexerVoltage(m_driverController.rightTrigger().getAsBoolean() 
+                                                          ? Constants.BeltIndexerConstants.beltIndexerVoltage 
+                                                          : 0), 
                 m_beltIndexer
             )
         );
+
         /* Intake Keybinds */
         m_driverController.rightBumper().toggleOnTrue(
             new StartEndCommand(
-                () -> m_intake.setIntakeVoltage(
-                    Constants.IntakeConstants.intakeVoltage
-                ),
-                () -> m_intake.setIntakeVoltage(
-                    0
-                ),
+                () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage),
+                () -> m_intake.setIntakeVoltage(0),
                 m_intake
             )
         );
         m_driverController.x().whileTrue(
             new RunCommand(
-                () -> m_intake.setIntakeAngleUpPos(
-                    Constants.IntakeConstants.intakeUp
-                ), 
+                () -> m_intake.setIntakeAngleUpPos(Constants.IntakeConstants.intakeUp), 
                 m_intake
             )
         );
         m_driverController.y().whileTrue(
             new RunCommand(
-                () -> m_intake.setIntakeAngleDownPos(
-                    Constants.IntakeConstants.intakeFloor
-                ),
+                () -> m_intake.setIntakeAngleDownPos(Constants.IntakeConstants.intakeFloor),
                 m_intake
             )
         );
-        /* Turret Keybinds */
-        // m_driverController.a().whileTrue(new RunCommand(() ->
-        //      m_turret.setTurretPower(-0.05), m_turret));
-        //              m_driverController.b().whileTrue(new RunCommand(() ->
-        // m_turret.setTurretPower(0.05), m_turret));
-                // Default turret control: map the manipulator controller's left X axis to turret power
-
        
+        /* Schloop Keybinds */
+        m_schloop.setDefaultCommand(
+            new RunCommand(
+                () -> m_schloop.setSchloopVoltage(m_driverController.rightTrigger().getAsBoolean() 
+                                                  ? Constants.SchloopConstants.schloopVoltage 
+                                                  : 0), 
+                m_schloop
+            )
+        );
+
         /* Shooter Keybinds */
         m_driverController.a().whileTrue(
             new RunCommand(
-                () -> m_shooter.setVelocity(
-                    Constants.ShooterConstants.shooterVelocity
-                ), 
+                () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), 
                 m_shooter
             )
         );
         // m_driverController.b().whileTrue(new StopShooter(m_shooter));
         m_driverController.b().whileTrue(
             new RunCommand(
-                () -> m_shooter.setShooterVoltage(
-                    0
-                ), 
+                () -> m_shooter.setShooterVoltage(0), 
                 m_shooter
             )
         );
 
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
-        SmartDashboard.putString("Belt Indexer", "Hold R Trigger = Turn On");
+        SmartDashboard.putString("Belt Indexer / Schloop", "Hold R Trigger = Turn On");
         // SmartDashboard.putString("Belt Indexer", "stop touching it.");
         SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
         // SmartDashboard.putString("Intake", "stop touching it.");

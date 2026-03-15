@@ -35,10 +35,12 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Shooter. */
     public Intake() {
-        intakeConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL)
-                    .idleMode(IdleMode.kBrake);
+        intakeConfig
+            .smartCurrentLimit(Constants.HardwareConstants.kVortexCL)
+            .idleMode(IdleMode.kBrake);
 
-        intakeAngleConfig.smartCurrentLimit(Constants.HardwareConstants.kVortexCL)
+        intakeAngleConfig
+            .smartCurrentLimit(Constants.HardwareConstants.kVortexCL)
             .idleMode(IdleMode.kBrake)
             .closedLoop
                 // Set PID gains for position control in slot 0.
@@ -51,8 +53,10 @@ public class Intake extends SubsystemBase {
                 .i(Constants.IntakeConstants.intakekI1, ClosedLoopSlot.kSlot1)
                 .p(Constants.IntakeConstants.intakekD1, ClosedLoopSlot.kSlot1);
 
-        intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        intakeAngle.configure(intakeAngleConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        intake
+            .configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        intakeAngle
+            .configure(intakeAngleConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         intakeAnglePID = intakeAngle.getClosedLoopController();
     }
