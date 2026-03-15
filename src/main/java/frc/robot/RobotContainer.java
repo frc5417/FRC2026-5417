@@ -63,27 +63,30 @@ public class RobotContainer {
 
         // Configure default commands
         m_robotDrive.setDefaultCommand(
-                // The left stick controls translation of the robot.
-                // Turning is controlled by the X axis of the right stick.
-                new RunCommand(
-                        () -> m_robotDrive.drive(
-                                -MathUtil.applyDeadband(m_driverController.getLeftY(),
-                                        OperatorConstants.kDriveDeadband),
-                                -MathUtil.applyDeadband(m_driverController.getLeftX(),
-                                        OperatorConstants.kDriveDeadband),
-                                -MathUtil.applyDeadband(m_driverController.getRightX(),
-                                        OperatorConstants.kDriveDeadband),
-                                true),
-                        m_robotDrive));
+            // The left stick controls translation of the robot.
+            // Turning is controlled by the X axis of the right stick.
+            new RunCommand(
+                () -> m_robotDrive.drive(
+                    -MathUtil.applyDeadband(m_driverController.getLeftY(),
+                                            OperatorConstants.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getLeftX(),
+                                            OperatorConstants.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getRightX(),
+                                            OperatorConstants.kDriveDeadband),
+                    true
+                ),
+                m_robotDrive
+            )
+        );
 
         m_turret.setDefaultCommand(
-                new RunCommand(
-                        () -> m_turret.setTurretPower(
-                                -MathUtil.applyDeadband(m_manipulatorController.getRightX(),
-                                        TurretConstants.kTurretDeadband)
-                        ),
-                        m_turret
-                )
+            new RunCommand(
+                () -> m_turret.setTurretPower(
+                    -MathUtil.applyDeadband(m_manipulatorController.getRightX(),
+                                            TurretConstants.kTurretDeadband)
+                ),
+                m_turret
+            )
         );
         // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
@@ -100,55 +103,53 @@ public class RobotContainer {
     private void configureBindings() {
         /* Drivetrain Keybinds */
         m_driverController.leftTrigger().whileTrue(
-                new RunCommand(
-                        () -> m_robotDrive.setX(), m_robotDrive
-                )
+            new RunCommand(
+                () -> m_robotDrive.setX(), m_robotDrive
+            )
         );
         m_driverController.start().onTrue(
-                new InstantCommand(
-                        () -> m_robotDrive.zeroHeading(), m_robotDrive
-                )
+            new InstantCommand(
+                () -> m_robotDrive.zeroHeading(), m_robotDrive
+            )
         );
         /* Belt Indexer Keybinds */
         m_beltIndexer.setDefaultCommand(
-                new RunCommand(
-                        () -> m_beltIndexer.setBeltIndexerVoltage(
-                                m_driverController.rightTrigger().getAsBoolean() 
-                                ? Constants.BeltIndexerConstants.beltIndexerVoltage 
-                                : 0
-                        ), 
-                        m_beltIndexer
-                )
+            new RunCommand(
+                () -> m_beltIndexer.setBeltIndexerVoltage(
+                    m_driverController.rightTrigger().getAsBoolean() 
+                    ? Constants.BeltIndexerConstants.beltIndexerVoltage 
+                    : 0
+                ), 
+                m_beltIndexer
+            )
         );
         /* Intake Keybinds */
         m_driverController.rightBumper().toggleOnTrue(
-                new StartEndCommand(
-                        () -> m_intake.setIntakeVoltage(
-                                Constants.IntakeConstants.intakeVoltage
-                        ),
-                        () -> m_intake.setIntakeVoltage(
-                                0
-                        ),
-                        m_intake
-                )
+            new StartEndCommand(
+                () -> m_intake.setIntakeVoltage(
+                    Constants.IntakeConstants.intakeVoltage
+                ),
+                () -> m_intake.setIntakeVoltage(
+                    0
+                ),
+                m_intake
+            )
         );
         m_driverController.x().whileTrue(
-                new RunCommand(
-                        () -> m_intake.setIntakeAnglePos(
-                                0.1,
-                                Constants.IntakeConstants.intakeUp
-                        ), 
-                        m_intake
-                )
+            new RunCommand(
+                () -> m_intake.setIntakeAngleUpPos(
+                    Constants.IntakeConstants.intakeUp
+                ), 
+                m_intake
+            )
         );
         m_driverController.y().whileTrue(
-                new RunCommand(
-                        () -> m_intake.setIntakeAnglePos(
-                                0.1,
-                                Constants.IntakeConstants.intakeFloor
-                        ),
-                        m_intake
-                )
+            new RunCommand(
+                () -> m_intake.setIntakeAngleDownPos(
+                    Constants.IntakeConstants.intakeFloor
+                ),
+                m_intake
+            )
         );
         /* Turret Keybinds */
         // m_driverController.a().whileTrue(new RunCommand(() ->
@@ -157,27 +158,24 @@ public class RobotContainer {
         // m_turret.setTurretPower(0.05), m_turret));
                 // Default turret control: map the manipulator controller's left X axis to turret power
 
-        
-
-
        
         /* Shooter Keybinds */
         m_driverController.a().whileTrue(
-                new RunCommand(
-                        () -> m_shooter.setVelocity(
-                                Constants.ShooterConstants.shooterVelocity
-                        ), 
-                        m_shooter
-                )
+            new RunCommand(
+                () -> m_shooter.setVelocity(
+                    Constants.ShooterConstants.shooterVelocity
+                ), 
+                m_shooter
+            )
         );
         // m_driverController.b().whileTrue(new StopShooter(m_shooter));
         m_driverController.b().whileTrue(
-                new RunCommand(
-                        () -> m_shooter.setShooterVoltage(
-                                0
-                        ), 
-                        m_shooter
-                )
+            new RunCommand(
+                () -> m_shooter.setShooterVoltage(
+                    0
+                ), 
+                m_shooter
+            )
         );
 
         /* Controller Binding Key */
