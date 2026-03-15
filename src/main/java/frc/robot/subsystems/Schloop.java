@@ -34,7 +34,7 @@ public class Schloop extends SubsystemBase {
         // This method will be called once per scheduler run
         double RPM = Math.round(schloopEncoder.getVelocity());
 
-        SmartDashboard.putNumber("Belt Indexer RPM", RPM); // RPM
+        SmartDashboard.putNumber("Schloop RPM", RPM); // RPM
     }
 
     public void setSchloopVoltage(double voltage) {

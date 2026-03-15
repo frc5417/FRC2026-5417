@@ -17,13 +17,15 @@ public class TeleOp extends Command {
   private final Field2d m_field = new Field2d();
   private final Intake m_intake;
   private final Shooter m_shooter;
+  private final Schloop m_schloop;
   private final BeltIndexer m_beltIndexer;
 
   /** Creates a new TeleOp. */
-  public TeleOp(Intake intake, Shooter shooter, BeltIndexer beltIndexer) {
+  public TeleOp(Intake intake, Shooter shooter, Schloop schloop, BeltIndexer beltIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_intake = intake;
     this.m_shooter = shooter;
+    this.m_schloop = schloop;
     this.m_beltIndexer = beltIndexer;
   }
 
@@ -43,6 +45,7 @@ public class TeleOp extends Command {
   public void end(boolean interrupted) {
     m_intake.stopIntake();
     m_shooter.stopShooter();
+    m_schloop.stopSchloop();
     m_beltIndexer.stopBeltIndexer();
   }
 
