@@ -37,5 +37,8 @@ public final class ControllerHelper {
             }
             return kManipulator.getRightTriggerAxis();
         }
+        
+            
+        
     }
 }

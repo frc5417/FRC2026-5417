@@ -48,6 +48,10 @@ public class RobotContainer {
     private final CommandXboxController m_driverController = new CommandXboxController(
             OperatorConstants.kDriverControllerPort);
 
+    // The manipulator's controller
+    private final CommandXboxController m_manipulatorController = new CommandXboxController(
+            OperatorConstants.kManipulatorControllerPort);
+
     double intakeAnglePos = 0.0;
 
     /**
@@ -71,6 +75,16 @@ public class RobotContainer {
                                         OperatorConstants.kDriveDeadband),
                                 true),
                         m_robotDrive));
+
+        m_turret.setDefaultCommand(
+                new RunCommand(
+                        () -> m_turret.setTurretPower(
+                                -MathUtil.applyDeadband(m_manipulatorController.getRightX(),
+                                        TurretConstants.kTurretDeadband)
+                        ),
+                        m_turret
+                )
+        );
         // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
@@ -138,9 +152,15 @@ public class RobotContainer {
         );
         /* Turret Keybinds */
         // m_driverController.a().whileTrue(new RunCommand(() ->
-        // m_turret.setTurretPower(-0.05), m_turret));
-        // m_driverController.b().whileTrue(new RunCommand(() ->
+        //      m_turret.setTurretPower(-0.05), m_turret));
+        //              m_driverController.b().whileTrue(new RunCommand(() ->
         // m_turret.setTurretPower(0.05), m_turret));
+                // Default turret control: map the manipulator controller's left X axis to turret power
+
+        
+
+
+       
         /* Shooter Keybinds */
         m_driverController.a().whileTrue(
                 new RunCommand(

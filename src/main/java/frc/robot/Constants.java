@@ -66,6 +66,7 @@ public final class Constants {
     public static final double turretkP = 0.01;
     public static final double turretkI = 0;
     public static final double turretkD = 0;
+    public static final double kTurretDeadband = 0.3;
   }
 
   public static class HardwareConstants {
