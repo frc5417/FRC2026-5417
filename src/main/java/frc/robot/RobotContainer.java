@@ -75,13 +75,13 @@ public class RobotContainer {
             )
         );
 
-        m_turret.setDefaultCommand(
-            new RunCommand(
-                () -> m_turret.setTurretPower(-MathUtil.applyDeadband(m_manipulatorController.getRightX(),
-                                                                      TurretConstants.kTurretDeadband)),
-                m_turret
-            )
-        );
+        // m_turret.setDefaultCommand(
+        //     new RunCommand(
+        //         () -> m_turret.setTurretPower(-MathUtil.applyDeadband(m_manipulatorController.getRightX(),
+        //                                                               TurretConstants.kTurretDeadband)),
+        //         m_turret
+        //     )
+        // );
         // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
@@ -130,13 +130,13 @@ public class RobotContainer {
         );
         m_driverController.x().whileTrue(
             new RunCommand(
-                () -> m_intake.setIntakeAngleUpPos(Constants.IntakeConstants.intakeUp), 
+                () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), 
                 m_intake
             )
         );
         m_driverController.y().whileTrue(
             new RunCommand(
-                () -> m_intake.setIntakeAngleDownPos(Constants.IntakeConstants.intakeFloor),
+                () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor),
                 m_intake
             )
         );
@@ -168,7 +168,7 @@ public class RobotContainer {
 
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
-        SmartDashboard.putString("Belt Indexer / Schloop", "Hold R Trigger = Turn On");
+        SmartDashboard.putString("Belt Indexer & Schloop", "Hold R Trigger = Turn On");
         // SmartDashboard.putString("Belt Indexer", "stop touching it.");
         SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
         // SmartDashboard.putString("Intake", "stop touching it.");

@@ -50,11 +50,11 @@ public final class Constants {
         public static final double intakeUp = 0.0;
         public static final double intakeVoltage = 4;
 
-        public static final double intakekP = 0.1; 
+        public static final double intakekP = 0.25; 
         public static final double intakekI = 0.0;
         public static final double intakekD = 0.0;
 
-        public static final double intakekP1 = 0.5;
+        public static final double intakekP1 = 0.3;
         public static final double intakekI1 = 0.0;
         public static final double intakekD1 = 0.0;
     }

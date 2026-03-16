@@ -49,9 +49,9 @@ public class Intake extends SubsystemBase {
                 .i(Constants.IntakeConstants.intakekI, ClosedLoopSlot.kSlot0)
                 .d(Constants.IntakeConstants.intakekD, ClosedLoopSlot.kSlot0)
                 // Set PID gains for velocity control in slot 1
-                .p(Constants.IntakeConstants.intakekP1, ClosedLoopSlot.kSlot1)
-                .i(Constants.IntakeConstants.intakekI1, ClosedLoopSlot.kSlot1)
-                .p(Constants.IntakeConstants.intakekD1, ClosedLoopSlot.kSlot1);
+                // .p(Constants.IntakeConstants.intakekP1, ClosedLoopSlot.kSlot1)
+                // .i(Constants.IntakeConstants.intakekI1, ClosedLoopSlot.kSlot1)
+                // .p(Constants.IntakeConstants.intakekD1, ClosedLoopSlot.kSlot1);
 
         intake
             .configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -87,13 +87,13 @@ public class Intake extends SubsystemBase {
         intake.setVoltage(voltage);
     }
 
-    public void setIntakeAngleUpPos(double pos) {
+    public void setIntakeAnglePos(double pos) {
         intakeAnglePID.setSetpoint(pos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
     }
 
-    public void setIntakeAngleDownPos(double pos) {
-        intakeAnglePID.setSetpoint(pos, ControlType.kPosition, ClosedLoopSlot.kSlot1);
-    }
+    // public void setIntakeAngleDownPos(double pos) {
+    //     intakeAnglePID.setSetpoint(pos, ControlType.kPosition, ClosedLoopSlot.kSlot1);
+    // }
 
     public double getIntakeAnglePos() {
         return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;
