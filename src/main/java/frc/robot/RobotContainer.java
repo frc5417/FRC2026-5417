@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 
@@ -50,8 +52,6 @@ public class RobotContainer {
     private final CommandXboxController m_manipulatorController = new CommandXboxController(
             OperatorConstants.kManipulatorControllerPort);
 
-    double intakeAnglePos = 0.0;
-
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -75,14 +75,7 @@ public class RobotContainer {
             )
         );
 
-        // m_turret.setDefaultCommand(
-        //     new RunCommand(
-        //         () -> m_turret.setTurretPower(-MathUtil.applyDeadband(m_manipulatorController.getRightX(),
-        //                                                               TurretConstants.kTurretDeadband)),
-        //         m_turret
-        //     )
-        // );
-        // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
     /**
@@ -140,7 +133,7 @@ public class RobotContainer {
                 m_intake
             )
         );
-       
+        
         /* Schloop Keybinds */
         m_schloop.setDefaultCommand(
             new RunCommand(
@@ -158,22 +151,29 @@ public class RobotContainer {
                 m_shooter
             )
         );
-        // m_driverController.b().whileTrue(new StopShooter(m_shooter));
         m_driverController.b().whileTrue(
             new RunCommand(
                 () -> m_shooter.setShooterVoltage(0), 
                 m_shooter
-            )
-        );
+                )
+                );
+        // m_driverController.b().whileTrue(new StopShooter(m_shooter));
+
+        /* Turret Keybinds */
+        // m_turret.setDefaultCommand(
+        //     new RunCommand(
+        //         () -> m_turret.setTurretPower(-MathUtil.applyDeadband(m_manipulatorController.getRightX(),
+        //                                                               TurretConstants.kTurretDeadband)),
+        //         m_turret
+        //     )
+        // );
 
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
         SmartDashboard.putString("Belt Indexer & Schloop", "Hold R Trigger = Turn On");
-        // SmartDashboard.putString("Belt Indexer", "stop touching it.");
         SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
-        // SmartDashboard.putString("Intake", "stop touching it.");
-        // SmartDashboard.putString("Turret", "A = Turn One Way \n B = Turn Other Way");
-        SmartDashboard.putString("Turret", "stop touching it.");
+        // SmartDashboard.putString("Turret", "R Joystick = Move Turret");
+        SmartDashboard.putString("Turret", "MANUAL LOCK ENABLED >:)");
         SmartDashboard.putString("Shooter", "Tap A = Turn On \n Tap B = Turn Off");
     }
 
