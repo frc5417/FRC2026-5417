@@ -47,7 +47,7 @@ public class Intake extends SubsystemBase {
                 // We don't have to pass a slot number since the default is slot 0.
                 .p(Constants.IntakeConstants.intakekP, ClosedLoopSlot.kSlot0)
                 .i(Constants.IntakeConstants.intakekI, ClosedLoopSlot.kSlot0)
-                .d(Constants.IntakeConstants.intakekD, ClosedLoopSlot.kSlot0)
+                .d(Constants.IntakeConstants.intakekD, ClosedLoopSlot.kSlot0);
                 // Set PID gains for velocity control in slot 1
                 // .p(Constants.IntakeConstants.intakekP1, ClosedLoopSlot.kSlot1)
                 // .i(Constants.IntakeConstants.intakekI1, ClosedLoopSlot.kSlot1)
@@ -81,6 +81,8 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Intake Voltage", voltage); // Voltage
         SmartDashboard.putNumber("Intake Increment Value", value);
         SmartDashboard.putNumber("Intake Angle Revs", getIntakeAnglePos());
+        SmartDashboard.putNumber("Intake Angle Current", intakeAngle.getOutputCurrent());
+
     }
 
     public void setIntakeVoltage(double voltage) {

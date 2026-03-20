@@ -49,8 +49,9 @@ public final class Constants {
         public static final double intakeFloor = -4.5;
         public static final double intakeUp = 0.0;
         public static final double intakeVoltage = 4;
+        public static final double outtakeVoltage = -4;
 
-        public static final double intakekP = 0.25; 
+        public static final double intakekP = 0.35; 
         public static final double intakekI = 0.0;
         public static final double intakekD = 0.0;
 

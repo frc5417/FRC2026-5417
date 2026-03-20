@@ -117,7 +117,13 @@ public class RobotContainer {
         m_driverController.rightBumper().toggleOnTrue(
             new StartEndCommand(
                 () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage),
-                () -> m_intake.setIntakeVoltage(0),
+                () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.outtakeVoltage),
+                m_intake
+            )
+        );
+        m_driverController.leftBumper().whileTrue(
+            new RunCommand(
+                () -> m_intake.setIntakeVoltage(0), 
                 m_intake
             )
         );
@@ -171,7 +177,7 @@ public class RobotContainer {
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
         SmartDashboard.putString("Belt Indexer & Schloop", "Hold R Trigger = Turn On");
-        SmartDashboard.putString("Intake", "Toggle R Bumper = Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+        SmartDashboard.putString("Intake", "Toggle R Bumper = Intake or Outtake \n Tap L Bumper = Stop Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
         // SmartDashboard.putString("Turret", "R Joystick = Move Turret");
         SmartDashboard.putString("Turret", "MANUAL LOCK ENABLED >:)");
         SmartDashboard.putString("Shooter", "Tap A = Turn On \n Tap B = Turn Off");
