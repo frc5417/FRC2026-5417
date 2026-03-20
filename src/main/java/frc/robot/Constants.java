@@ -46,18 +46,14 @@ public final class Constants {
     }
 
     public static class IntakeConstants {
-        public static final double intakeFloor = -4.5;
+        public static final double intakeFloor = -17.8;
         public static final double intakeUp = 0.0;
-        public static final double intakeVoltage = 4;
+        public static final double intakeVoltage = 8;
         public static final double outtakeVoltage = -4;
 
-        public static final double intakekP = 0.35; 
+        public static final double intakekP = 0.04; 
         public static final double intakekI = 0.0;
         public static final double intakekD = 0.0;
-
-        public static final double intakekP1 = 0.3;
-        public static final double intakekI1 = 0.0;
-        public static final double intakekD1 = 0.0;
     }
 
     public static class SchloopConstants {

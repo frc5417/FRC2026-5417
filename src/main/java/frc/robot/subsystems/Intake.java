@@ -43,15 +43,9 @@ public class Intake extends SubsystemBase {
             .smartCurrentLimit(Constants.HardwareConstants.kVortexCL)
             .idleMode(IdleMode.kBrake)
             .closedLoop
-                // Set PID gains for position control in slot 0.
-                // We don't have to pass a slot number since the default is slot 0.
-                .p(Constants.IntakeConstants.intakekP, ClosedLoopSlot.kSlot0)
-                .i(Constants.IntakeConstants.intakekI, ClosedLoopSlot.kSlot0)
-                .d(Constants.IntakeConstants.intakekD, ClosedLoopSlot.kSlot0);
-                // Set PID gains for velocity control in slot 1
-                // .p(Constants.IntakeConstants.intakekP1, ClosedLoopSlot.kSlot1)
-                // .i(Constants.IntakeConstants.intakekI1, ClosedLoopSlot.kSlot1)
-                // .p(Constants.IntakeConstants.intakekD1, ClosedLoopSlot.kSlot1);
+                .p(Constants.IntakeConstants.intakekP)
+                .i(Constants.IntakeConstants.intakekI)
+                .d(Constants.IntakeConstants.intakekD);
 
         intake
             .configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -82,7 +76,6 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Intake Increment Value", value);
         SmartDashboard.putNumber("Intake Angle Revs", getIntakeAnglePos());
         SmartDashboard.putNumber("Intake Angle Current", intakeAngle.getOutputCurrent());
-
     }
 
     public void setIntakeVoltage(double voltage) {
@@ -92,10 +85,6 @@ public class Intake extends SubsystemBase {
     public void setIntakeAnglePos(double pos) {
         intakeAnglePID.setSetpoint(pos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
     }
-
-    // public void setIntakeAngleDownPos(double pos) {
-    //     intakeAnglePID.setSetpoint(pos, ControlType.kPosition, ClosedLoopSlot.kSlot1);
-    // }
 
     public double getIntakeAnglePos() {
         return Math.round(intakeAngleEncoder.getPosition() * 100) / 100.0;

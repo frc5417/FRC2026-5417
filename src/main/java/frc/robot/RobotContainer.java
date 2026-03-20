@@ -15,10 +15,11 @@ import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-// import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 // import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 // import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -116,8 +117,8 @@ public class RobotContainer {
         /* Intake Keybinds */
         m_driverController.rightBumper().toggleOnTrue(
             new StartEndCommand(
-                () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage),
                 () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.outtakeVoltage),
+                () -> m_intake.setIntakeVoltage(Constants.IntakeConstants.intakeVoltage),
                 m_intake
             )
         );
@@ -231,14 +232,31 @@ public class RobotContainer {
         // return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0,
         // false));
 
-        // return new SequentialCommandGroup(
-        //         new InstantCommand(() -> m_robotDrive.drive(0.25, 0, 0, true))
-                // new InstantCommand(() -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), m_shooter),
-                // new WaitCommand(2),
-                // new InstantCommand(
-                //         () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage),
-                //         m_beltIndexer),
-                // new WaitCommand(15)
-        return null;
+        return new SequentialCommandGroup(
+            new InstantCommand(
+                () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), 
+                m_shooter),
+            new WaitCommand(3),
+            new InstantCommand(
+                () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                m_schloop),
+            new WaitCommand(0.01),
+            new InstantCommand(
+                () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                m_beltIndexer),
+            new WaitCommand(17)
+
+            // new ParallelCommandGroup(
+            //     new InstantCommand(
+            //             () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+            //             m_beltIndexer),
+            //     new InstantCommand(
+            //             () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+            //             m_schloop),
+            //     new WaitCommand(17)
+        );
+        // return null;
     }
 }
+
+//a = intake down, b = intake middle, y = intake up, x = shooter toggle
