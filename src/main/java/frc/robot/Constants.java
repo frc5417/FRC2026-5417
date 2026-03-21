@@ -47,6 +47,7 @@ public final class Constants {
 
     public static class IntakeConstants {
         public static final double intakeFloor = -17.8;
+        public static final double intakeMiddle = -6;
         public static final double intakeUp = 0.0;
         public static final double intakeVoltage = 8;
         public static final double outtakeVoltage = -4;

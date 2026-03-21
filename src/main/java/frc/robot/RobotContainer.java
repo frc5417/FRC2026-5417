@@ -128,13 +128,19 @@ public class RobotContainer {
                 m_intake
             )
         );
-        m_driverController.x().whileTrue(
+        m_driverController.y().whileTrue(
             new RunCommand(
                 () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp), 
                 m_intake
             )
         );
-        m_driverController.y().whileTrue(
+        m_driverController.b().whileTrue(
+            new RunCommand(
+                () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeMiddle),
+                m_intake
+            )
+        );
+        m_driverController.a().whileTrue(
             new RunCommand(
                 () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor),
                 m_intake
@@ -152,18 +158,26 @@ public class RobotContainer {
         );
 
         /* Shooter Keybinds */
-        m_driverController.a().whileTrue(
-            new RunCommand(
-                () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), 
+        // m_driverController.x().whileTrue(
+        //     new RunCommand(
+        //         () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity), 
+        //         m_shooter
+        //     )
+        // );
+        // m_driverController.b().whileTrue(
+        //     new RunCommand(
+        //         () -> m_shooter.setShooterVoltage(0), 
+        //         m_shooter
+        //     )
+        // );
+        m_driverController.x().toggleOnTrue(
+            new StartEndCommand(
+                () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity),
+                () -> m_shooter.setShooterVoltage(0),
                 m_shooter
             )
         );
-        m_driverController.b().whileTrue(
-            new RunCommand(
-                () -> m_shooter.setShooterVoltage(0), 
-                m_shooter
-                )
-                );
+
         // m_driverController.b().whileTrue(new StopShooter(m_shooter));
 
         /* Turret Keybinds */
@@ -178,10 +192,10 @@ public class RobotContainer {
         /* Controller Binding Key */
         SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
         SmartDashboard.putString("Belt Indexer & Schloop", "Hold R Trigger = Turn On");
-        SmartDashboard.putString("Intake", "Toggle R Bumper = Intake or Outtake \n Tap L Bumper = Stop Intake \n X = Angle Pos Up \n Y = Angle Pos Down");
+        SmartDashboard.putString("Intake", "Toggle R Bumper = Intake or Outtake \n Tap L Bumper = Stop Intake \n Y = Angle Pos Up \n B = Angle Pos Mid \n A = Angle Pos Down");
         // SmartDashboard.putString("Turret", "R Joystick = Move Turret");
         SmartDashboard.putString("Turret", "MANUAL LOCK ENABLED >:)");
-        SmartDashboard.putString("Shooter", "Tap A = Turn On \n Tap B = Turn Off");
+        SmartDashboard.putString("Shooter", "Toggle X = Shooter On or Off");
     }
 
     /**
@@ -241,22 +255,151 @@ public class RobotContainer {
                 () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
                 m_schloop),
             new WaitCommand(0.01),
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
-                m_beltIndexer),
-            new WaitCommand(17)
-
-            // new ParallelCommandGroup(
-            //     new InstantCommand(
-            //             () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
-            //             m_beltIndexer),
-            //     new InstantCommand(
-            //             () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
-            //             m_schloop),
-            //     new WaitCommand(17)
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(Constants.BeltIndexerConstants.beltIndexerVoltage), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(Constants.SchloopConstants.schloopVoltage),
+                    m_schloop),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new InstantCommand(
+                    () -> m_beltIndexer.setBeltIndexerVoltage(0), 
+                    m_beltIndexer),
+                new InstantCommand(
+                    () -> m_schloop.setSchloopVoltage(0),
+                    m_schloop),
+                new WaitCommand(0.5)
+            )
         );
         // return null;
     }
 }
-
-//a = intake down, b = intake middle, y = intake up, x = shooter toggle
