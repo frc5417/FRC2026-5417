@@ -38,9 +38,6 @@ public class MAXSwerveModule extends SubsystemBase {
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
-  private PIDController turningPID;
-  private double[] drivePID = { 0, 0, 0 };
-
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
    * encoder, and PID controller. This configuration is specific to the REV
@@ -53,9 +50,6 @@ public class MAXSwerveModule extends SubsystemBase {
 
     m_drivingEncoder = m_drivingFlex.getEncoder();
     m_turningEncoder = m_turningSpark.getAbsoluteEncoder();
-
-    turningPID = new PIDController(Constants.ModuleConstants.angleKP, Constants.ModuleConstants.angleKI,
-        Constants.ModuleConstants.angleKD);
 
     // Apply the respective configurations to the SPARKS. Reset parameters before
     // applying the configuration to bring the SPARK to a known good state. Persist
@@ -73,6 +67,12 @@ public class MAXSwerveModule extends SubsystemBase {
     m_drivingEncoder.setPosition(0);
   }
 
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.addDoubleProperty("Speed Error (ms^-1)",
+        () -> getSpeed() - m_drivingClosedLoopController.getSetpoint(),
+        null);
+  }
 
   /**
    * Returns the current state of the module.
@@ -115,9 +115,9 @@ public class MAXSwerveModule extends SubsystemBase {
 
     // Command driving and turning SPARKS towards their respective setpoints.
     m_drivingClosedLoopController.setSetpoint(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
-    // m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(),
-    // ControlType.kPosition);
-    m_turningSpark.set(turningPID.calculate(m_turningEncoder.getPosition(), correctedDesiredState.angle.getRadians()));
+    m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
+    // m_turningSpark.set(turningPID.calculate(m_turningEncoder.getPosition(),
+    // correctedDesiredState.angle.getRadians()));
 
     m_desiredState = desiredState;
   }
@@ -133,53 +133,5 @@ public class MAXSwerveModule extends SubsystemBase {
 
   public double getSpeed() {
     return m_drivingEncoder.getVelocity();
-  }
-
-  /**
-   * Changes the kP, kI, and KD for the angle PID. This should only be run in test
-   * mode.
-   * 
-   * @param pid in the array of { kP, kI, kD }
-   */
-  public void setAnglePID(double[] pid) {
-    if (pid.length != 3) {
-      // TODO: add swerve angle logging
-      return;
-    }
-
-    turningPID.setP(pid[0]);
-    turningPID.setI(pid[1]);
-    turningPID.setD(pid[2]);
-  }
-
-  public double[] getAnglePID() {
-    return new double[] { turningPID.getP(), turningPID.getI(), turningPID.getD() };
-  }
-
-  /**
-   * Changes the kP, kI, and KD for the drive PID. This should only be run in test
-   * mode.
-   * 
-   * @param pid in the array of { kP, kI, kD }
-   */
-  // public void setDrivePID(double[] pid) {
-  // if (pid.length != 3) {
-  // // TODO: add swerve drive logging
-  // return;
-  // }
-
-  // SparkFlexConfig flexConfig = new SparkFlexConfig();
-
-  // flexConfig.apply(Configs.MAXSwerveModule.drivingConfig).closedLoop.pid(pid[0],
-  // pid[1], pid[2]);
-  // m_drivingSpark.configure(flexConfig, ResetMode.kResetSafeParameters,
-  // PersistMode.kNoPersistParameters);
-
-  // m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();
-  // drivePID = pid;
-  // }
-
-  public double[] getDrivePID() {
-    return drivePID;
   }
 }

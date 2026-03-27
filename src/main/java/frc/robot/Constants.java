@@ -52,7 +52,7 @@ public final class Constants {
         public static final double intakeVoltage = 8;
         public static final double outtakeVoltage = -4;
 
-        public static final double intakekP = 0.04; 
+        public static final double intakekP = 0.04;
         public static final double intakekI = 0.0;
         public static final double intakekD = 0.0;
     }
@@ -102,10 +102,10 @@ public final class Constants {
         public static final double kWheelBase = Units.inchesToMeters(23.5);
         // Distance between front and back wheels on robot
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
         // Angular offsets of the modules relative to the chassis in radians
         // All of these values are 0 b/c we zeroed all of the values in RHC
@@ -143,10 +143,10 @@ public final class Constants {
         // teeth on the bevel pinion
         public static final double kDrivingMotorReduction = (45.0 * 20) / (kDrivingMotorPinionTeeth * 15);
         public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
-            / kDrivingMotorReduction;
+                / kDrivingMotorReduction;
 
         // PID values
-        public static final double driveKP = 0.04;
+        public static final double driveKP = 0.025;
         public static final double driveKI = 0;
         public static final double driveKD = 0;
 
@@ -167,6 +167,6 @@ public final class Constants {
 
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+                kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
 }

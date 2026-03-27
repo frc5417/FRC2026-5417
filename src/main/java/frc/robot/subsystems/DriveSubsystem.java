@@ -89,24 +89,6 @@ public class DriveSubsystem extends SubsystemBase {
     builder.addDoubleProperty("Back Right Velocity", m_rearRight::getSpeed, null);
 
     builder.addDoubleProperty("Robot Angle", () -> m_pigeon.getRotation2d().getRadians(), null);
-
-    if (DriverStation.isTest()) {
-      /* PID Testing */
-      builder.addDoubleArrayProperty("Angle PID", m_frontLeft::getAnglePID, (double[] pid) -> {
-        m_frontLeft.setAnglePID(pid);
-        m_frontRight.setAnglePID(pid);
-        m_rearLeft.setAnglePID(pid);
-        m_rearRight.setAnglePID(pid);
-      });
-
-      // builder.addDoubleArrayProperty("Drive PID", m_frontLeft::getDrivePID,
-      // (double[] pid) -> {
-      // m_frontLeft.setDrivePID(pid);
-      // m_frontRight.setDrivePID(pid);
-      // m_rearLeft.setDrivePID(pid);
-      // m_rearRight.setDrivePID(pid);
-      // });
-    }
   }
 
   @Override
@@ -122,6 +104,10 @@ public class DriveSubsystem extends SubsystemBase {
         });
 
     SmartDashboard.putData(this);
+    SmartDashboard.putData(m_frontLeft);
+    SmartDashboard.putData(m_frontRight);
+    SmartDashboard.putData(m_rearLeft);
+    SmartDashboard.putData(m_rearRight);
   }
 
   /**
@@ -176,6 +162,13 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  public void quadDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    drive(Math.signum(xSpeed) * Math.pow(xSpeed, 2),
+        Math.signum(ySpeed) * Math.pow(ySpeed, 2),
+        Math.signum(rot) * Math.pow(rot, 2),
+        fieldRelative);
   }
 
   /**
