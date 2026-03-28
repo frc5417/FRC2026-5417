@@ -72,6 +72,10 @@ public class MAXSwerveModule extends SubsystemBase {
     builder.addDoubleProperty("Speed Error (ms^-1)",
         () -> getSpeed() - m_drivingClosedLoopController.getSetpoint(),
         null);
+
+    builder.addDoubleProperty("Angle Error (rad)",
+        () -> getAnglePos() - m_turningClosedLoopController.getSetpoint(),
+        null);
   }
 
   /**
