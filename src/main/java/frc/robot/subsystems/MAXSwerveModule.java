@@ -75,9 +75,8 @@ public class MAXSwerveModule extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    builder.addDoubleArrayProperty("Desired State",
-        () -> new double[] { m_desiredState.speedMetersPerSecond, m_desiredState.angle.getRadians() }, null);
-    builder.addDoubleArrayProperty("Actual State", () -> new double[] { getSpeed(), getAnglePos() }, null);
+    builder.addDoubleProperty("Angle Error (rad)",
+        () -> getAnglePos() - m_turningClosedLoopController.getSetpoint(), null);
   }
 
   /**

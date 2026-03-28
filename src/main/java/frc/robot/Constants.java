@@ -22,7 +22,7 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  
+
   public static class HardwareConstants {
     public static final int kNeo550CL = 20; // current limit for NEO 550s
     public static final int kNeoCL = 50; // current limit for NEOs
@@ -85,11 +85,11 @@ public final class Constants {
         / kDrivingMotorReduction;
 
     // PID values
-    public static final double driveKP = 0.04;
+    public static final double driveKP = 0.025;
     public static final double driveKI = 0;
     public static final double driveKD = 0;
 
-    public static final double angleKP = 0.18;
+    public static final double angleKP = 0.28; // 0.25 // 0.18
     public static final double angleKI = 0;
     public static final double angleKD = 0;
   }
@@ -147,7 +147,7 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
   }
-  
+
   public static final class VortexMotorConstants {
     public static final double kFreeSpeedRpm = 6784;
   }

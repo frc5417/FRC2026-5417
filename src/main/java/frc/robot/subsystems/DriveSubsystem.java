@@ -126,6 +126,10 @@ public class DriveSubsystem extends SubsystemBase {
         });
 
     SmartDashboard.putData(this);
+    SmartDashboard.putData(m_frontLeft);
+    SmartDashboard.putData(m_frontRight);
+    SmartDashboard.putData(m_rearLeft);
+    SmartDashboard.putData(m_rearRight);
 
     field.setRobotPose(m_odometry.getPoseMeters());
     SmartDashboard.putData(field);
