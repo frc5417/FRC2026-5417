@@ -37,8 +37,13 @@ public final class Constants {
         public static final int shooterParentId = 55;
         // public static final int shooterChildId = 55;
         public static final int schloopId = 56;
+        public static final int agitatorId = 57;
         public static final int pigeonId = 59;
         public static final int servoHubID = 60;
+    }
+
+    public static class AgitatorConstants {
+        public static final double agitatorVoltage = 12;
     }
 
     public static class BeltIndexerConstants {
