@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1.L - Trench to Neutral Zone"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2.L - Neutral Zone"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3.L - Neutral Zone to Trench"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "4.L - Trench to Neutral Zone"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Trench to Neutral Zone",
+  "choreoAuto": false
+}
