@@ -120,7 +120,7 @@ public class DriveSubsystem extends SubsystemBase {
     LimelightHelpers.PoseEstimate mt2 = LimelightHelpers
         .getBotPoseEstimate_wpiBlue(Constants.LimelightConstants.kRobotCamName);
 
-    if (mt2.tagCount != 0) { // if there is any number of tags, add measurement.
+    if (mt2 != null && mt2.tagCount != 0) { // if there is any number of tags, add measurement.
       m_PoseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
     }
 

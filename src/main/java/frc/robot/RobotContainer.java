@@ -70,7 +70,7 @@ public class RobotContainer {
           m_robotDrive::getRobotRelativeSpeeds,
           (speeds, feedforwards) -> m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
               speeds.omegaRadiansPerSecond, false),
-          new PPHolonomicDriveController(new PIDConstants(0.1, 0, 0), new PIDConstants(.05, 0, 0)),
+          new PPHolonomicDriveController(new PIDConstants(5.0, 0, 0), new PIDConstants(1.75, 0, 0)),
           config,
           () -> {
             var alliance = DriverStation.getAlliance();
@@ -112,7 +112,7 @@ public class RobotContainer {
                     OperatorConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                     OperatorConstants.kDriveDeadband),
-                true),
+                false),
             m_robotDrive));
     // m_driverController.a().whileTrue(new RunCommand(() -> m_robotDrive.setX(),
     // m_robotDrive));

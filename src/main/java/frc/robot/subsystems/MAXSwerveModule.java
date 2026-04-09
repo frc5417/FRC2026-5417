@@ -77,6 +77,9 @@ public class MAXSwerveModule extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     builder.addDoubleProperty("Angle Error (rad)",
         () -> getAnglePos() - m_turningClosedLoopController.getSetpoint(), null);
+    builder.addDoubleProperty("Speed Error (ms^-1)",
+        () -> getSpeed() - m_drivingClosedLoopController.getSetpoint(), null);
+    builder.addDoubleProperty("Angle Setpoint", m_turningClosedLoopController::getSetpoint, null);
   }
 
   /**
@@ -116,13 +119,14 @@ public class MAXSwerveModule extends SubsystemBase {
     correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
-    correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
+    // correctedDesiredState.optimize(new
+    // Rotation2d(m_turningEncoder.getPosition()));
 
     // Command driving and turning SPARKS towards their respective setpoints.
     m_drivingClosedLoopController.setSetpoint(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
-    // m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(),
-    // ControlType.kPosition);
-    m_turningSpark.set(turningPID.calculate(m_turningEncoder.getPosition(), correctedDesiredState.angle.getRadians()));
+    m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
+    // m_turningSpark.set(turningPID.calculate(m_turningEncoder.getPosition(),
+    // correctedDesiredState.angle.getRadians()));
 
     m_desiredState = desiredState;
   }
