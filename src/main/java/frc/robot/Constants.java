@@ -82,7 +82,7 @@ public final class Constants {
   }
 
   public static class LimelightConstants {
-    public static final String kRobotCamName = "limelilght-turret";
+    public static final String kRobotCamName = "limelight-turret";
   }
 
   public static class HardwareConstants {
@@ -118,10 +118,10 @@ public final class Constants {
 
     // Angular offsets of the modules relative to the chassis in radians
     // All of these values are 0 b/c we zeroed all of the values in RHC
-    public static final double kFrontLeftChassisAngularOffset = 0;// -Math.PI / 2;
-    public static final double kFrontRightChassisAngularOffset = 0;
-    public static final double kBackLeftChassisAngularOffset = 0; // Math.PI;
-    public static final double kBackRightChassisAngularOffset = 0; // Math.PI / 2;
+    public static final double kFrontLeftChassisAngularOffset = 0; // -Math.PI / 2;
+    public static final double kFrontRightChassisAngularOffset = 0; // 3.0 * Math.PI / 2.0;
+    public static final double kBackLeftChassisAngularOffset = 0; // Math.PI; // Math.PI;
+    public static final double kBackRightChassisAngularOffset = 0; // 3 * Math.PI / 2; // Math.PI / 2;
 
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 21;
@@ -177,5 +177,15 @@ public final class Constants {
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+  }
+
+  public static final class AutoMoveConstants {
+    public static final double kRotateP = 0.1;
+    public static final double kRotateI = 0;
+    public static final double kRotateD = 0;
+
+    public static final double kMoveP = 0.1;
+    public static final double kMoveI = 0;
+    public static final double kMoveD = 0;
   }
 }

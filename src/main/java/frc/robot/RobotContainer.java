@@ -36,6 +36,7 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.automove.RotateTo;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -133,7 +134,7 @@ public class RobotContainer {
                     OperatorConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(),
                     OperatorConstants.kDriveDeadband),
-                false),
+                true),
             m_robotDrive));
     m_driverController.leftTrigger().whileTrue(
         new RunCommand(() -> m_robotDrive.setX(),
@@ -169,10 +170,10 @@ public class RobotContainer {
                 Constants.IntakeConstants.intakeVoltage),
             m_intake));
     // TODO: stop the intake rollers with the dpad
-    // m_driverController.leftBumper().whileTrue(
-    // new RunCommand(
-    // () -> m_intake.setIntakeVoltage(0),
-    // m_intake));
+    m_driverController.leftBumper().whileTrue(
+        new RunCommand(
+            () -> m_intake.setIntakeVoltage(0),
+            m_intake));
     m_driverController.y().whileTrue(
         new RunCommand(
             () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp),
@@ -202,6 +203,8 @@ public class RobotContainer {
             () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity),
             () -> m_shooter.setShooterVoltage(0),
             m_shooter));
+
+    m_driverController.povRight().whileTrue(new RotateTo(m_robotDrive.getAngleToHub_BlueOrigin(), m_robotDrive));
 
     /* Turret Keybinds */
     // m_turret.setDefaultCommand(
