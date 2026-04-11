@@ -43,7 +43,7 @@ public final class Constants {
   }
 
   public static class AgitatorConstants {
-    public static final double agitatorVoltage = 12;
+    public static final double agitatorVoltage = 6;
   }
 
   public static class BeltIndexerConstants {
@@ -54,7 +54,7 @@ public final class Constants {
     public static final double intakeFloor = -17.8;
     public static final double intakeMiddle = -6;
     public static final double intakeUp = 0.0;
-    public static final double intakeVoltage = 8;
+    public static final double intakeVoltage = 4;
     public static final double outtakeVoltage = -4;
 
     public static final double intakekP = 0.04;

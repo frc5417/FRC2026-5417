@@ -144,11 +144,11 @@ public class RobotContainer {
             m_robotDrive));
 
     /* Agitator Keybinds */
-    m_driverController.leftBumper().toggleOnTrue(
-        new StartEndCommand(
-            () -> m_agitator.setAgitatorVoltage(
-                Constants.AgitatorConstants.agitatorVoltage),
-            () -> m_agitator.setAgitatorVoltage(0),
+    m_agitator.setDefaultCommand(
+        new RunCommand(() -> m_agitator.setAgitatorVoltage(
+            m_driverController.rightTrigger().getAsBoolean()
+                ? Constants.AgitatorConstants.agitatorVoltage
+                : 0),
             m_agitator));
 
     /* Belt Indexer Keybinds */
