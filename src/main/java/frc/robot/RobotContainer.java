@@ -98,11 +98,12 @@ public class RobotContainer {
             m_robotDrive));
 
     /* Agitator Keybinds */
-    m_driverController.leftBumper().toggleOnTrue(
-        new StartEndCommand(
+    m_agitator.setDefaultCommand(
+        new RunCommand(
             () -> m_agitator.setAgitatorVoltage(
-                Constants.AgitatorConstants.agitatorVoltage),
-            () -> m_agitator.setAgitatorVoltage(0),
+                m_driverController.rightTrigger().getAsBoolean()
+                    ? Constants.AgitatorConstants.agitatorVoltage
+                    : 0),
             m_agitator));
 
     /* Belt Indexer Keybinds */
@@ -169,11 +170,10 @@ public class RobotContainer {
 
     /* Controller Binding Key */
     SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
-    SmartDashboard.putString("Belt Indexer & Schloop", "Hold R Trigger = Turn On");
+    SmartDashboard.putString("Belt Indexer & Schloop & Agitator", "Hold R Trigger = Turn On");
     SmartDashboard.putString("Intake", "Toggle R Bumper = Intake or Outtake \n Y = Angle Pos Up \n B = Angle Pos Mid \n A = Angle Pos Down");
     // SmartDashboard.putString("Turret", "R Joystick = Move Turret");
     SmartDashboard.putString("Turret", "MANUAL LOCK ENABLED >:)");
-    SmartDashboard.putString("Agitator", "Toggle L Bumper = Agitator On or Off");
     SmartDashboard.putString("Shooter", "Toggle X = Shooter On or Off");
   }
 
@@ -235,6 +235,10 @@ public class RobotContainer {
                 Constants.SchloopConstants.schloopVoltage),
             m_schloop),
         new WaitCommand(0.01),
+        new InstantCommand(
+            () -> m_agitator.setAgitatorVoltage(Constants.AgitatorConstants.agitatorVelocity),
+            m_agitator),
+        new WaitCommand(0.05),
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
