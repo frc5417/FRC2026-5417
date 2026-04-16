@@ -193,6 +193,6 @@ public final class Constants {
 
   public static final class OdometryConstants {
     public static final Translation2d kBlueHub = new Translation2d(4.62534, 4.0);
-    public static final Translation2d kRedHub = new Translation2d(11.91006, 4);
+    public static final Translation2d kRedHub = new Translation2d(11.91006, 4.0);
   }
 }

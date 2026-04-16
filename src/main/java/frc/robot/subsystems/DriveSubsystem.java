@@ -97,12 +97,12 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     LimelightHelpers.SetRobotOrientation(Constants.LimelightConstants.kRobotCamName,
-        m_pigeon.getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
-    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers
+        getHeading_BlueOrigin(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt = LimelightHelpers
         .getBotPoseEstimate_wpiBlue(Constants.LimelightConstants.kRobotCamName);
 
-    if (mt2 != null && mt2.tagCount != 0) { // if there is any number of tags, add measurement.
-      m_PoseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+    if (mt != null && mt.tagCount != 0) { // if there is any number of tags, add measurement.
+      m_PoseEstimator.addVisionMeasurement(mt.pose, mt.timestampSeconds);
     }
 
     m_PoseEstimator.update(
@@ -250,11 +250,27 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Returns the heading of the robot.
    *
-   * @return the robot's heading in degrees, from -180 to 180
+   * @return the robot's heading in degrees, from 0 to 360
    */
   public double getHeading() {
     // return Rotation2d.fromDegrees(m_pigeon.getAngle()).getDegrees();
     return m_pigeon.getRotation2d().getDegrees();
+  }
+
+  /**
+   * Returns the heading of the robot as a CCW+ rotation from the blue origin,
+   * with X+ as 0 degrees.
+   * 
+   * @return
+   */
+  public double getHeading_BlueOrigin() {
+    return m_pigeon.getRotation2d().getDegrees() + (Robot.isRed ? 180 : 0);
+  }
+
+  public Translation2d getDistToHub_BlueOrigin() {
+    Translation2d oToHub = Robot.isRed ? Constants.OdometryConstants.kRedHub : Constants.OdometryConstants.kBlueHub;
+    Translation2d robotPos = new Translation2d(getPose().getX(), getPose().getY());
+    return oToHub.minus(robotPos);
   }
 
   /**

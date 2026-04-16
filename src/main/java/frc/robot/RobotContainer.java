@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -62,8 +63,8 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
   // The manipulator's controller
-  private final CommandXboxController m_manipulatorController = new CommandXboxController(
-      OperatorConstants.kManipulatorControllerPort);
+  // private final CommandXboxController m_manipulatorController = new
+  // CommandXboxController(OperatorConstants.kManipulatorControllerPort);
 
   private final SendableChooser<Command> autoChooser;
 
@@ -291,6 +292,10 @@ public class RobotContainer {
 
     return new SequentialCommandGroup(
         new InstantCommand(
+            () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeFloor),
+            m_intake),
+        new WaitCommand(0.1),
+        new InstantCommand(
             () -> m_shooter.setVelocity(Constants.ShooterConstants.shooterVelocity),
             m_shooter),
         new WaitCommand(3),
@@ -303,150 +308,170 @@ public class RobotContainer {
             () -> m_agitator.setAgitatorVoltage(Constants.AgitatorConstants.kFwdVoltage),
             m_agitator),
         new WaitCommand(0.05),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.kFwdVoltage),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(
-                    Constants.SchloopConstants.schloopVoltage),
-                m_schloop),
-            new WaitCommand(1.5)),
-        new ParallelCommandGroup(
-            new InstantCommand(
-                () -> m_beltIndexer.setBeltIndexerVoltage(0),
-                m_beltIndexer),
-            new InstantCommand(
-                () -> m_schloop.setSchloopVoltage(0),
-                m_schloop),
-            new WaitCommand(0.5)));
+        new RepeatCommand(
+            new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                    new InstantCommand(
+                        () -> m_beltIndexer.setBeltIndexerVoltage(
+                            Constants.BeltIndexerConstants.kFwdVoltage),
+                        m_beltIndexer),
+                    new InstantCommand(
+                        () -> m_schloop.setSchloopVoltage(
+                            Constants.SchloopConstants.schloopVoltage),
+                        m_schloop),
+                    new WaitCommand(1.5)),
+                new ParallelCommandGroup(
+                    new InstantCommand(
+                        () -> m_beltIndexer.setBeltIndexerVoltage(0),
+                        m_beltIndexer),
+                    new InstantCommand(
+                        () -> m_schloop.setSchloopVoltage(0),
+                        m_schloop),
+                    new WaitCommand(0.5)))));
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(
+    // Constants.BeltIndexerConstants.kFwdVoltage),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(
+    // Constants.SchloopConstants.schloopVoltage),
+    // m_schloop),
+    // new WaitCommand(1.5)),
+    // new ParallelCommandGroup(
+    // new InstantCommand(
+    // () -> m_beltIndexer.setBeltIndexerVoltage(0),
+    // m_beltIndexer),
+    // new InstantCommand(
+    // () -> m_schloop.setSchloopVoltage(0),
+    // m_schloop),
+    // new WaitCommand(0.5)));
     // return null;
     // This method loads the auto when it is called, however, it is recommended
     // to first load your paths/autos when code starts, then return the
