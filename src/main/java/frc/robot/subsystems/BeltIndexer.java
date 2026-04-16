@@ -35,6 +35,7 @@ public class BeltIndexer extends SubsystemBase {
         double RPM = Math.round(beltIndexerEncoder.getVelocity());
 
         SmartDashboard.putNumber("Belt Indexer RPM", RPM); // RPM
+        SmartDashboard.putNumber("Belt Indexer Voltage Recieved", beltIndexer.getBusVoltage());
     }
 
     public void setBeltIndexerVoltage(double voltage) {

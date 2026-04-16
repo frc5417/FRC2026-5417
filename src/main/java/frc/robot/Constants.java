@@ -47,7 +47,7 @@ public final class Constants {
     }
 
     public static class BeltIndexerConstants {
-        public static final double beltIndexerVoltage = 7;
+        public static final double beltIndexerVoltage = 9;
     }
 
     public static class IntakeConstants {
