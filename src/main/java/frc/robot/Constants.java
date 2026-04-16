@@ -48,7 +48,7 @@ public final class Constants {
   }
 
   public static class BeltIndexerConstants {
-    public static final double kFwdVoltage = 7;
+    public static final double kFwdVoltage = 9;
     public static final double kBkwdVoltage = -3;
   }
 
