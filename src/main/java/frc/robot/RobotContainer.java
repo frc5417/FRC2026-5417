@@ -124,10 +124,10 @@ public class RobotContainer {
                 Constants.IntakeConstants.intakeVoltage),
             m_intake));
     // TODO: stop the intake rollers with the dpad
-    // m_driverController.leftBumper().whileTrue(
-    //     new RunCommand(
-    //         () -> m_intake.setIntakeVoltage(0),
-    //         m_intake));
+    m_driverController.leftBumper().whileTrue(
+        new RunCommand(
+            () -> m_intake.setIntakeVoltage(0),
+            m_intake));
     m_driverController.y().whileTrue(
         new RunCommand(
             () -> m_intake.setIntakeAnglePos(Constants.IntakeConstants.intakeUp),
@@ -171,7 +171,7 @@ public class RobotContainer {
     /* Controller Binding Key */
     SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
     SmartDashboard.putString("Belt Indexer & Schloop & Agitator", "Hold R Trigger = Turn On");
-    SmartDashboard.putString("Intake", "Toggle R Bumper = Intake or Outtake \n Y = Angle Pos Up \n B = Angle Pos Mid \n A = Angle Pos Down");
+    SmartDashboard.putString("Intake", "Toggle R Bumper = Intake or Outtake \n L Bumper = Stop Intake Rollers \n Y = Angle Pos Up \n B = Angle Pos Mid \n A = Angle Pos Down");
     // SmartDashboard.putString("Turret", "R Joystick = Move Turret");
     SmartDashboard.putString("Turret", "MANUAL LOCK ENABLED >:)");
     SmartDashboard.putString("Shooter", "Toggle X = Shooter On or Off");
@@ -236,7 +236,7 @@ public class RobotContainer {
             m_schloop),
         new WaitCommand(0.01),
         new InstantCommand(
-            () -> m_agitator.setAgitatorVoltage(Constants.AgitatorConstants.agitatorVelocity),
+            () -> m_agitator.setAgitatorVoltage(Constants.AgitatorConstants.agitatorVoltage),
             m_agitator),
         new WaitCommand(0.05),
         new ParallelCommandGroup(
