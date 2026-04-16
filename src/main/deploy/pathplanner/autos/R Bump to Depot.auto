@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1.R - Bump to Depot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2. Depot to Hub"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Shooting from Depot",
+  "choreoAuto": false
+}

@@ -69,13 +69,11 @@ public class MAXSwerveModule extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    builder.addDoubleProperty("Speed Error (ms^-1)",
-        () -> getSpeed() - m_drivingClosedLoopController.getSetpoint(),
-        null);
-
     builder.addDoubleProperty("Angle Error (rad)",
-        () -> getAnglePos() - m_turningClosedLoopController.getSetpoint(),
-        null);
+        () -> getAnglePos() - m_turningClosedLoopController.getSetpoint(), null);
+    builder.addDoubleProperty("Speed Error (ms^-1)",
+        () -> getSpeed() - m_drivingClosedLoopController.getSetpoint(), null);
+    builder.addDoubleProperty("Angle Setpoint", m_turningClosedLoopController::getSetpoint, null);
   }
 
   /**
@@ -107,7 +105,7 @@ public class MAXSwerveModule extends SubsystemBase {
    * Sets the desired state for the module.
    *
    * @param desiredState
-   *          Desired state with speed and angle.
+   *                     Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     // Apply chassis angular offset to the desired state.

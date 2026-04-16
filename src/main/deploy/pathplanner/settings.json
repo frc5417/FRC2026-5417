@@ -1,0 +1,47 @@
+{
+  "robotWidth": 0.83185,
+  "robotLength": 0.83185,
+  "holonomicMode": true,
+  "pathFolders": [
+    "Lobbing",
+    "Shooting from Depot",
+    "Testing",
+    "Trench to Neutral Zone",
+    "Trench to Trench"
+  ],
+  "autoFolders": [
+    "Lobbing",
+    "Trench to Neutral Zone",
+    "Shooting from Depot",
+    "Testing",
+    "Trench to Trench"
+  ],
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 3.0,
+  "defaultMaxAngVel": 540.0,
+  "defaultMaxAngAccel": 720.0,
+  "defaultNominalVoltage": 12.0,
+  "robotMass": 47.627,
+  "robotMOI": 6.883,
+  "robotTrackwidth": 0.546,
+  "driveWheelRadius": 0.038,
+  "driveGearing": 4.0,
+  "maxDriveSpeed": 6.0,
+  "driveMotorType": "vortex",
+  "driveCurrentLimit": 50.0,
+  "wheelCOF": 0.5,
+  "flModuleX": 0.3,
+  "flModuleY": 0.3,
+  "frModuleX": 0.3,
+  "frModuleY": -0.3,
+  "blModuleX": -0.3,
+  "blModuleY": 0.3,
+  "brModuleX": -0.3,
+  "brModuleY": -0.3,
+  "bumperOffsetX": 0.0,
+  "bumperOffsetY": 0.0,
+  "robotFeatures": [
+    "{\"name\":\"Turret\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.22,\"y\":-0.22},\"radius\":0.2,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"Intake\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.5,\"y\":0.0},\"size\":{\"width\":0.762,\"length\":0.30448},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
+  ]
+}

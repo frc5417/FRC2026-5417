@@ -13,6 +13,8 @@ import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.math.trajectory.Trajectory;
 // import edu.wpi.first.math.trajectory.TrajectoryConfig;
 // import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -24,12 +26,23 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 // import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 
+import edu.wpi.first.math.MathUtil;
+
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
+import frc.robot.commands.automove.RotateTo;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 /*
 * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -39,6 +52,7 @@ import frc.robot.subsystems.*;
 */
 public class RobotContainer {
   // The robot's subsystems
+  // The robot's subsystems and commands are defined here...
   private final Turret m_turret = new Turret();
   private final Intake m_intake = new Intake();
   private final Schloop m_schloop = new Schloop();
@@ -54,33 +68,53 @@ public class RobotContainer {
   private final CommandXboxController m_manipulatorController = new CommandXboxController(
       OperatorConstants.kManipulatorControllerPort);
 
+  private final SendableChooser<Command> autoChooser;
+
+  double intakeAnglePos = 0.0;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
+    registerNamedCommands();
     configureBindings();
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    // AutoBuilder.configure(null, null, null, null, null, null, null, null);
 
-    // Configure default commands
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(() -> m_robotDrive.drive(
-            -MathUtil.applyDeadband(m_driverController.getLeftY(),
-                OperatorConstants.kDriveDeadband),
-            -MathUtil.applyDeadband(m_driverController.getLeftX(),
-                OperatorConstants.kDriveDeadband),
-            -MathUtil.applyDeadband(m_driverController.getRightX(),
-                OperatorConstants.kDriveDeadband),
-            true),
-            m_robotDrive));
+    /* Pathplanner Initialization */
+    boolean isPathplanner;
+    try {
+      RobotConfig config = RobotConfig.fromGUISettings();
+      AutoBuilder.configure(
+          m_robotDrive::getPose,
+          m_robotDrive::resetOdometry,
+          m_robotDrive::getRobotRelativeSpeeds,
+          (speeds, feedforwards) -> m_robotDrive.drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
+              speeds.omegaRadiansPerSecond, false),
+          new PPHolonomicDriveController(new PIDConstants(5.0, 0, 0), new PIDConstants(1.75, 0, 0)),
+          config,
+          () -> {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+              return alliance.get() == DriverStation.Alliance.Red;
+            }
+            return false;
+          },
+          m_robotDrive);
+      isPathplanner = true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      isPathplanner = false;
+    }
+    SmartDashboard.putBoolean("Pathplanner Active", isPathplanner);
 
-    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    /* Auto Chooser */
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
-   * created by
    * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
    * subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
@@ -89,9 +123,22 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    /* Drivetrain Keybinds */
+    m_robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(m_driverController.getLeftY(),
+                    OperatorConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX(),
+                    OperatorConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX(),
+                    OperatorConstants.kDriveDeadband),
+                true),
+            m_robotDrive));
     m_driverController.leftTrigger().whileTrue(
-        new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+        new RunCommand(() -> m_robotDrive.setX(),
+            m_robotDrive));
     m_driverController.start().onTrue(
         new InstantCommand(
             () -> m_robotDrive.zeroHeading(),
@@ -158,6 +205,8 @@ public class RobotContainer {
             () -> m_shooter.setShooterVoltage(0),
             m_shooter));
 
+    m_driverController.povRight().whileTrue(new RotateTo(m_robotDrive.getAngleToHub_BlueOrigin(), m_robotDrive));
+
     /* Turret Keybinds */
     // m_turret.setDefaultCommand(
     // new RunCommand(
@@ -175,6 +224,22 @@ public class RobotContainer {
     // SmartDashboard.putString("Turret", "R Joystick = Move Turret");
     SmartDashboard.putString("Turret", "MANUAL LOCK ENABLED >:)");
     SmartDashboard.putString("Shooter", "Toggle X = Shooter On or Off");
+  }
+
+  /**
+   * Registers commands for use in PathPlanner.
+   */
+  private void registerNamedCommands() {
+    NamedCommands.registerCommand("Run Intake",
+        new RunIntake(m_intake, Constants.IntakeConstants.intakeVoltage).withTimeout(5));
+    NamedCommands.registerCommand("Run Intake Angle Up",
+        new RunIntakeAngle(m_intake, Constants.IntakeConstants.intakeUp).withTimeout(5));
+    NamedCommands.registerCommand("Run Intake Angle Down",
+        new RunIntakeAngle(m_intake, Constants.IntakeConstants.intakeFloor).withTimeout(5));
+    NamedCommands.registerCommand("Run Shooter",
+        new RunShooter(m_shooter, Constants.ShooterConstants.shooterVelocity).withTimeout(10));
+    NamedCommands.registerCommand("Run Belt Indexer",
+        new RunBeltIndexer(m_beltIndexer, Constants.BeltIndexerConstants.beltIndexerVoltage).withTimeout(10));
   }
 
   /**
@@ -384,5 +449,11 @@ public class RobotContainer {
                 m_schloop),
             new WaitCommand(0.5)));
     // return null;
+    // This method loads the auto when it is called, however, it is recommended
+    // to first load your paths/autos when code starts, then return the
+    // pre-loaded auto/path
+    // return new AutoTest();
+    // return new RunBeltIndexer(m_beltIndexer, -3.75).withTimeout(5);
+    // return autoChooser.getSelected();
   }
 }
