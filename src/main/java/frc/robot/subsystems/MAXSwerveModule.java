@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -16,14 +15,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 
 import frc.robot.Configs;
-import frc.robot.Constants;
 
 public class MAXSwerveModule extends SubsystemBase {
   private final SparkFlex m_drivingFlex;
@@ -73,7 +70,6 @@ public class MAXSwerveModule extends SubsystemBase {
         () -> getAnglePos() - m_turningClosedLoopController.getSetpoint(), null);
     builder.addDoubleProperty("Speed Error (ms^-1)",
         () -> getSpeed() - m_drivingClosedLoopController.getSetpoint(), null);
-    builder.addDoubleProperty("Angle Setpoint", m_turningClosedLoopController::getSetpoint, null);
   }
 
   /**

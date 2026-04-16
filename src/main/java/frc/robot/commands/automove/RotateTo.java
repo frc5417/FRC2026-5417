@@ -8,13 +8,17 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+/**
+ * Rotates the robot to a certain angle, with blue origin.
+ */
 public class RotateTo extends Command {
   private boolean terminated = false;
 
-  private DriveSubsystem m_DriveSubsystem;
+  private DriveSubsystem m_drive;
   private double targetRot;
   private PIDController pid;
 
@@ -23,7 +27,12 @@ public class RotateTo extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
 
     targetRot = targetDegrees;
-    m_DriveSubsystem = driveSubsystem;
+    // Angle inversion?
+    if (Robot.isRed) {
+      targetRot += 180;
+    }
+
+    m_drive = driveSubsystem;
     pid = new PIDController(Constants.AutoMoveConstants.kRotateP,
         Constants.AutoMoveConstants.kRotateI,
         Constants.AutoMoveConstants.kRotateD);
@@ -42,8 +51,8 @@ public class RotateTo extends Command {
   @Override
   public void execute() {
     if (!pid.atSetpoint()) {
-      double rotPower = pid.calculate(m_DriveSubsystem.getHeading());
-      m_DriveSubsystem.drive(0, 0, rotPower, false);
+      double rotPower = pid.calculate(m_drive.getHeading());
+      m_drive.drive(0, 0, rotPower, false);
     } else {
       terminated = true;
     }
@@ -52,7 +61,7 @@ public class RotateTo extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_DriveSubsystem.drive(0, 0, 0, false);
+    m_drive.drive(0, 0, 0, false);
     pid.close();
   }
 

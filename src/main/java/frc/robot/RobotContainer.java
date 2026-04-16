@@ -28,9 +28,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
-
 import edu.wpi.first.math.MathUtil;
 
 import frc.robot.Constants.*;
@@ -107,6 +104,7 @@ public class RobotContainer {
       isPathplanner = false;
     }
     SmartDashboard.putBoolean("Pathplanner Active", isPathplanner);
+    SmartDashboard.putBoolean("isRed", Robot.isRed);
 
     /* Auto Chooser */
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -149,8 +147,8 @@ public class RobotContainer {
         new RunCommand(
             () -> m_agitator.setAgitatorVoltage(
                 m_driverController.rightTrigger().getAsBoolean()
-                    ? Constants.AgitatorConstants.agitatorVoltage
-                    : 0),
+                    ? Constants.AgitatorConstants.kFwdVoltage
+                    : Constants.AgitatorConstants.kBkwdVoltage),
             m_agitator));
 
     /* Belt Indexer Keybinds */
@@ -158,8 +156,8 @@ public class RobotContainer {
         new RunCommand(
             () -> m_beltIndexer.setBeltIndexerVoltage(
                 m_driverController.rightTrigger().getAsBoolean()
-                    ? Constants.BeltIndexerConstants.beltIndexerVoltage
-                    : 0),
+                    ? Constants.BeltIndexerConstants.kFwdVoltage
+                    : Constants.BeltIndexerConstants.kBkwdVoltage),
             m_beltIndexer));
 
     /* Intake Keybinds */
@@ -170,6 +168,7 @@ public class RobotContainer {
             () -> m_intake.setIntakeVoltage(
                 Constants.IntakeConstants.intakeVoltage),
             m_intake));
+
     // TODO: stop the intake rollers with the dpad
     m_driverController.leftBumper().whileTrue(
         new RunCommand(
@@ -205,8 +204,7 @@ public class RobotContainer {
             () -> m_shooter.setShooterVoltage(0),
             m_shooter));
 
-    m_driverController.povRight().whileTrue(new RotateTo(m_robotDrive.getAngleToHub_BlueOrigin(), m_robotDrive));
-
+    m_driverController.povRight().whileTrue(new RotateTo(m_robotDrive.getAngleToHub_BlueOrigin() + 180, m_robotDrive));
     /* Turret Keybinds */
     // m_turret.setDefaultCommand(
     // new RunCommand(
@@ -220,7 +218,8 @@ public class RobotContainer {
     /* Controller Binding Key */
     SmartDashboard.putString("Drivetrain", "Hold L Trigger = Swerve X Mode \n Tap Menu = Reset Gyro");
     SmartDashboard.putString("Belt Indexer & Schloop & Agitator", "Hold R Trigger = Turn On");
-    SmartDashboard.putString("Intake", "Toggle R Bumper = Intake or Outtake \n L Bumper = Stop Intake Rollers \n Y = Angle Pos Up \n B = Angle Pos Mid \n A = Angle Pos Down");
+    SmartDashboard.putString("Intake",
+        "Toggle R Bumper = Intake or Outtake \n L Bumper = Stop Intake Rollers \n Y = Angle Pos Up \n B = Angle Pos Mid \n A = Angle Pos Down");
     // SmartDashboard.putString("Turret", "R Joystick = Move Turret");
     SmartDashboard.putString("Turret", "MANUAL LOCK ENABLED >:)");
     SmartDashboard.putString("Shooter", "Toggle X = Shooter On or Off");
@@ -239,7 +238,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Run Shooter",
         new RunShooter(m_shooter, Constants.ShooterConstants.shooterVelocity).withTimeout(10));
     NamedCommands.registerCommand("Run Belt Indexer",
-        new RunBeltIndexer(m_beltIndexer, Constants.BeltIndexerConstants.beltIndexerVoltage).withTimeout(10));
+        new RunBeltIndexer(m_beltIndexer, Constants.BeltIndexerConstants.kFwdVoltage).withTimeout(10));
   }
 
   /**
@@ -301,13 +300,13 @@ public class RobotContainer {
             m_schloop),
         new WaitCommand(0.01),
         new InstantCommand(
-            () -> m_agitator.setAgitatorVoltage(Constants.AgitatorConstants.agitatorVoltage),
+            () -> m_agitator.setAgitatorVoltage(Constants.AgitatorConstants.kFwdVoltage),
             m_agitator),
         new WaitCommand(0.05),
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(
@@ -325,7 +324,7 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(
@@ -343,7 +342,7 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(
@@ -361,7 +360,7 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(
@@ -379,7 +378,7 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(
@@ -397,7 +396,7 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(
@@ -415,7 +414,7 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(
@@ -433,7 +432,7 @@ public class RobotContainer {
         new ParallelCommandGroup(
             new InstantCommand(
                 () -> m_beltIndexer.setBeltIndexerVoltage(
-                    Constants.BeltIndexerConstants.beltIndexerVoltage),
+                    Constants.BeltIndexerConstants.kFwdVoltage),
                 m_beltIndexer),
             new InstantCommand(
                 () -> m_schloop.setSchloopVoltage(

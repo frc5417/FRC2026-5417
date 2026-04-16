@@ -12,21 +12,20 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.helpers.LimelightHelpers;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.*;
-import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -258,9 +257,18 @@ public class DriveSubsystem extends SubsystemBase {
     return m_pigeon.getRotation2d().getDegrees();
   }
 
+  /**
+   * Performs vector addition to find the target theta for a given robot position.
+   * 
+   * @return angle of vector (CCW+ from x-axis) in degrees
+   */
   public double getAngleToHub_BlueOrigin() {
+    Translation2d oToHub = Robot.isRed ? Constants.OdometryConstants.kRedHub : Constants.OdometryConstants.kBlueHub;
+    Translation2d robotPos = new Translation2d(getPose().getX(), getPose().getY());
+    Translation2d robotToHub = oToHub.minus(robotPos);
+    Rotation2d targetTheta = robotToHub.getAngle();
 
-    return 0;
+    return targetTheta.getDegrees();
   }
 
   /**

@@ -42,20 +42,22 @@ public final class Constants {
     public static final int servoHubID = 60;
   }
 
-    public static class AgitatorConstants {
-        public static final double agitatorVoltage = 8;
-    }
+  public static class AgitatorConstants {
+    public static final double kFwdVoltage = 8;
+    public static final double kBkwdVoltage = -3;
+  }
 
-    public static class BeltIndexerConstants {
-        public static final double beltIndexerVoltage = 7;
-    }
+  public static class BeltIndexerConstants {
+    public static final double kFwdVoltage = 7;
+    public static final double kBkwdVoltage = -3;
+  }
 
-    public static class IntakeConstants {
-        public static final double intakeFloor = -17.8;
-        public static final double intakeMiddle = -6;
-        public static final double intakeUp = 0.0;
-        public static final double intakeVoltage = 6;
-        public static final double outtakeVoltage = -4;
+  public static class IntakeConstants {
+    public static final double intakeFloor = -17.8;
+    public static final double intakeMiddle = -6;
+    public static final double intakeUp = 0.0;
+    public static final double intakeVoltage = 6;
+    public static final double outtakeVoltage = -4;
 
     public static final double intakekP = 0.04;
     public static final double intakekI = 0.0;
@@ -187,5 +189,10 @@ public final class Constants {
     public static final double kMoveP = 0.1;
     public static final double kMoveI = 0;
     public static final double kMoveD = 0;
+  }
+
+  public static final class OdometryConstants {
+    public static final Translation2d kBlueHub = new Translation2d(4.62534, 4.0);
+    public static final Translation2d kRedHub = new Translation2d(11.91006, 4);
   }
 }
