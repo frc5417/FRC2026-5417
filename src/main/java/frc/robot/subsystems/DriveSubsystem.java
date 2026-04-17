@@ -97,7 +97,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     LimelightHelpers.SetRobotOrientation(Constants.LimelightConstants.kRobotCamName,
-        getHeading_BlueOrigin(), 0, 0, 0, 0, 0);
+        getHeading(), 0, 0, 0, 0, 0);
     LimelightHelpers.PoseEstimate mt = LimelightHelpers
         .getBotPoseEstimate_wpiBlue(Constants.LimelightConstants.kRobotCamName);
 
